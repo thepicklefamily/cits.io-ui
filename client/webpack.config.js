@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: path.resolve('./src/redux-store-and-app-render.js'),
+  entry: path.resolve('./src/index.js'),
   output: {
     path: path.resolve('./public'),
     filename: 'bundle.js'
