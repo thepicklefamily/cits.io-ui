@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "dev1": "webpack -w"
+    "dev1": "webpack -w",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",

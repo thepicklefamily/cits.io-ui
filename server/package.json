@@ -2,19 +2,23 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "staticfileserver.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon staticfileserver.js"
+    "start": "nodemon bin/entry.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.17.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
     "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "morgan": "^1.9.0",
-    "nodemon": "^1.14.11"
+    "nodemon": "^1.14.11",
+    "path": "^0.12.7"
   }
 }
