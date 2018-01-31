@@ -9,6 +9,10 @@ class App extends Component {
     return (
       <div>
         Hello from React World
+        {/* <Nav/> */}
+        {/* <Banner/> */}
+        {/* <Mein/> */}
+        {/* <Footer/> */}
       </div>
     );
   }
