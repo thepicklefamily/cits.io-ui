@@ -11,17 +11,23 @@ class Mein extends Component {
   constructor(props) {
     super(props);
   }
+  // componentdidmount and update fetch properties by userid
 
   render() {
     return (
       <div>
+        *----THIS IS THE TOP OF MEIN----*
         <br/><br/>
         BANNER GOES HERE
         <br/><br/>
+        {this.props.userData ? <div>{JSON.stringify(this.props.userData)}</div> : <div>NO USER DATA IN REDUX</div>}
+        <br/>
         <Switch>
           <Route path='/newworld' component={Nav}/>
           <Route path='/' component={Core}/>
         </Switch>
+        <br/>
+        *----THIS IS THE BOTTOM OF MEIN----*
       </div>
     );
   }
@@ -29,7 +35,7 @@ class Mein extends Component {
 
 const mapStateToProps = state => {
   return {
-    //
+    userData: state.userData
   }
 };
 
