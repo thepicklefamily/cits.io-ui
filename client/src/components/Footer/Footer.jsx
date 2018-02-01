@@ -6,14 +6,11 @@ import { Route, Switch } from 'react-router-dom';
 class Footer extends Component {
   constructor(props) {
     super(props);
-    console.log('hello world ', this.props);
   }
-
 
   render() {
     return (
       <div>
-        <br/><br/>
         HELLO FROM FOOTER
       </div>
     );

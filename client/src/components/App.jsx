@@ -21,14 +21,22 @@ class App extends Component {
       <Provider store={this.props.store}>
         <BrowserRouter>
           <div>
-          <Switch>
-            <Route path='/' component={Nav}/>
-          </Switch>
-          <Switch> 
-            <Route path='/login' component={Login}/>
-            <Route path='/' component={Mein}/>
-          </Switch>
-          <Footer/>
+            <h5>NAV TOP</h5>
+            <Switch>
+              <Route path='/' component={Nav}/>
+            </Switch>
+            <h5>NAV BOTTOM</h5>
+            <br/><br/>
+            <h5>MAIN TOP</h5>
+            <Switch> 
+              <Route path='/login' component={Login}/>
+              <Route path='/' component={Mein}/>
+            </Switch>
+            <h5>MAIN BOTTOM</h5>
+            <br/><br/>
+            <h5>FOOTER TOP</h5>
+            <Footer/>
+            <h5>FOOTER BOTTOM</h5>
           </div>
         </BrowserRouter>
       </Provider>
