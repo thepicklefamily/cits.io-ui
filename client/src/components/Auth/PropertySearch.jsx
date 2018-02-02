@@ -58,17 +58,29 @@ class Signup extends Component {
               <form action="">
                 <div>
                   Property Name:
-                  <input name="username" placeholder="Enter Username"/>
+                  <input 
+                  onChange={this.props.inputChangeHandler}
+                  name="propName" 
+                  placeholder="Enter Property Name"
+                  />
                 </div>
 
                 <div>
                   Property Address:
-                  <input name="phone" placeholder="Phone Number"/>
+                  <input 
+                  onChange={this.props.inputChangeHandler}
+                  name="propAddress" 
+                  placeholder="Enter Property Address"
+                  />
                 </div>
 
                 <div>
                   Create Secret Key (This will allow you to invite others to manage the property):
-                  <input name="password" placeholder="Enter Password"/>
+                  <input 
+                  onChange={this.props.inputChangeHandler}
+                  name="propSecret" 
+                  placeholder="Enter Secret Key"
+                  />
                 </div>
               </form>
             </div>

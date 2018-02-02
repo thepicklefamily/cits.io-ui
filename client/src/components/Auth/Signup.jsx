@@ -9,16 +9,30 @@ class Signup extends Component {
     super(props);
     
     this.state = {
-      userType: ''
+      userType: '',
+      full_name: '',
+      email: '',
+      username: '',
+      phone: 0,
+      password: '',
+      propertyID: null,
+      propName: '',
+      propAddress: '',
+      propSecret: ''
     }
 
-    this.selectHandler = this.selectHandler.bind(this);
+    this.inputChangeHandler = this.inputChangeHandler.bind(this);
+    this.submitHandler = this.submitHandler.bind(this);
   }
 
-  selectHandler(e) {
+  inputChangeHandler(e) {
     this.setState({
-      userType: e.target.value
+      [e.target.name]: e.target.value
     });
+  }
+
+  submitHandler() {
+    console.log(this.state);
   }
 
   render() {
@@ -30,9 +44,9 @@ class Signup extends Component {
           <div>
             Select User Type:
             <select 
-              name="type" 
+              name="userType"
               defaultValue="select"
-              onChange={this.selectHandler}
+              onChange={this.inputChangeHandler}
             >
               <option name="select" value="">Select User Type</option>
               <option name="tenant" value="tenant">Tenant</option>
@@ -42,27 +56,47 @@ class Signup extends Component {
           
           <div>
             Full Name:
-            <input name="full-name" placeholder="Enter Full Name"/>
+            <input 
+              name="full_name" 
+              placeholder="Enter Full Name"
+              onChange={this.inputChangeHandler}
+            />
           </div>
 
           <div>
             Email:
-            <input name="email" placeholder="Enter Email"/>
+            <input 
+              name="email" 
+              placeholder="Enter Email"
+              onChange={this.inputChangeHandler}
+            />
           </div>
 
           <div>
             Username:
-            <input name="username" placeholder="Enter Username"/>
+            <input 
+              name="username" 
+              placeholder="Enter Username"
+              onChange={this.inputChangeHandler}
+            />
           </div>
 
           <div>
             Phone:
-            <input name="phone" placeholder="Phone Number"/>
+            <input 
+              name="phone" 
+              placeholder="Phone Number"
+              onChange={this.inputChangeHandler}
+            />
           </div>
 
           <div>
             Password:
-            <input name="password" placeholder="Enter Password"/>
+            <input 
+              name="password" 
+              placeholder="Enter Password"
+              onChange={this.inputChangeHandler}
+            />
           </div>
         </form>
 
@@ -72,16 +106,35 @@ class Signup extends Component {
           this.state.userType === 'tenant' ? 
             <div>
               Property (Tenant):
-              <PropertySearch userType={this.state.userType} />
+              <PropertySearch 
+                inputChangeHandler={this.inputChangeHandler}
+                userType={this.state.userType} 
+              />
+              needs:
+              - selected property OR
+              - new property fields
             </div>
           :
           this.state.userType === 'manager' ? 
             <div>
               Property (Manager):
-              <PropertySearch userType={this.state.userType}/>
+              <PropertySearch 
+                inputChangeHandler={this.inputChangeHandler}
+                userType={this.state.userType}
+              />
             </div>
           : null
-        }  
+        } 
+        {
+          !this.state.userType ? null :
+          <div>
+            <button
+              onClick={this.submitHandler}
+            >
+              Sign Up
+            </button>
+          </div>
+        }
       </div>
     );
   }
