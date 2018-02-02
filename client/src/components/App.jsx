@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
+import Signup from './Auth/Signup.jsx';
 import Mein from './Mein/Mein.jsx';
 import Login from './Auth/Login.jsx';
 import Core from './Core/Core.jsx';
@@ -29,6 +30,7 @@ class App extends Component {
             <br/><br/>
             <h5>MAIN TOP</h5>
             <Switch> 
+              <Route path='/signup' component={Signup}/>
               <Route path='/login' component={Login}/>
               <Route path='/' component={Mein}/>
             </Switch>
