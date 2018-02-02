@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import Login from '../Auth/Login.jsx';
+import Members from './Members';
+import Messages from './Messages';
 import { Route, Switch } from 'react-router-dom';
 import io from 'socket.io-client/dist/socket.io.js';
 
@@ -26,7 +27,8 @@ class Chat extends Component {
   render() {
     return (
       <div>
-        FUCK YOU!
+        <Members />
+        <Messages />
       </div>
     )
   }
