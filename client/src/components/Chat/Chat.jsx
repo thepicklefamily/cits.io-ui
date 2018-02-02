@@ -14,13 +14,19 @@ class Chat extends Component {
     }
   }
   componentWillMount() {
-    const socket = io('http://localhost:4155', {
+    const socket = io.connect('http://localhost:4155', {
       query: {
-        roomId: location.pathname.slice(1)
+        roomId: 'ROOMNAME'
       }
     })
-    this.setState({
-      socket: this.socket
+    socket.on('connect', () => {
+      console.log('getting to connect in clinet');
+      socket.emit('client.ready', 'SWAP WITH ROOM NAME AT SOME POINT');
+    })
+    socket.on('server.initialState', () => {
+      this.setState({
+        socket: this.socket,
+      })
     })
     console.log(this.state);
   }
