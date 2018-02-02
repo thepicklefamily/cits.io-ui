@@ -12,10 +12,10 @@ class Members extends Component {
       <div>
         <div>
           <ul>
-            <li>Poop</li>
-            <li>Crap</li>
-            <li>Turds</li>
-            <li>Fecal Matter</li>
+            <li>Steve</li>
+            <li>Jim</li>
+            <li>Chad</li>
+            <li>Fred</li>
           </ul>
         </div>
       </div>

@@ -11,7 +11,7 @@ class Chat extends Component {
     super(props)
     this.state = {
       socket: null
-    }
+    } // this isn't needed, dumbass.
   }
   componentWillMount() {
     const socket = io.connect('http://localhost:4155', {
@@ -25,11 +25,9 @@ class Chat extends Component {
       socket.emit('client.ready', 'SWAP WITH ROOM NAME AT SOME POINT');
     })
     socket.on('server.initialState', () => {
-      this.setState({
-        socket: socket,
-      })
+      this.setState({ socket })
     })
-    
+
   }
   render() {
     return (
