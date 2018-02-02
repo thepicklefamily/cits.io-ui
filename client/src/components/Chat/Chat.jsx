@@ -19,16 +19,17 @@ class Chat extends Component {
         roomId: 'ROOMNAME'
       }
     })
+    console.log(socket);
     socket.on('connect', () => {
       console.log('getting to connect in clinet');
       socket.emit('client.ready', 'SWAP WITH ROOM NAME AT SOME POINT');
     })
     socket.on('server.initialState', () => {
       this.setState({
-        socket: this.socket,
+        socket: socket,
       })
     })
-    console.log(this.state);
+    
   }
   render() {
     return (
