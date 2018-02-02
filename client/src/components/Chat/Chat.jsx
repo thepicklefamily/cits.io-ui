@@ -11,7 +11,7 @@ class Chat extends Component {
   render() {
     return (
       <div>
-        <h1>FUCK YOU!</h1>
+        FUCK YOU!
       </div>
     )
   }

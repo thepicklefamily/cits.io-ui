@@ -5,7 +5,6 @@ import Mein from './Mein/Mein.jsx';
 import Login from './Auth/Login.jsx';
 import Core from './Core/Core.jsx';
 import Nav from './Nav/Nav.jsx';
-import Chat from './Chat/Chat.jsx';
 import Footer from './Footer/Footer.jsx';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import {Provider} from 'react-redux';
@@ -32,7 +31,6 @@ class App extends Component {
             <Switch> 
               <Route path='/login' component={Login}/>
               <Route path='/' component={Mein}/>
-              <Route path='/chat' component={Chat}/>
             </Switch>
             <h5>MAIN BOTTOM</h5>
             <br/><br/>
