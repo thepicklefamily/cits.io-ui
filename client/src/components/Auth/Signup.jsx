@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
+import PropertySearch from './PropertySearch';
 
 class Signup extends Component {
   constructor(props) {
@@ -71,11 +72,13 @@ class Signup extends Component {
           this.state.userType === 'tenant' ? 
             <div>
               Property (Tenant):
+              <PropertySearch userType={this.state.userType} />
             </div>
           :
           this.state.userType === 'manager' ? 
             <div>
               Property (Manager):
+              <PropertySearch userType={this.state.userType}/>
             </div>
           : null
         }  
