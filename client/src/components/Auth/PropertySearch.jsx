@@ -40,19 +40,19 @@ class Signup extends Component {
         {/* </form> */}
         {
           !this.state.results.length ? null :
-          this.props.userType === 'tenant' ?
+          this.props.userType === "0" ?
             <div>
               Tenant results
             </div>
           :
-          this.props.userType === 'manager' ?
+          this.props.userType === "1" ?
             <div>
               Manager results
             </div>
           : null
         }
         {
-          this.props.userType === 'manager' ?
+          this.props.userType === "1" ?
             <div>
               or Add New Property:
               <form action="">

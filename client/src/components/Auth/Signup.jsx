@@ -1,24 +1,27 @@
+require('babel-polyfill');
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import PropertySearch from './PropertySearch';
+import axios from 'axios';
 
 class Signup extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
-      userType: '',
+      userType: null,
       full_name: '',
       email: '',
       username: '',
-      phone: 0,
+      phone: '',
       password: '',
-      propertyID: null,
       propName: '',
       propAddress: '',
-      propSecret: ''
+      propSecret: '',
+      userID: null,
+      propertyID: null
     }
 
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
@@ -31,8 +34,35 @@ class Signup extends Component {
     });
   }
 
-  submitHandler() {
+  async submitHandler() {
     console.log(this.state);
+
+    const userBody = {
+      full_name: this.state.full_name,
+      email: this.state.email,
+      phonenumber: this.state.phone,
+      username: this.state.username,
+      password: this.state.password,
+      type: this.state.userType
+    };
+
+    const propBody = {
+      name: this.state.propName,
+      address: this.state.propAddress,
+      secret_key: this.state.propSecret
+    }
+
+    await axios
+      .post('http://localhost:3396/api/auth/signup', userBody)
+
+    this.state.propName && this.state.propAddress && this.state.propSecret ?
+    await axios
+      .post('http://localhost:3396/api/properties/create', propBody)
+    : null;
+    // axios to persist user first
+    // axios to persist property second
+    // set state to user and prop IDs returned by previous requests
+    // axios to add both user and prop IDs to joint table
   }
 
   render() {
@@ -49,8 +79,8 @@ class Signup extends Component {
               onChange={this.inputChangeHandler}
             >
               <option name="select" value="">Select User Type</option>
-              <option name="tenant" value="tenant">Tenant</option>
-              <option name="manager" value="manager">Manager</option>
+              <option name="tenant" value="0">Tenant</option>
+              <option name="manager" value="1">Manager</option>
             </select>
           </div>
           
@@ -103,7 +133,7 @@ class Signup extends Component {
         {/* Conditional properties form based on selected user type */}
         {
           !this.state.userType ? null :
-          this.state.userType === 'tenant' ? 
+          this.state.userType === "0" ? 
             <div>
               Property (Tenant):
               <PropertySearch 
@@ -115,7 +145,7 @@ class Signup extends Component {
               - new property fields
             </div>
           :
-          this.state.userType === 'manager' ? 
+          this.state.userType === "1" ? 
             <div>
               Property (Manager):
               <PropertySearch 
