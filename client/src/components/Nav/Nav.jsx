@@ -18,6 +18,7 @@ class Nav extends Component {
         <button onClick={() => this.props.history.push('/signup')}>Go to Signup</button>
         <button onClick={() => this.props.history.push('/newworld')}>Go to New World</button>
         <button onClick={() => this.props.history.push('/chat')}>Go to Chat</button>
+        <button onClick={() => this.props.history.push('/phonebook')}>Go to Phonebook</button>
       </div>
     );
   }

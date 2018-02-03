@@ -7,6 +7,7 @@ import Login from './Auth/Login.jsx';
 import Core from './Core/Core.jsx';
 import Nav from './Nav/Nav.jsx';
 import Footer from './Footer/Footer.jsx';
+import Phonebook from './Phonebook/Phonebook.jsx';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import {Provider} from 'react-redux';
 import store from '../store.js';
@@ -30,6 +31,7 @@ class App extends Component {
             <br/><br/>
             <h5>MAIN TOP</h5>
             <Switch> 
+              <Route path='/phonebook' component={Phonebook}/>
               <Route path='/signup' component={Signup}/>
               <Route path='/login' component={Login}/>
               <Route path='/' component={Mein}/>
