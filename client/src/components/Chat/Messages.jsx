@@ -12,7 +12,8 @@ class Messages extends Component {
       messages: [],
       message: '',
       username: '',
-      roomname: ''
+      roomname: '',
+      type: ''
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.hangleChange.bind(this);
@@ -39,15 +40,16 @@ class Messages extends Component {
   }
   async handleClick(e) {
     e.preventDefault();
-    console.log(this.props.userData);
     const payload = {
       message: this.state.message,
       username: 'USER',
-      roomname: 'ROOMNAME'
+      roomname: 'ROOMNAME',
+      type: 'TENANT OR MANAGER'
     }
     try {
       const data = await axios.post('http://localhost:3396/api/chat/addMessage', payload)
       data ? this.state.socket.emit('client.message', (this.state.message)) : console.log('error retrieving data');
+      console.log(data.data);
     } catch (err) {
       console.log('error', err);
     }
