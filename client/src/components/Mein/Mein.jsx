@@ -7,12 +7,17 @@ import Nav from '../Nav/Nav.jsx';
 import Chat from '../Chat/Chat.jsx';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import { setPhonebookEditState } from '../../actions/setPhonebookEditState';
 
 class Mein extends Component {
   constructor(props) {
     super(props);
   }
   // componentdidmount and update fetch properties by userid
+
+  componentWillMount() {
+    this.props.setPhonebookEditState(false);
+  }
 
   render() {
     return (
@@ -24,7 +29,6 @@ class Mein extends Component {
         {this.props.userData ? <div>{JSON.stringify(this.props.userData)}</div> : <div>NO USER DATA IN REDUX</div>}
         <br/>
         <Switch>
-          <Route path='/newworld' component={Nav}/>
           <Route path='/chat' component={Chat}/>
           <Route path='/' component={Core}/>
         </Switch>
@@ -43,7 +47,7 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    //
+    setPhonebookEditState:setPhonebookEditState
   }, dispatch);
 };
 

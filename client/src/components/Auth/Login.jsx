@@ -12,13 +12,14 @@ class Login extends Component {
   }
 
   async onSubmitHandler() {
-    await this.props.setUserData('helloworld')
     const payload = {
       username: document.getElementsByName('username')[0].value,
       password: document.getElementsByName('password')[0].value
     }
     const d = payload.username.length && payload.password.length ? await axios.post('http://localhost:3396/api/auth/login', payload) : {};
     d.data ? (this.props.setUserData(d.data), this.props.history.push('/')) : console.log('bad username and/or bad password');
+    // query properties using userdata
+    // set currentProperty in redux
   }
 
   render() {

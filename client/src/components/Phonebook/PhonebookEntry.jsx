@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { setPhonebookEditState } from '../../actions/setPhonebookEditState';
+import { setCurrentPhonebookEntry } from '../../actions/setCurrentPhonebookEntry';
 // import axios from 'axios';
 
 class PhonebookEntry extends Component {
@@ -10,21 +11,20 @@ class PhonebookEntry extends Component {
     this.state = {
       data: this.props.data
     };
-    console.log('here are the entry details! ', this.state.data)
   }
 
   async onEditHandler() {
-    await console.log('this is phonebookeditstate', this.props.phonebookEditState);
     await this.props.setPhonebookEditState(!this.props.phonebookEditState || true); // on submit edit form, revert to false
-    await console.log('this is phonebookeditstate after', this.props.phonebookEditState);
+    await this.props.setCurrentPhonebookEntry(this.state.data);
   }
 
   render() {
     return (
       <div>
-        Phonebook Entry!
+        Phonebook Entry: <br/>
         {JSON.stringify(this.state.data)}
         <button onClick={this.onEditHandler.bind(this)}>EDIT</button>
+        <br/><br/>
       </div>
     );
   }
@@ -42,7 +42,8 @@ const matchDispatchToProps = dispatch => {
   return bindActionCreators({
     // setPhonebookData:setPhonebookData
     // setUserData:setUserData
-    setPhonebookEditState:setPhonebookEditState
+    setPhonebookEditState:setPhonebookEditState,
+    setCurrentPhonebookEntry:setCurrentPhonebookEntry
   }, dispatch);
 };
 
