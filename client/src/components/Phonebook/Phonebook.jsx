@@ -1,12 +1,9 @@
-// company text
-// service text
-// contactInfo text
-// foreign key propertyId
-// require('babel-polyfill');
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import PhonebookEntry from './PhonebookEntry.jsx';
+import PhonebookEntryForm from './PhonebookEntryForm.jsx';
+import { setPhonebookEditState } from '../../actions/setPhonebookEditState';
 // import { withRouter } from 'react-router';
 import { setPhonebookData } from '../../actions/setPhonebookData';
 import axios from 'axios';
@@ -18,20 +15,14 @@ class Phonebook extends Component {
 
   async componentWillMount() {
     console.log('component mounting, here is userData', this.props.userData);
+    // use redux currentProperty to query below
     const { data } = await axios.get(`http://localhost:3396/api/phonebooks/1`);
-    console.log('this is data!!', data);
     await this.props.setPhonebookData(data);
-   }
-    // query the phonebook table w/ respective active propertyId
-  // async onSubmitHandler() {
-  //   await this.props.setUserData('helloworld')
-  //   const payload = {
-  //     username: document.getElementsByName('username')[0].value,
-  //     password: document.getElementsByName('password')[0].value
-  //   }
-  //   const d = payload.username.length && payload.password.length ? await axios.post('http://localhost:3396/api/auth/login', payload) : {};
-  //   d.data ? (this.props.setUserData(d.data), this.props.history.push('/')) : console.log('bad username and/or bad password');
-  // }
+  }
+
+  async onCancelHandler() {
+    await this.props.setPhonebookEditState(false);
+  }
 
   render() {
     return (
@@ -39,8 +30,9 @@ class Phonebook extends Component {
         Phonebook Says Hello!
         <br/><br/>
         PHONEBOOK DATA:
-        {this.props.phonebookEditState === true ? 'EDITING' : 'NOT EDITING'}
-        {this.props.phonebookData ? this.props.phonebookData.map( entry => { return <PhonebookEntry data={entry}/> }) : null}
+        <br/><br/>
+        {this.props.phonebookEditState === true ? this.props.currentPhonebookEntry ? <div>{JSON.stringify(this.props.currentPhonebookEntry)}<button onClick={this.onCancelHandler.bind(this)}>CANCEL</button></div> : 'THIS IS BAD' : this.props.phonebookData ? this.props.phonebookData.map( entry => { return <PhonebookEntry key={entry.id} data={entry}/> }) : null }
+        <br/>
       </div>
     );
   }
@@ -50,13 +42,15 @@ const mapStateToProps = state => {
   return {
     userData: state.userData,
     phonebookData: state.phonebookData,
-    phonebookEditState: state.phonebookEditState
+    phonebookEditState: state.phonebookEditState,
+    currentPhonebookEntry: state.currentPhonebookEntry
   }
 };
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setPhonebookData:setPhonebookData
+    setPhonebookData:setPhonebookData,
+    setPhonebookEditState:setPhonebookEditState
     // setUserData:setUserData
   }, dispatch);
 };
