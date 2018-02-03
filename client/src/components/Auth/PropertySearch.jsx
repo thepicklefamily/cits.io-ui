@@ -101,12 +101,15 @@ class Signup extends Component {
                     </div>
                     <div>
                       Property Secret:
-                      <input 
-                        id="secretInputField"
-                        name="secret" 
-                        placeholder="Enter Secret Key"
-                        onChange={this.inputChangeHandler}
-                      />
+                      {
+                        this.props.propertyID === property.id ? null :
+                        <input 
+                          id="secretInputField"
+                          name="secret" 
+                          placeholder="Enter Secret Key"
+                          onChange={this.inputChangeHandler}
+                        />
+                      }
                     </div>
                     {
                       this.props.propertyID === property.id ? 
