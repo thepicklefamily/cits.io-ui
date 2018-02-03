@@ -26,11 +26,16 @@ class Messages extends Component {
     })
     console.log('hey', socket);
     socket.on('connect', () => {
-      console.log('getting to connect in clinet');
       socket.emit('client.ready', 'SWAP WITH ROOM NAME AT SOME POINT');
     })
     socket.on('server.initialState', () => {
       this.setState({ socket })
+    })
+    socket.on('server.message', (data) => {
+      console.log('message heard', data);
+      this.setState({
+        messages: [data]
+      })
     })
   }
   hangleChange(e) {
@@ -48,7 +53,7 @@ class Messages extends Component {
     }
     try {
       const data = await axios.post('http://localhost:3396/api/chat/addMessage', payload)
-      data ? this.state.socket.emit('client.message', (this.state.message)) : console.log('error retrieving data');
+      data.data ? this.state.socket.emit('client.message', (data.data)) : console.log('error retrieving data');
       console.log(data.data);
     } catch (err) {
       console.log('error', err);
@@ -57,6 +62,15 @@ class Messages extends Component {
   render() {
     return (
       <div>
+        <div>
+          <ul>
+            {this.state.messages.map((message, i) => (
+              <div key={i}>
+                <li className="liMessage">{message.username}: {message.message}</li>
+              </div>
+            ))}
+          </ul>
+        </div>
         <input onChange={this.handleChange} type="text" name="message"></input>
         <button onClick={this.handleClick} type="submit">SUBMIT</button>
       </div>
