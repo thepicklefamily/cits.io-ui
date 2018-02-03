@@ -26,6 +26,7 @@ class Signup extends Component {
 
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.submitHandler = this.submitHandler.bind(this);
+    this.selectProperty = this.selectProperty.bind(this);
   }
 
   inputChangeHandler(e) {
@@ -34,9 +35,27 @@ class Signup extends Component {
     });
   }
 
-  async submitHandler() {
-    console.log(this.state);
+  async selectProperty(propertyID, secret) {
+    if (this.state.userType === '1' && propertyID) {
+      const selectedProperty = await axios.get(`http://localhost:3396/api/properties/fetch/ID?id=${propertyID}`);
+      
+      if (selectedProperty.data[0].secret_key === secret) {
+        this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) })
+      } else {
+        alert('Your secret key does not match, please try again!')
+      };
+    } 
+      else 
+    {
+      this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) });
+    }
 
+    if (document.getElementById('secretInputField')) {
+      document.getElementById('secretInputField').value = '';
+    }
+  }
+
+  async submitHandler() {
     const userBody = {
       full_name: this.state.full_name,
       email: this.state.email,
@@ -52,16 +71,22 @@ class Signup extends Component {
       secret_key: this.state.propSecret
     }
 
-    await axios
-      .post('http://localhost:3396/api/auth/signup', userBody)
+    const newUser = await axios
+      .post('http://localhost:3396/api/auth/signup', userBody);
 
-    this.state.propName && this.state.propAddress && this.state.propSecret ?
-    await axios
-      .post('http://localhost:3396/api/properties/create', propBody)
-    : null;
-    // axios to persist user first
-    // axios to persist property second
-    // set state to user and prop IDs returned by previous requests
+    this.setState({ 
+      userID: newUser.data.id 
+    });
+
+    if (this.state.propName && this.state.propAddress && this.state.propSecret) {
+      const newProp = await axios
+        .post('http://localhost:3396/api/properties/create', propBody);
+      
+      this.setState({ 
+        propertyID: newProp.data.id 
+      });
+    }
+
     // axios to add both user and prop IDs to joint table
   }
 
@@ -136,7 +161,9 @@ class Signup extends Component {
           this.state.userType === "0" ? 
             <div>
               Property (Tenant):
-              <PropertySearch 
+              <PropertySearch
+                propertyID={this.state.propertyID}
+                selectProperty={this.selectProperty}
                 inputChangeHandler={this.inputChangeHandler}
                 userType={this.state.userType} 
               />
@@ -149,6 +176,8 @@ class Signup extends Component {
             <div>
               Property (Manager):
               <PropertySearch 
+                propertyID={this.state.propertyID}
+                selectProperty={this.selectProperty}
                 inputChangeHandler={this.inputChangeHandler}
                 userType={this.state.userType}
               />
