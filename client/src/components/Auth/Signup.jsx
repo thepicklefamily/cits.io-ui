@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import PropertySearch from './PropertySearch';
+import { setUserData } from '../../actions/setUserData';
 import axios from 'axios';
 
 class Signup extends Component {
@@ -86,8 +87,11 @@ class Signup extends Component {
         propertyID: newProp.data.id 
       });
     }
-
+    
     // axios to add both user and prop IDs to joint table
+
+    this.props.setUserData(newUser.data);
+    this.props.history.push('/');
   }
 
   render() {
@@ -207,7 +211,7 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    //
+    setUserData:setUserData
   }, dispatch);
 };
 
