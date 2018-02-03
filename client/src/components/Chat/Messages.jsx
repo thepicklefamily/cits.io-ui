@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import io from 'socket.io-client/dist/socket.io.js';
+import axios from 'axios';
 
 class Messages extends Component {
   constructor(props) {
     super(props)
     this.state = {
       messages: [],
-      message: ''
+      message: '',
+      username: '',
+      roomname: ''
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.hangleChange.bind(this);
@@ -33,8 +36,15 @@ class Messages extends Component {
       [e.target.name]: e.target.value
     })
   }
-  handleClick() {
-    
+  async handleClick(e) {
+    e.preventDefault();
+    console.log(this.props.userData);
+    const payload = {
+      message: 'TESTING',
+      username: 'USER',
+      roomname: 'ROOMNAME'
+    }
+    const data = await axios.post('http://localhost:3396/api/chat/addMessage', payload)
   }
   render() {
     return (
@@ -47,7 +57,7 @@ class Messages extends Component {
 }
 const mapStateToProps = state => {
   return {
-    //
+    userData: state.userData
   }
 };
 
