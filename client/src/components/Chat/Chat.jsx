@@ -9,9 +9,6 @@ import io from 'socket.io-client/dist/socket.io.js';
 class Chat extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      socket: null
-    } // this isn't needed, dumbass.
   }
   componentWillMount() {
     const socket = io.connect('http://localhost:4155', {
@@ -19,7 +16,7 @@ class Chat extends Component {
         roomId: 'ROOMNAME'
       }
     })
-    console.log(socket);
+    console.log('hey', socket);
     socket.on('connect', () => {
       console.log('getting to connect in clinet');
       socket.emit('client.ready', 'SWAP WITH ROOM NAME AT SOME POINT');
