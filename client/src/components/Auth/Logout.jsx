@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import { Route, Switch } from 'react-router-dom';
+import { setUserData } from '../../actions/setUserData';
 
-class Footer extends Component {
+class Logout extends Component {
   constructor(props) {
     super(props);
+  }
+
+  onSubmitHandler() {
+    this.props.setUserData(null)
   }
 
   render() {
     return (
       <div>
-        HELLO FROM FOOTER
+        <button onClick={this.onSubmitHandler.bind(this)}>Logout</button>
       </div>
     );
   }
@@ -19,14 +23,13 @@ class Footer extends Component {
 
 const mapStateToProps = state => {
   return {
-    phonebookData: state.phonebookData
   }
 };
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    //
+    setUserData:setUserData
   }, dispatch);
 };
 
-export default connect(mapStateToProps, matchDispatchToProps)(Footer);
+export default (connect(mapStateToProps, matchDispatchToProps)(Logout));

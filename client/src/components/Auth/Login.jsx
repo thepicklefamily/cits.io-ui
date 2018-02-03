@@ -2,9 +2,9 @@ require('babel-polyfill');
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router';
 import { setUserData } from '../../actions/setUserData';
 import axios from 'axios';
+// import { withRouter } from 'react-router';
 
 class Login extends Component {
   constructor(props) {
@@ -12,13 +12,14 @@ class Login extends Component {
   }
 
   async onSubmitHandler() {
-    await this.props.setUserData('helloworld')
     const payload = {
       username: document.getElementsByName('username')[0].value,
       password: document.getElementsByName('password')[0].value
     }
     const d = payload.username.length && payload.password.length ? await axios.post('http://localhost:3396/api/auth/login', payload) : {};
     d.data ? (this.props.setUserData(d.data), this.props.history.push('/')) : console.log('bad username and/or bad password');
+    // query properties using userdata
+    // set currentProperty in redux
   }
 
   render() {
@@ -51,6 +52,7 @@ class Login extends Component {
   //     </div>
   //   );
   // }
+  
 }
 
 const mapStateToProps = state => {
@@ -65,4 +67,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Login));
+export default (connect(mapStateToProps, matchDispatchToProps)(Login));
