@@ -1,7 +1,9 @@
+require('babel-polyfill');
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
+import axios from 'axios';
 
 class Signup extends Component {
   constructor(props) {
@@ -9,21 +11,34 @@ class Signup extends Component {
 
     this.state = {
       results: [],
-      searchInput: ''
+      searchInput: '',
+      secret: ''
     }
 
-    this.searchChangeHandler = this.searchChangeHandler.bind(this);
+    this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.searchClickHandler = this.searchClickHandler.bind(this);
   }
 
-  searchChangeHandler(e) {
+  inputChangeHandler(e) {
     this.setState({
-      searchInput: e.target.value
+      [e.target.name]: e.target.value
     });
   }
 
-  searchClickHandler() {
-    console.log(this.state.searchInput);
+  async searchClickHandler() {
+    const searchResults = await axios
+      .get(`http://localhost:3396/api/properties/fetch/name?name=${this.state.searchInput}`);
+    
+    !searchResults.data.length ? 
+    this.setState({ 
+      results: ["No Results"]
+    })
+    :
+    this.setState({
+      results: searchResults.data
+    });
+
+    document.getElementById('searchInputField').value = '';
   }
 
   render() {
@@ -32,9 +47,10 @@ class Signup extends Component {
         Search Property:
         {/* <form> */}
           <input 
+            id="searchInputField"
             name="searchInput" 
             placeholder="Enter Property Name Here"
-            onChange={this.searchChangeHandler}
+            onChange={this.inputChangeHandler}
           />
           <button onClick={this.searchClickHandler}>Search</button>
         {/* </form> */}
@@ -42,12 +58,65 @@ class Signup extends Component {
           !this.state.results.length ? null :
           this.props.userType === "0" ?
             <div>
-              Tenant results
+              {
+                this.state.results[0] === "No Results" ? 
+                <div>
+                  No results, please try again.
+                </div>
+                : 
+                this.state.results.map(property => 
+                  <div key={property.id}>
+                    <div>
+                      {property.name}
+                    </div>
+                    <div>
+                      {property.address}
+                    </div>
+                    {
+                      this.props.propertyID === property.id ? 
+                      <button onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
+                      :
+                      <button onClick={() => { this.props.selectProperty(property.id) }}>Select Property</button>
+                    }
+                  </div>
+                )
+              }
             </div>
           :
           this.props.userType === "1" ?
             <div>
-              Manager results
+              {
+                this.state.results[0] === "No Results" ? 
+                <div>
+                  No results, please try again.
+                </div>
+                : 
+                this.state.results.map(property => 
+                  <div key={property.id}>
+                    <div>
+                      {property.name}
+                    </div>
+                    <div>
+                      {property.address}
+                    </div>
+                    <div>
+                      Property Secret:
+                      <input 
+                        id="secretInputField"
+                        name="secret" 
+                        placeholder="Enter Secret Key"
+                        onChange={this.inputChangeHandler}
+                      />
+                    </div>
+                    {
+                      this.props.propertyID === property.id ? 
+                      <button onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
+                      :
+                      <button onClick={() => { this.props.selectProperty(property.id, this.state.secret)}}>Select Property</button>
+                    }
+                  </div>
+                )
+              }
             </div>
           : null
         }
