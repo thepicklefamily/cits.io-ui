@@ -2,9 +2,9 @@ require('babel-polyfill');
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router';
 import { setUserData } from '../../actions/setUserData';
 import axios from 'axios';
+// import { withRouter } from 'react-router';
 
 class Login extends Component {
   constructor(props) {
@@ -65,4 +65,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Login));
+export default (connect(mapStateToProps, matchDispatchToProps)(Login));

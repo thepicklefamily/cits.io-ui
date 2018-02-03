@@ -19,7 +19,7 @@ class Footer extends Component {
 
 const mapStateToProps = state => {
   return {
-    //
+    phonebookData: state.phonebookData
   }
 };
 
