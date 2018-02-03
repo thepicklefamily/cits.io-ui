@@ -8,6 +8,7 @@ class Messages extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      socket: null,
       messages: [],
       message: '',
       username: '',
@@ -40,11 +41,16 @@ class Messages extends Component {
     e.preventDefault();
     console.log(this.props.userData);
     const payload = {
-      message: 'TESTING',
+      message: this.state.message,
       username: 'USER',
       roomname: 'ROOMNAME'
     }
-    const data = await axios.post('http://localhost:3396/api/chat/addMessage', payload)
+    try {
+      const data = await axios.post('http://localhost:3396/api/chat/addMessage', payload)
+      data ? this.state.socket.emit('client.message', (this.state.message)) : console.log('error retrieving data');
+    } catch (err) {
+      console.log('error', err);
+    }
   }
   render() {
     return (
