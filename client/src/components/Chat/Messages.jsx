@@ -19,7 +19,7 @@ class Messages extends Component {
     this.handleChange = this.hangleChange.bind(this);
   }
   componentWillMount() {
-    const socket = io.connect('http://localhost:4155', {
+    const socket = io.connect(`http://localhost:4155`, {
       query: {
         roomId: 'ROOMNAME'
       }
@@ -31,11 +31,17 @@ class Messages extends Component {
     socket.on('server.initialState', () => {
       this.setState({ socket })
     })
-    socket.on('server.message', (data) => {
+    socket.on('server.message', async (data) => {
       console.log('message heard', data);
-      this.setState({
-        messages: [data]
-      })
+      try {
+        const messages = await axios.get(`http://localhost:3396/api/chat/getMessages`)
+        await this.setState({
+          messages: messages.data
+        })
+      } catch (err) {
+        console.log('error fetching messages');
+      }
+      
     })
   }
   hangleChange(e) {
@@ -52,9 +58,9 @@ class Messages extends Component {
       type: 'TENANT OR MANAGER'
     }
     try {
-      const data = await axios.post('http://localhost:3396/api/chat/addMessage', payload)
+      const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload)
       data.data ? this.state.socket.emit('client.message', (data.data)) : console.log('error retrieving data');
-      console.log(data.data);
+      console.log('here?', data.data);
     } catch (err) {
       console.log('error', err);
     }
@@ -66,7 +72,7 @@ class Messages extends Component {
           <ul>
             {this.state.messages.map((message, i) => (
               <div key={i}>
-                <li className="liMessage">{message.username}: {message.message}</li>
+                <li>{message.username}: {message.message}</li>
               </div>
             ))}
           </ul>
