@@ -4,6 +4,8 @@
 //   test.done();
 // });
 
+
+
 casper.test.begin('Testing Amazon Search and Results pages', 1, function(test) {
   casper.start('http://amazon.com', function() {
     this.fill('form.nav-searchbar', {
@@ -19,3 +21,15 @@ casper.test.begin('Testing Amazon Search and Results pages', 1, function(test) {
     test.done();
   });
 });
+
+
+    // document.querySelector('[name=login]').click();
+    // this.clickLabel('Go to Login');
+
+  // casper.then(function () {
+  //   casper.evaluate(function(username, password) {
+  //     document.querySelector('input[name=username]').value = username;
+  //     document.querySelector('input[name=username]').value = password;
+  //     this.clickLabel('Submit');
+  // }, 'MrTest', 'test');
+  // });

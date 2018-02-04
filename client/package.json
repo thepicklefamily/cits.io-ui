@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "casperjs test tests/sample-tests.js",
+    "test": "casperjs test tests/auth-tests.js",
     "dev1": "webpack -w",
     "build": "webpack -w"
   },
