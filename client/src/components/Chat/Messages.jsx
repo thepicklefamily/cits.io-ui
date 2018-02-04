@@ -22,12 +22,14 @@ class Messages extends Component {
   componentWillMount() {
     axios.get(`http://localhost:3396/api/chat/getMessages`)
       .then((res) => {
-        console.log(res);
         this.setState({
           messages: res.data
         })
       })
-
+      .catch(() => {
+        console.log('error fetching messages.  WHOOPS!');
+      })
+    console.log(this.props.userData)
     const socket = io.connect(`http://localhost:4155`, {
       query: {
         roomId: 'ROOMNAME'
@@ -41,9 +43,9 @@ class Messages extends Component {
     })
     socket.on('server.message', async (data) => {
       try {
-        const messages = await axios.get(`http://localhost:3396/api/chat/getMessages`)
+        const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`)
         await this.setState({
-          messages: messages.data
+          messages: [...this.state.messages, message]
         })
       } catch (err) {
         console.log('error fetching messages');
