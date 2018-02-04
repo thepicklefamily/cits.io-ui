@@ -32,7 +32,7 @@ class Messages extends Component {
     console.log(this.props.userData)
     const socket = io.connect(`http://localhost:4155`, {
       query: {
-        roomId: 'ROOMNAME'
+        roomId: 'ROOMNAME' //this will change to the room of the property that I put into the URL
       }
     })
     socket.on('connect', () => {
