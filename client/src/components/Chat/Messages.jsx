@@ -20,12 +20,19 @@ class Messages extends Component {
     this.handleChange = this.hangleChange.bind(this);
   }
   componentWillMount() {
+    axios.get(`http://localhost:3396/api/chat/getMessages`)
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          messages: res.data
+        })
+      })
+
     const socket = io.connect(`http://localhost:4155`, {
       query: {
         roomId: 'ROOMNAME'
       }
     })
-    console.log('hey', socket);
     socket.on('connect', () => {
       socket.emit('client.ready', 'SWAP WITH ROOM NAME AT SOME POINT');
     })
@@ -33,7 +40,6 @@ class Messages extends Component {
       this.setState({ socket })
     })
     socket.on('server.message', async (data) => {
-      console.log('message heard', data);
       try {
         const messages = await axios.get(`http://localhost:3396/api/chat/getMessages`)
         await this.setState({
@@ -67,21 +73,29 @@ class Messages extends Component {
     }
   }
   render() {
-    return (
-      <div>
+    if (this.state.messages.length === 0) {
+      return (
         <div>
-          <ul>
-            {this.state.messages.map((message, i) => (
-              <div key={i}>
-                <li>{message.username}: {message.message} {moment(message.date).fromNow()}</li>
-              </div>
-            ))}
-          </ul>
+          LOADING
         </div>
-        <input onChange={this.handleChange} type="text" name="message"></input>
-        <button onClick={this.handleClick} type="submit">SUBMIT</button>
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div>
+          <div>
+            <ul>
+              {this.state.messages.map((message, i) => (
+                <div key={i}>
+                  <li>{message.username}: {message.message} {moment(message.date).fromNow()}</li>
+                </div>
+              ))}
+            </ul>
+          </div>
+          <input onChange={this.handleChange} type="text" name="message"></input>
+          <button onClick={this.handleClick} type="submit">SUBMIT</button>
+        </div>
+      )
+    }
   }
 }
 const mapStateToProps = state => {
