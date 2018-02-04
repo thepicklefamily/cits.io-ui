@@ -45,7 +45,7 @@ class Messages extends Component {
       try {
         const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`)
         await this.setState({
-          messages: [...this.state.messages, message]
+          messages: [...this.state.messages, message.data[0]]
         })
       } catch (err) {
         console.log('error fetching messages');
