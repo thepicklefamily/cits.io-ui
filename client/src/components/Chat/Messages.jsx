@@ -60,6 +60,9 @@ class Messages extends Component {
   }
   async handleClick(e) {
     e.preventDefault();
+    if (this.state.message === '') {
+      return;
+    }
     const payload = {
       message: this.state.message,
       username: 'USER',
@@ -73,6 +76,7 @@ class Messages extends Component {
     } catch (err) {
       console.log('error', err);
     }
+    document.getElementById('message').value = '';
   }
   render() {
     if (this.state.messages.length === 0) {
@@ -93,7 +97,7 @@ class Messages extends Component {
               ))}
             </ul>
           </div>
-          <input onChange={this.handleChange} type="text" name="message"></input>
+          <input id="message" onChange={this.handleChange} type="text" name="message"></input>
           <button onClick={this.handleClick} type="submit">SUBMIT</button>
         </div>
       )
