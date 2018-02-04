@@ -31,7 +31,7 @@ class Phonebook extends Component {
         <br/><br/>
         PHONEBOOK DATA:
         <br/><br/>
-        {this.props.phonebookEditState === true ? this.props.currentPhonebookEntry ? <div>{JSON.stringify(this.props.currentPhonebookEntry)}<button onClick={this.onCancelHandler.bind(this)}>CANCEL</button></div> : 'THIS IS BAD' : this.props.phonebookData ? this.props.phonebookData.map( entry => { return <PhonebookEntry key={entry.id} data={entry}/> }) : null }
+        {this.props.phonebookEditState === true ? this.props.currentPhonebookEntry ? <div> <PhonebookEntryForm data={this.props.currentPhonebookEntry} /> <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button> </div> : 'THIS IS BAD' : this.props.phonebookData ? this.props.phonebookData.map( entry => { return <PhonebookEntry key={entry.id} data={entry}/> }) : null }
         <br/>
       </div>
     );
