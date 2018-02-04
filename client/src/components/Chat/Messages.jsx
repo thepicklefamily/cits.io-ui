@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
+import moment from 'moment';
 
 class Messages extends Component {
   constructor(props) {
@@ -72,7 +73,7 @@ class Messages extends Component {
           <ul>
             {this.state.messages.map((message, i) => (
               <div key={i}>
-                <li>{message.username}: {message.message}</li>
+                <li>{message.username}: {message.message} {moment(message.date).fromNow()}</li>
               </div>
             ))}
           </ul>
