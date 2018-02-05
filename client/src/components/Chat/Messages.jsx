@@ -30,10 +30,9 @@ class Messages extends Component {
       .catch(() => {
         console.log('error fetching messages.  WHOOPS!');
       })
-    console.log(this.props.userData)
-    const socket = io.connect(`http://localhost:4155`, {
+    const socket = io(`http://localhost:4155`, {
       query: {
-        roomId: 'ROOMNAME' //this will change to the room of the property that I put into the URL
+        roomId: location.pathname.slice(1) //this will change to the room of the property that I put into the URL
       }
     })
     socket.on('connect', () => {
@@ -87,8 +86,8 @@ class Messages extends Component {
     }
     try {
       const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload)
+      console.log(this.state, 'state');
       data.data ? this.state.socket.emit('client.message', (data.data)) : console.log('error retrieving data');
-      console.log('here?', data.data);
     } catch (err) {
       console.log('error', err);
     }

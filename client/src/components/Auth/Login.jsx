@@ -9,8 +9,13 @@ import axios from 'axios';
 class Login extends Component {
   constructor(props) {
     super(props);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
-
+  handleKeyPress(e) {
+    if (e.keyCode === 13) {
+      this.onSubmitHandler();
+    }
+  }
   async onSubmitHandler() {
     const payload = {
       username: document.getElementsByName('username')[0].value,
@@ -30,7 +35,7 @@ class Login extends Component {
           Username:<br/>
           <input type='text' name='username'/><br/>
           Password:<br/>
-          <input type='password' name='password'/><br/>
+          <input onKeyUp={this.handleKeyPress} type='password' name='password'/><br/>
           <button onClick={this.onSubmitHandler.bind(this)}>Submit</button>
         </div>
       </div>
