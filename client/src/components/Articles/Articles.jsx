@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setArticlesData } from '../../actions/setArticlesData';
+import ArticleEntry from './ArticleEntry';
 import axios from 'axios';
 
 class Articles extends Component {
@@ -19,8 +20,13 @@ class Articles extends Component {
 
     return (
       <div>
-        {this.props.articlesData ? <div>{JSON.stringify(this.props.articlesData)}</div> : <div>NO article DATA IN REDUX</div>}
-        HELLO FROM ARTICLES
+        {this.props.articlesData ?
+          <div>
+            {this.props.articlesData.map( article => {
+              return <div>{<ArticleEntry article={article}/>}</div>
+              //pass in articleEntry
+        })}
+        </div> : <div>No available articles</div>}
       </div>
     )
   }
