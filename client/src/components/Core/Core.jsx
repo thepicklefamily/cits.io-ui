@@ -12,7 +12,7 @@ class Core extends Component {
   render() {
     return (
       <div>
-        HELLO FROM CORE
+        <h3>PRODUCT INFORMATION</h3>
       </div>
     );
   }
