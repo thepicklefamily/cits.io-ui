@@ -30,10 +30,9 @@ class Messages extends Component {
       .catch(() => {
         console.log('error fetching messages.  WHOOPS!');
       })
-    console.log(this.props.userData)
-    const socket = io.connect(`http://localhost:4155`, {
+    const socket = io(`http://localhost:4155`, {
       query: {
-        roomId: 'ROOMNAME' //this will change to the room of the property that I put into the URL
+        roomId: location.pathname.slice(1) //this will change to the room of the property that I put into the URL
       }
     })
     socket.on('connect', () => {
@@ -51,7 +50,17 @@ class Messages extends Component {
       } catch (err) {
         console.log('error fetching messages');
       }
-      
+
+    })
+    let type = '';
+    if (this.props.userData.type === 1) {
+      type = 'Manager';
+    } else {
+      type = 'Tenant';
+    }
+    this.setState({
+      username: this.props.userData.username,
+      type,
     })
   }
   handleChange(e) {
@@ -71,14 +80,14 @@ class Messages extends Component {
     }
     const payload = {
       message: this.state.message,
-      username: 'USER',
+      username: this.state.username,
       roomname: 'ROOMNAME',
-      type: 'TENANT OR MANAGER'
+      type: this.state.type
     }
     try {
       const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload)
+      console.log(this.state, 'state');
       data.data ? this.state.socket.emit('client.message', (data.data)) : console.log('error retrieving data');
-      console.log('here?', data.data);
     } catch (err) {
       console.log('error', err);
     }
@@ -91,7 +100,7 @@ class Messages extends Component {
           <ul>
             {this.state.messages.map((message, i) => (
               <div key={i}>
-                <li>{message.username}: {message.message} <br/>{moment(message.date).fromNow()}</li>
+                <li>{message.username} ({message.type}): {message.message} <br/>{moment(message.date).fromNow()}</li>
               </div>
             ))}
           </ul>

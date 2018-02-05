@@ -10,7 +10,7 @@ class Members extends Component {
   componentWillMount() {
     const socket = io.connect('http://localhost:4155', {
       query: {
-        roomId: 'ROOMNAME'
+        roomId: location.pathname.slice(1)
       }
     })
     console.log('hey', socket);
