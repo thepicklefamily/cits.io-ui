@@ -17,7 +17,8 @@ class Messages extends Component {
       type: ''
     }
     this.handleClick = this.handleClick.bind(this);
-    this.handleChange = this.hangleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
   componentWillMount() {
     axios.get(`http://localhost:3396/api/chat/getMessages`)
@@ -53,14 +54,19 @@ class Messages extends Component {
       
     })
   }
-  hangleChange(e) {
+  handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
+  handleKeyPress(e) {
+    if (e.keyCode === 13) {
+      this.handleClick(e);
+    }
+  }
   async handleClick(e) {
     e.preventDefault();
-    if (this.state.message === '') {
+    if (document.getElementById('message').value === '') {
       return;
     }
     const payload = {
@@ -79,29 +85,21 @@ class Messages extends Component {
     document.getElementById('message').value = '';
   }
   render() {
-    if (this.state.messages.length === 0) {
-      return (
+    return (
+      <div>
         <div>
-          LOADING
+          <ul>
+            {this.state.messages.map((message, i) => (
+              <div key={i}>
+                <li>{message.username}: {message.message} <br/>{moment(message.date).fromNow()}</li>
+              </div>
+            ))}
+          </ul>
         </div>
-      )
-    } else {
-      return (
-        <div>
-          <div>
-            <ul>
-              {this.state.messages.map((message, i) => (
-                <div key={i}>
-                  <li>{message.username}: {message.message} {moment(message.date).fromNow()}</li>
-                </div>
-              ))}
-            </ul>
-          </div>
-          <input id="message" onChange={this.handleChange} type="text" name="message"></input>
-          <button onClick={this.handleClick} type="submit">SUBMIT</button>
-        </div>
-      )
-    }
+        <input onKeyUp={this.handleKeyPress} id="message" onChange={this.handleChange} type="text" name="message" autoComplete="off"></input>
+        <button onClick={this.handleClick} type="submit">SUBMIT</button>
+      </div>
+    )
   }
 }
 const mapStateToProps = state => {
