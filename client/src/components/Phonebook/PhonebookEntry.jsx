@@ -13,9 +13,14 @@ class PhonebookEntry extends Component {
     };
   }
 
+  async onAddHandler() {
+    await this.props.setCurrentPhonebookEntry({});
+    await this.props.setPhonebookEditState('1');
+  }
+
   async onEditHandler() {
     await this.props.setCurrentPhonebookEntry(this.state.data); // must be above otherwise entry will render previous selection
-    await this.props.setPhonebookEditState(!this.props.phonebookEditState || true); // on submit edit form, revert to false
+    await this.props.setPhonebookEditState('2'); // on submit edit form, revert to false
   }
 
   render() {
@@ -23,7 +28,7 @@ class PhonebookEntry extends Component {
       <div>
         Phonebook Entry: <br/>
         {JSON.stringify(this.state.data)}
-        <button onClick={this.onEditHandler.bind(this)}>EDIT</button>
+        {this.props.userData.type === 1 ? <button onClick={this.onEditHandler.bind(this)}>EDIT</button> : null}
         <br/><br/>
       </div>
     );
@@ -32,6 +37,7 @@ class PhonebookEntry extends Component {
 
 const mapStateToProps = state => {
   return {
+    userData:state.userData,
     phonebookEditState:state.phonebookEditState
     // userData: state.userData,
     // phonebookData: state.phonebookData

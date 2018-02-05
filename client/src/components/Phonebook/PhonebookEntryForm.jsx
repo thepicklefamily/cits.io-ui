@@ -12,9 +12,22 @@ class PhonebookEntryForm extends Component {
   }
 
   componentDidMount() {
-    document.getElementsByName('company')[0].value = this.props.data.company;
-    document.getElementsByName('service')[0].value = this.props.data.service;
-    document.getElementsByName('contactinfo')[0].value = this.props.data.contactinfo;
+    document.getElementsByName('company')[0].value = this.props.data.company ? this.props.data.company : null;
+    document.getElementsByName('service')[0].value = this.props.data.service ? this.props.data.service : null;
+    document.getElementsByName('contactinfo')[0].value = this.props.data.contactinfo ? this.props.data.contactinfo : null;
+  }
+
+  async onAddHandler() {
+    const payload = {
+      propertyId: '1',
+      company: document.getElementsByName('company')[0].value.toString(),
+      service: document.getElementsByName('service')[0].value.toString(),
+      contactInfo: document.getElementsByName('contactinfo')[0].value.toString()
+    }
+    const { data } = await axios.post('http://localhost:3396/api/phonebooks/create', payload);
+    const d = await axios.get(`http://localhost:3396/api/phonebooks/1`);
+    this.props.setPhonebookData(d.data);
+    data ? await this.props.setPhonebookEditState('0') : null;
   }
 
   async onUpdateHandler() {
@@ -29,14 +42,14 @@ class PhonebookEntryForm extends Component {
     console.log('this is d!', data);
     const d = await axios.get(`http://localhost:3396/api/phonebooks/1`);
     this.props.setPhonebookData(d.data);
-    data ? await this.props.setPhonebookEditState(false) : null;
+    data ? await this.props.setPhonebookEditState('0') : null;
   }
 
   async onDeleteHandler() {
     await axios.delete(`http://localhost:3396/api/phonebooks/delete/${this.props.data.id}`);
     const d = await axios.get(`http://localhost:3396/api/phonebooks/1`);
     await this.props.setPhonebookData(d.data);
-    await this.props.setPhonebookEditState(false);
+    await this.props.setPhonebookEditState('0');
   }
 
   render() {
@@ -48,10 +61,9 @@ class PhonebookEntryForm extends Component {
         <br/><br/>
         Contact Info: <input type='text' name='contactinfo'></input>
         <br/><br/>
-        <button onClick={this.onUpdateHandler.bind(this)}>UPDATE</button>
-        <button onClick={this.onDeleteHandler.bind(this)}>DELETE</button>
+        {this.props.phonebookEditState === '1' ? <button onClick={this.onAddHandler.bind(this)}>ADD</button> : null}
+        {this.props.phonebookEditState === '2' ? <div><button onClick={this.onUpdateHandler.bind(this)}>UPDATE</button><button onClick={this.onDeleteHandler.bind(this)}>DELETE</button></div> : null}
         <br/><br/>
-        {JSON.stringify(this.props.data)}
       </div>
     );
   }
