@@ -9,7 +9,7 @@ class Logout extends Component {
   }
 
   onSubmitHandler() {
-    this.props.setUserData(null)
+    this.props.setUserData(null);
   }
 
   render() {
