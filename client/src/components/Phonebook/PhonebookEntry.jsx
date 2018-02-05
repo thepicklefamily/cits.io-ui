@@ -13,11 +13,6 @@ class PhonebookEntry extends Component {
     };
   }
 
-  async onAddHandler() {
-    await this.props.setCurrentPhonebookEntry({});
-    await this.props.setPhonebookEditState('1');
-  }
-
   async onEditHandler() {
     await this.props.setCurrentPhonebookEntry(this.state.data); // must be above otherwise entry will render previous selection
     await this.props.setPhonebookEditState('2'); // on submit edit form, revert to false
