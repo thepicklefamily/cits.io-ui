@@ -51,7 +51,17 @@ class Messages extends Component {
       } catch (err) {
         console.log('error fetching messages');
       }
-      
+
+    })
+    let type = '';
+    if (this.props.userData.type === 1) {
+      type = 'Manager';
+    } else {
+      type = 'Tenant';
+    }
+    this.setState({
+      username: this.props.userData.username,
+      type,
     })
   }
   handleChange(e) {
@@ -71,9 +81,9 @@ class Messages extends Component {
     }
     const payload = {
       message: this.state.message,
-      username: 'USER',
+      username: this.state.username,
       roomname: 'ROOMNAME',
-      type: 'TENANT OR MANAGER'
+      type: this.state.type
     }
     try {
       const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload)
@@ -91,7 +101,7 @@ class Messages extends Component {
           <ul>
             {this.state.messages.map((message, i) => (
               <div key={i}>
-                <li>{message.username}: {message.message} <br/>{moment(message.date).fromNow()}</li>
+                <li>{message.username} ({message.type}): {message.message} <br/>{moment(message.date).fromNow()}</li>
               </div>
             ))}
           </ul>
