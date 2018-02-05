@@ -34,24 +34,27 @@ class Phonebook extends Component {
   render() {
     return (
       <div>
-        Phonebook Says Hello!
-        <br/><br/>
         PHONEBOOK DATA:
         <br/><br/>
-        {(this.props.userData.type === 1) ? 
-        this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' ? 
-        <div> <PhonebookEntryForm data={this.props.currentPhonebookEntry} /> <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button> </div> 
-        : 
-        this.props.phonebookData ? 
-        this.props.phonebookData.map( entry => { return <PhonebookEntry key={entry.id} data={entry}/> }) 
-        : 
-        "No DATA"
-        :
-        this.props.phonebookData ? 
-        this.props.phonebookData.map( entry => { return <PhonebookEntry key={entry.id} data={entry}/> }) :
-        "NO DATA"
+        {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && this.props.userData.type === 1 ? 
+          <div>
+            <PhonebookEntryForm/>
+            <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button>
+          </div> 
+          : 
+          this.props.phonebookData ? 
+            this.props.phonebookData.map( entry => { 
+              return <PhonebookEntry key={entry.id} data={entry}/> 
+            }) 
+            : 
+            "No DATA"
+          )
         }
-        {this.props.phonebookEditState === '0' && this.props.userData.id === 1 ? <button onClick={this.onAddHandler.bind(this)}>ADD NEW ENTRY</button> : null}
+        {this.props.phonebookEditState === '0' && this.props.userData.type === 1 ? 
+          <button onClick={this.onAddHandler.bind(this)}>ADD NEW ENTRY</button> 
+          : 
+          null
+        }
       </div>
     );
   }
@@ -71,7 +74,6 @@ const matchDispatchToProps = dispatch => {
     setPhonebookData:setPhonebookData,
     setPhonebookEditState:setPhonebookEditState,
     setCurrentPhonebookEntry:setCurrentPhonebookEntry
-    // setUserData:setUserData
   }, dispatch);
 };
 

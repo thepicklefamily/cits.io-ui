@@ -22,18 +22,16 @@ class Mein extends Component {
   render() {
     return (
       <div>
-        *----THIS IS THE TOP OF MEIN----*
-        <br/><br/>
-        BANNER GOES HERE
-        <br/><br/>
-        {this.props.userData ? <div>{JSON.stringify(this.props.userData)}</div> : <div>NO USER DATA IN REDUX</div>}
-        <br/>
+        <h3>BANNER GOES HERE</h3>
+        {this.props.userData ? 
+          <div>Status: Logged In</div> 
+          : 
+          <div>Status: Logged Out</div>
+        }
         <Switch>
           <Route path='/chat' component={Chat}/>
-          <Route path='/' component={Core}/>
+          <Route path='/' component={Core}/> {/* THIS IS WHERE THE HEADLINES/PRODUCT INFO GOES */}
         </Switch>
-        <br/>
-        *----THIS IS THE BOTTOM OF MEIN----*
       </div>
     );
   }
