@@ -38,7 +38,6 @@ class Profile extends Component {
 
   async onEditHandler() {
     await this.props.setProfileEditState(1);
-    await console.log('this is edit state', this.props.profileEditState);
   }
 
   async onUpdateHandler() {
