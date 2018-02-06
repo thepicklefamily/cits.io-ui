@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import PropertySearch from './PropertySearch';
 import { setUserData } from '../../actions/setUserData';
+import { setPropertyData } from '../../actions/setPropertyData';
+import { setCurrentProperty } from '../../actions/setCurrentProperty';
 import axios from 'axios';
 
 class Signup extends Component {
@@ -22,7 +24,8 @@ class Signup extends Component {
       propAddress: '',
       propSecret: '',
       userID: null,
-      propertyID: null
+      propertyID: null,
+      currentProperty: null
     }
 
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
@@ -89,6 +92,17 @@ class Signup extends Component {
     }
     
     // axios to add both user and prop IDs to joint table
+    await axios
+    .post('http://localhost:3396/api/usersProperties/addUsersProperties', {
+      userID: newUser.data.id,
+      propertyID: this.state.propertyID
+    });
+
+
+    const current = await axios
+      .get(`http://localhost:3396/api/properties/fetch/ID?id=${this.state.propertyID}`)
+    this.props.setPropertyData(current.data);
+    this.props.setCurrentProperty(current.data);
 
     this.props.setUserData(newUser.data);
     this.props.history.push('/');
@@ -211,7 +225,9 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setUserData:setUserData
+    setUserData: setUserData,
+    setPropertyData: setPropertyData,
+    setCurrentProperty: setCurrentProperty
   }, dispatch);
 };
 
