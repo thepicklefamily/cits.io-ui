@@ -12,9 +12,7 @@ class Login extends Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
   handleKeyPress(e) {
-    if (e.keyCode === 13) {
-      this.onSubmitHandler();
-    }
+    (e.keyCode === 13) ? this.onSubmitHandler() : null;
   }
   async onSubmitHandler() {
     const payload = {
