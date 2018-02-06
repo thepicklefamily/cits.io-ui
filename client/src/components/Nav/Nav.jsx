@@ -34,7 +34,6 @@ class Nav extends Component {
             <button onClick={() => this.props.history.push('/phonebook')}>Go to Phonebook</button>
             <button onClick={() => this.props.history.push('/chat')}>Go to Chat</button>
             <button onClick={() => this.props.history.push('/viewArticles')}>Go to Hell</button>
-            <button onClick={() => {(this.props.setUserData(null), this.props.history.push('/'))}}>LOGOUT</button>
             <button onClick={this.logoutHandler}>LOGOUT</button>
           </div> 
           : 
