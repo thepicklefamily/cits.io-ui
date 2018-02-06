@@ -29,7 +29,7 @@ class PhonebookEntryForm extends Component {
   async onAddHandler() {
     const payload = this.props.phonebookEditState === '1' ? 
       {
-        propertyId: '1',
+        propertyId: this.props.currentProperty.id.toString(),
         company: document.getElementsByName('company')[0].value.toString(),
         service: document.getElementsByName('service')[0].value.toString(),
         contactInfo: document.getElementsByName('contactinfo')[0].value.toString()
