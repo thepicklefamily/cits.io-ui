@@ -45,16 +45,14 @@ class PhonebookEntryForm extends Component {
       await axios.post('http://localhost:3396/api/phonebooks/create', payload)
       :
       await axios.put('http://localhost:3396/api/phonebooks/update', payload);
-    // use redux currentProperty to query below
-    const d = await axios.get(`http://localhost:3396/api/phonebooks/1`);
+    const d = await axios.get(`http://localhost:3396/api/phonebooks/${this.props.currentProperty.id}`);
     this.props.setPhonebookData(d.data);
     data ? await this.props.setPhonebookEditState('0') : null;
   }
 
   async onDeleteHandler() {
     await axios.delete(`http://localhost:3396/api/phonebooks/delete/${this.props.currentPhonebookEntry.id}`);
-    // use redux currentProperty to query below
-    const d = await axios.get(`http://localhost:3396/api/phonebooks/1`);
+    const d = await axios.get(`http://localhost:3396/api/phonebooks/${this.props.currentProperty.id}`);
     await this.props.setPhonebookData(d.data);
     await this.props.setPhonebookEditState('0');
   }
@@ -90,7 +88,8 @@ class PhonebookEntryForm extends Component {
 const mapStateToProps = state => {
   return {
     phonebookEditState:state.phonebookEditState,
-    currentPhonebookEntry:state.currentPhonebookEntry
+    currentPhonebookEntry:state.currentPhonebookEntry,
+    currentProperty: state.currentProperty
   }
 };
 

@@ -9,19 +9,10 @@ import { setCurrentProperty } from '../../actions/setCurrentProperty';
 class Nav extends Component {
   constructor(props) {
     super(props);
-    
-    this.logoutHandler = this.logoutHandler.bind(this);
   }
 
   // use conditionals to render different navs
   // change chat to instead push the name of the users property that they belong to
-
-  logoutHandler() {
-    this.props.setPropertyData(null);
-    this.props.setCurrentProperty(null);
-    this.props.setUserData(null);
-    this.props.history.push('/');
-  }
 
   render() {
     return (
@@ -34,8 +25,12 @@ class Nav extends Component {
             <button onClick={() => this.props.history.push('/phonebook')}>Go to Phonebook</button>
             <button onClick={() => this.props.history.push('/chat')}>Go to Chat</button>
             <button onClick={() => this.props.history.push('/viewArticles')}>Go to Hell</button>
-            <button onClick={() => {(this.props.setUserData(null), this.props.history.push('/'))}}>LOGOUT</button>
-            <button onClick={this.logoutHandler}>LOGOUT</button>
+            <button onClick={() => {(
+              this.props.setPropertyData(null),
+              this.props.setCurrentProperty(null),
+              this.props.setUserData(null),
+              this.props.history.push('/')
+            )}}>LOGOUT</button>
           </div> 
           : 
           // LOGGED OUT

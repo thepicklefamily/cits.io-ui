@@ -16,7 +16,7 @@ class Articles extends Component {
 
   async componentWillMount() {
     this.props.setArticleEditState('0');
-    const { data } = await axios.get("http://localhost:3396/api/articles/fetchAllArticles/1");
+    const { data } = await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${this.props.currentProperty.id}`);
     await this.props.setArticlesData(data);
 
   }
@@ -31,7 +31,6 @@ class Articles extends Component {
   }
 
   render() {
-    console.log(this.props, 'artocles')
     return (
       <div>
         article Says Hello!
@@ -76,7 +75,8 @@ const mapStateToProps = state => {
     userData: state.userData,
     articlesData: state.articlesData,
     currentArticleEntry: state.currentArticleEntry,
-    articleEditState: state.articleEditState
+    articleEditState: state.articleEditState,
+    currentProperty: state.currentProperty
   };
 };
 

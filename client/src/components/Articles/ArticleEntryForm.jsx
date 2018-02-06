@@ -15,20 +15,20 @@ class ArticleEntryForm extends Component {
     document.getElementsByName('title')[0].value = this.props.data.title ? this.props.data.title : null;
     document.getElementsByName('date')[0].value = this.props.data.date ? this.props.data.date : null;
     document.getElementsByName('content')[0].value = this.props.data.content ? this.props.data.content : null;
-    document.getElementsByName('photo')[0].value = this.props.data.photo ? this.props.data.photo : null;
+    document.getElementsByName('photo')[0].value = this.props.data.photo_url ? this.props.data.photo_url : null;
   }
 
   async onAddHandler () {
     const payload = {
-      article_id: this.props.data.id,
-      user_id: 1,
+      property_id: this.props.currentProperty.id,
+      user_id: this.props.userData.id,
       title: document.getElementsByName('title')[0].value.toString(),
       content: document.getElementsByName('content')[0].value.toString(),
       date: document.getElementsByName('date')[0].value.toString(),
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
     const { data } = await axios.post(`http://localhost:3396/api/articles/addArticle`, payload);
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/1`);
+    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${this.props.currentProperty.id}`);
     this.props.setArticlesData(d.data);
     data ?  await this.props.setArticleEditState('0') : null;
   }
@@ -42,22 +42,19 @@ class ArticleEntryForm extends Component {
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
     const { data } = await axios.put(`http://localhost:3396/api/articles/editArticle`, payload);
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/1`);
+    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${this.props.currentProperty.id}`);
     this.props.setArticlesData(d.data);
     data ?  await this.props.setArticleEditState('0') : null;
   }
   
   async onDeleteHandler () {
-    await axios.delete(`http://localhost:3396/api/articles/${this.props.data.id}`)
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/1`);
+    await axios.delete(`http://localhost:3396/api/articles/deleteArticle/${this.props.data.id}/${this.props.currentProperty.id}`)
+    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${this.props.currentProperty.id}`);
     await this.props.setArticlesData(d.data);
     await this.props.setArticleEditState('0');
   }
-  
-  
 
   render () {
-    console.log('hello', this.props.data)
     return (
       <div>
       title: <input type='text' name='title'></input>
@@ -82,7 +79,8 @@ class ArticleEntryForm extends Component {
 const mapStateToProps = state => { 
   return {
     userData: state.userData,
-    articleEditState: state.articleEditState
+    articleEditState: state.articleEditState,
+    currentProperty: state.currentProperty
   }
 };
 

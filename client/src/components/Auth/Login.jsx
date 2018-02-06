@@ -40,7 +40,7 @@ class Login extends Component {
     this.props.setPropertyData(propertyData.data);
     
     // set current and active property to the first property in the array above
-    this.props.setCurrentProperty(propertyData.data[0]);
+    await this.props.setCurrentProperty(propertyData.data[0]);
   }
 
   render() {
@@ -78,7 +78,8 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData: state.userData
+    userData: state.userData,
+    currentProperty: state.currentProperty
   }
 };
 
