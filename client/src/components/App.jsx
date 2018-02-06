@@ -10,7 +10,7 @@ import Footer from './Footer/Footer.jsx';
 import Phonebook from './Phonebook/Phonebook.jsx';
 import Profile from './Profile/Profile.jsx';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from '../store.js';
 // import { withRouter } from 'react-router';
 
