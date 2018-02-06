@@ -3,14 +3,26 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { setUserData } from '../../actions/setUserData';
+import { setPropertyData } from '../../actions/setPropertyData';
+import { setCurrentProperty } from '../../actions/setCurrentProperty';
 
 class Nav extends Component {
   constructor(props) {
     super(props);
+    
+    this.logoutHandler = this.logoutHandler.bind(this);
   }
 
   // use conditionals to render different navs
   // change chat to instead push the name of the users property that they belong to
+
+  logoutHandler() {
+    this.props.setPropertyData(null);
+    this.props.setCurrentProperty(null);
+    this.props.setUserData(null);
+    this.props.history.push('/');
+  }
+
   render() {
     return (
       <div>
@@ -23,6 +35,7 @@ class Nav extends Component {
             <button onClick={() => this.props.history.push('/chat')}>Go to Chat</button>
             <button onClick={() => this.props.history.push('/viewArticles')}>Go to Hell</button>
             <button onClick={() => {(this.props.setUserData(null), this.props.history.push('/'))}}>LOGOUT</button>
+            <button onClick={this.logoutHandler}>LOGOUT</button>
           </div> 
           : 
           // LOGGED OUT
@@ -45,7 +58,9 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setUserData:setUserData
+    setUserData: setUserData,
+    setPropertyData: setPropertyData,
+    setCurrentProperty: setCurrentProperty
   }, dispatch);
 };
 
