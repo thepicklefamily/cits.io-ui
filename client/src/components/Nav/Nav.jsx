@@ -24,7 +24,8 @@ class Nav extends Component {
             <button onClick={() => this.props.history.push('/profile')}>Go to Profile</button>
             <button onClick={() => this.props.history.push('/phonebook')}>Go to Phonebook</button>
             <button onClick={() => this.props.history.push('/chat')}>Go to Chat</button>
-            <button onClick={() => this.props.history.push('/viewArticles')}>Go to Articles</button>
+            <button onClick={() => this.props.history.push('/tickets')}>Go to Tickets</button>
+            <button onClick={() => this.props.history.push('/articles')}>Go to Articles</button>
             <button onClick={() => {(
               this.props.setPropertyData(null),
               this.props.setCurrentProperty(null),

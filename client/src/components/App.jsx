@@ -9,10 +9,13 @@ import Nav from './Nav/Nav.jsx';
 import Footer from './Footer/Footer.jsx';
 import Phonebook from './Phonebook/Phonebook.jsx';
 import Profile from './Profile/Profile.jsx';
+import Chat from './Chat/Chat.jsx';
+import Articles from './Articles/Articles.jsx';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../store.js';
 // import { withRouter } from 'react-router';
+
 
 class App extends Component {
   constructor(props) {
@@ -36,6 +39,8 @@ class App extends Component {
               <Route path='/phonebook' component={Phonebook}/>
               <Route path='/signup' component={Signup}/>
               <Route path='/login' component={Login}/>
+              <Route path='/chat' component={Chat}/>
+              <Route path='/articles' component={Articles}/>
               <Route path='/' component={Mein}/>
             </Switch>
             <h4>*----- MAIN BOTTOM -----*</h4>
