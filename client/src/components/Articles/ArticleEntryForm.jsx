@@ -48,16 +48,13 @@ class ArticleEntryForm extends Component {
   }
   
   async onDeleteHandler () {
-    await axios.delete(`http://localhost:3396/api/articles/deleteArticle/${this.props.data.id}/${this.props.data.propertyid}`)
+    await axios.delete(`http://localhost:3396/api/articles/deleteArticle/${this.props.data.id}/${this.props.currentProperty.id}`)
     const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${this.props.currentProperty.id}`);
     await this.props.setArticlesData(d.data);
     await this.props.setArticleEditState('0');
   }
-  
-  
 
   render () {
-    console.log(this.props)
     return (
       <div>
       title: <input type='text' name='title'></input>

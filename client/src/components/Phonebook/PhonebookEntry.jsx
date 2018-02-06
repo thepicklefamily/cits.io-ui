@@ -8,13 +8,10 @@ import { setCurrentPhonebookEntry } from '../../actions/setCurrentPhonebookEntry
 class PhonebookEntry extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: this.props.data
-    };
   }
 
   async onEditHandler() {
-    await this.props.setCurrentPhonebookEntry(this.state.data); // must be above otherwise entry will render previous selection
+    await this.props.setCurrentPhonebookEntry(this.props.data); // must be above otherwise entry will render previous selection
     await this.props.setPhonebookEditState('2'); // on submit edit form, revert to false
   }
 
@@ -22,9 +19,9 @@ class PhonebookEntry extends Component {
     return (
       <div>
         Phonebook Entry: <br/>
-        COMPANY: {this.state.data.company} <br/>
-        SERVICE: {this.state.data.service} <br/>
-        CONTACT INFO: {this.state.data.contactinfo} <br/>
+        COMPANY: {this.props.data.company} <br/>
+        SERVICE: {this.props.data.service} <br/>
+        CONTACT INFO: {this.props.data.contactinfo} <br/>
         {this.props.userData.type === 1 ? 
           <button onClick={this.onEditHandler.bind(this)}>EDIT ENTRY</button> 
           : 

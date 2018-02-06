@@ -12,15 +12,24 @@ class PhonebookEntryForm extends Component {
   }
 
   componentDidMount() {
-    document.getElementsByName('company')[0].value = this.props.currentPhonebookEntry.company ? this.props.currentPhonebookEntry.company : null;
-    document.getElementsByName('service')[0].value = this.props.currentPhonebookEntry.service ? this.props.currentPhonebookEntry.service : null;
-    document.getElementsByName('contactinfo')[0].value = this.props.currentPhonebookEntry.contactinfo ? this.props.currentPhonebookEntry.contactinfo : null;
+    document.getElementsByName('company')[0].value = this.props.currentPhonebookEntry.company ? 
+      this.props.currentPhonebookEntry.company 
+      : 
+      null;
+    document.getElementsByName('service')[0].value = this.props.currentPhonebookEntry.service ? 
+      this.props.currentPhonebookEntry.service 
+      : 
+      null;
+    document.getElementsByName('contactinfo')[0].value = this.props.currentPhonebookEntry.contactinfo ? 
+      this.props.currentPhonebookEntry.contactinfo 
+      : 
+      null;
   }
 
   async onAddHandler() {
     const payload = this.props.phonebookEditState === '1' ? 
       {
-        propertyId: '1',
+        propertyId: this.props.currentProperty.id.toString(),
         company: document.getElementsByName('company')[0].value.toString(),
         service: document.getElementsByName('service')[0].value.toString(),
         contactInfo: document.getElementsByName('contactinfo')[0].value.toString()
@@ -36,16 +45,14 @@ class PhonebookEntryForm extends Component {
       await axios.post('http://localhost:3396/api/phonebooks/create', payload)
       :
       await axios.put('http://localhost:3396/api/phonebooks/update', payload);
-    // use redux currentProperty to query below
-    const d = await axios.get(`http://localhost:3396/api/phonebooks/1`);
+    const d = await axios.get(`http://localhost:3396/api/phonebooks/${this.props.currentProperty.id}`);
     this.props.setPhonebookData(d.data);
     data ? await this.props.setPhonebookEditState('0') : null;
   }
 
   async onDeleteHandler() {
     await axios.delete(`http://localhost:3396/api/phonebooks/delete/${this.props.currentPhonebookEntry.id}`);
-    // use redux currentProperty to query below
-    const d = await axios.get(`http://localhost:3396/api/phonebooks/1`);
+    const d = await axios.get(`http://localhost:3396/api/phonebooks/${this.props.currentProperty.id}`);
     await this.props.setPhonebookData(d.data);
     await this.props.setPhonebookEditState('0');
   }
@@ -81,7 +88,8 @@ class PhonebookEntryForm extends Component {
 const mapStateToProps = state => {
   return {
     phonebookEditState:state.phonebookEditState,
-    currentPhonebookEntry:state.currentPhonebookEntry
+    currentPhonebookEntry:state.currentPhonebookEntry,
+    currentProperty: state.currentProperty
   }
 };
 

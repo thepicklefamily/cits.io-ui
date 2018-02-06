@@ -15,10 +15,8 @@ class Phonebook extends Component {
   }
 
   async componentWillMount() {
-    console.log('component mounting, here is userData', this.props.userData);
     this.props.setPhonebookEditState('0');
-    // use redux currentProperty to query below
-    const { data } = await axios.get(`http://localhost:3396/api/phonebooks/1`);
+    const { data } = await axios.get(`http://localhost:3396/api/phonebooks/${this.props.currentProperty.id}`);
     await this.props.setPhonebookData(data);
   }
 
@@ -65,7 +63,8 @@ const mapStateToProps = state => {
     userData: state.userData,
     phonebookData: state.phonebookData,
     phonebookEditState: state.phonebookEditState,
-    currentPhonebookEntry: state.currentPhonebookEntry
+    currentPhonebookEntry: state.currentPhonebookEntry,
+    currentProperty: state.currentProperty
   }
 };
 
