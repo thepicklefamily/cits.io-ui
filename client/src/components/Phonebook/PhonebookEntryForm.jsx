@@ -12,9 +12,18 @@ class PhonebookEntryForm extends Component {
   }
 
   componentDidMount() {
-    document.getElementsByName('company')[0].value = this.props.currentPhonebookEntry.company ? this.props.currentPhonebookEntry.company : null;
-    document.getElementsByName('service')[0].value = this.props.currentPhonebookEntry.service ? this.props.currentPhonebookEntry.service : null;
-    document.getElementsByName('contactinfo')[0].value = this.props.currentPhonebookEntry.contactinfo ? this.props.currentPhonebookEntry.contactinfo : null;
+    document.getElementsByName('company')[0].value = this.props.currentPhonebookEntry.company ? 
+      this.props.currentPhonebookEntry.company 
+      : 
+      null;
+    document.getElementsByName('service')[0].value = this.props.currentPhonebookEntry.service ? 
+      this.props.currentPhonebookEntry.service 
+      : 
+      null;
+    document.getElementsByName('contactinfo')[0].value = this.props.currentPhonebookEntry.contactinfo ? 
+      this.props.currentPhonebookEntry.contactinfo 
+      : 
+      null;
   }
 
   async onAddHandler() {
