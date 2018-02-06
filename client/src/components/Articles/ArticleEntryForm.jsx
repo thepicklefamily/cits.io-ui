@@ -15,7 +15,7 @@ class ArticleEntryForm extends Component {
     document.getElementsByName('title')[0].value = this.props.data.title ? this.props.data.title : null;
     document.getElementsByName('date')[0].value = this.props.data.date ? this.props.data.date : null;
     document.getElementsByName('content')[0].value = this.props.data.content ? this.props.data.content : null;
-    document.getElementsByName('photo')[0].value = this.props.data.photo ? this.props.data.photo : null;
+    document.getElementsByName('photo')[0].value = this.props.data.photo_url ? this.props.data.photo_url : null;
   }
 
   async onAddHandler () {
