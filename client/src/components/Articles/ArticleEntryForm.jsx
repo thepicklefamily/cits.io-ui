@@ -48,7 +48,7 @@ class ArticleEntryForm extends Component {
   }
   
   async onDeleteHandler () {
-    await axios.delete(`http://localhost:3396/api/articles/${this.props.data.id}`)
+    await axios.delete(`http://localhost:3396/api/articles/deleteArticle/${this.props.data.id}/${this.props.data.propertyid}`)
     const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/1`);
     await this.props.setArticlesData(d.data);
     await this.props.setArticleEditState('0');
@@ -57,7 +57,7 @@ class ArticleEntryForm extends Component {
   
 
   render () {
-    console.log('hello', this.props.data)
+    console.log(this.props.data)
     return (
       <div>
       title: <input type='text' name='title'></input>
@@ -82,7 +82,8 @@ class ArticleEntryForm extends Component {
 const mapStateToProps = state => { 
   return {
     userData: state.userData,
-    articleEditState: state.articleEditState
+    articleEditState: state.articleEditState,
+    currentProperty: state.currentProperty
   }
 };
 
