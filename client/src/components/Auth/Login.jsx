@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { setUserData } from '../../actions/setUserData';
+import { setPropertyData } from '../../actions/setPropertyData';
+import { setCurrentProperty } from '../../actions/setCurrentProperty';
 import axios from 'axios';
 // import { withRouter } from 'react-router';
 
@@ -11,9 +13,11 @@ class Login extends Component {
     super(props);
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
+
   handleKeyPress(e) {
     (e.keyCode === 13) ? this.onSubmitHandler() : null;
   }
+
   async onSubmitHandler() {
     const payload = {
       username: document.getElementsByName('username')[0].value,
@@ -27,8 +31,16 @@ class Login extends Component {
       (this.props.setUserData(d.data), this.props.history.push('/')) 
       : 
       console.log('bad username and/or bad password'); // HANDLE ERROR HERE
+
     // query properties using userdata
-    // set currentProperty in redux
+    const propertyData = await axios
+      .get(`http://localhost:3396/api/usersProperties/getUsersProperties?userID=${d.data.id}`)
+
+    // set array of properties user is in to the redux state
+    this.props.setPropertyData(propertyData.data);
+    
+    // set current and active property to the first property in the array above
+    this.props.setCurrentProperty(propertyData.data[0]);
   }
 
   render() {
@@ -72,7 +84,9 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setUserData:setUserData
+    setUserData: setUserData,
+    setPropertyData: setPropertyData,
+    setCurrentProperty: setCurrentProperty
   }, dispatch);
 };
 
