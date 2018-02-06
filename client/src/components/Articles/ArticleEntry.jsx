@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { setCurrentArticleEntry }from '../../actions/setCurrentArticleEntry';
+import { setArticleEditState } from "../../actions/setArticleEditState";
 import axios from 'axios';
 
 
@@ -9,11 +11,21 @@ class ArticleEntry extends Component {
     super(props);
   }
 
+  async onEditHandler() {
+    await this.props.setCurrentArticleEntry(this.props.article);
+    await this.props.setArticleEditState('2'); // on submit edit form, revert to false
+  }
+
   render () {
     return (
       <div>
-        <div className="">{JSON.stringify(this.props)}</div>  
-        <button onClick={this.onEditHandler.bind(this)}>EDIT</button>
+        Article Entry: <br/>
+        {JSON.stringify(this.props.article)}
+        <img src={this.props.article1photo_url}/>
+        <div className="">
+        {this.props.userData.type === 1 ? <button onClick={this.onEditHandler.bind(this)}>EDIT</button> : null}
+        <br/><br/>
+        </div>  
       </div>
     )
   }
@@ -22,13 +34,15 @@ class ArticleEntry extends Component {
 const mapStateToProps = state => { 
   return {
     userData: state.userData,
+    articleEditState: state.articleEditState
     // articlesData: state.articlesData
   }
 };
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    // setArticlesData: setArticlesData // get a post mosterajsdkfl
+    setCurrentArticleEntry: setCurrentArticleEntry,
+    setArticleEditState: setArticleEditState
   }, dispatch);
 };
 

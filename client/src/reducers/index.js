@@ -5,6 +5,8 @@ import PhonebookEditState from './phonebookEditState';
 import CurrentPhonebookEntry from './currentPhonebookEntry';
 import ProfileEditState from './profileEditState';
 import ArticlesData from "./articlesData";
+import ArticleEditState from './articleEditState';
+import CurrentArticleEntry from './currentArticleEntry';
 
 const allReducers = combineReducers({
   userData:UserData,
@@ -12,7 +14,9 @@ const allReducers = combineReducers({
   phonebookEditState:PhonebookEditState,
   currentPhonebookEntry:CurrentPhonebookEntry,
   profileEditState:ProfileEditState,
-  articlesData: ArticlesData
+  articlesData: ArticlesData, 
+  articleEditState: ArticleEditState,
+  currentArticleEntry: CurrentArticleEntry 
 });
 
 export default allReducers;
