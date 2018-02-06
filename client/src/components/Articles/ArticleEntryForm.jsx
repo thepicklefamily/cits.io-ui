@@ -20,8 +20,8 @@ class ArticleEntryForm extends Component {
 
   async onAddHandler () {
     const payload = {
-      article_id: this.props.data.id,
-      user_id: 1,
+      property_id: 1,
+      user_id: this.props.userData.id, 
       title: document.getElementsByName('title')[0].value.toString(),
       content: document.getElementsByName('content')[0].value.toString(),
       date: document.getElementsByName('date')[0].value.toString(),
