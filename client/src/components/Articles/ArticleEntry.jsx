@@ -21,7 +21,7 @@ class ArticleEntry extends Component {
       <div>
         Article Entry: <br/>
         {JSON.stringify(this.props.article)}
-        <img src={this.props.article1photo_url}/>
+        <img src={this.props.article.photo_url}/>
         <div className="">
         {this.props.userData.type === 1 ? <button onClick={this.onEditHandler.bind(this)}>EDIT</button> : null}
         <br/><br/>
