@@ -18,7 +18,7 @@ const allReducers = combineReducers({
   profileEditState:ProfileEditState,
   articlesData: ArticlesData, 
   articleEditState: ArticleEditState,
-  currentArticleEntry: CurrentArticleEntry 
+  currentArticleEntry: CurrentArticleEntry,
   userData: UserData,
   phonebookData: PhonebookData,
   phonebookEditState: PhonebookEditState,
