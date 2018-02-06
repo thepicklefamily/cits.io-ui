@@ -20,7 +20,7 @@ class ArticleEntryForm extends Component {
 
   async onAddHandler () {
     const payload = {
-      property_id: 1,
+      property_id: this.props.currentProperty.id,
       user_id: this.props.userData.id, 
       title: document.getElementsByName('title')[0].value.toString(),
       content: document.getElementsByName('content')[0].value.toString(),
@@ -28,7 +28,7 @@ class ArticleEntryForm extends Component {
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
     const { data } = await axios.post(`http://localhost:3396/api/articles/addArticle`, payload);
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/1`);
+    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${this.props.currentProperty.id}`);
     this.props.setArticlesData(d.data);
     data ?  await this.props.setArticleEditState('0') : null;
   }
@@ -42,14 +42,14 @@ class ArticleEntryForm extends Component {
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
     const { data } = await axios.put(`http://localhost:3396/api/articles/editArticle`, payload);
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/1`);
+    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${this.props.currentProperty.id}`);
     this.props.setArticlesData(d.data);
     data ?  await this.props.setArticleEditState('0') : null;
   }
   
   async onDeleteHandler () {
     await axios.delete(`http://localhost:3396/api/articles/deleteArticle/${this.props.data.id}/${this.props.data.propertyid}`)
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/1`);
+    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${this.props.currentProperty.id}`);
     await this.props.setArticlesData(d.data);
     await this.props.setArticleEditState('0');
   }
@@ -57,7 +57,7 @@ class ArticleEntryForm extends Component {
   
 
   render () {
-    console.log(this.props.data)
+    console.log(this.props)
     return (
       <div>
       title: <input type='text' name='title'></input>
