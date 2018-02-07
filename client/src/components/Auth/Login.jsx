@@ -37,6 +37,7 @@ class Login extends Component {
     localStorage.setItem('full_name', d.data.full_name);
     localStorage.setItem('email', d.data.email);
     localStorage.setItem('phonenumber', d.data.phonenumber);
+
     d.data ? 
       (this.props.setUserData(d.data), this.props.history.push('/')) 
       : 
