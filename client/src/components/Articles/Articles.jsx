@@ -18,7 +18,7 @@ class Articles extends Component {
     this.props.setArticleEditState('0');
     const { data } = await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`);
     await this.props.setArticlesData(data);
-
+    
   }
 
   async onAddHandler() {
