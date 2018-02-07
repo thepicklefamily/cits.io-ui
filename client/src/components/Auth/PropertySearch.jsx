@@ -105,6 +105,7 @@ class Signup extends Component {
                         this.props.propertyID === property.id ? null :
                         <input 
                           id="secretInputField"
+                          type="password"
                           name="secret" 
                           placeholder="Enter Secret Key"
                           onChange={this.inputChangeHandler}
@@ -131,27 +132,28 @@ class Signup extends Component {
                 <div>
                   Property Name:
                   <input 
-                  onChange={this.props.inputChangeHandler}
-                  name="propName" 
-                  placeholder="Enter Property Name"
+                    onChange={this.props.inputChangeHandler}
+                    name="propName" 
+                    placeholder="Enter Property Name"
                   />
                 </div>
 
                 <div>
                   Property Address:
                   <input 
-                  onChange={this.props.inputChangeHandler}
-                  name="propAddress" 
-                  placeholder="Enter Property Address"
+                    onChange={this.props.inputChangeHandler}
+                    name="propAddress" 
+                    placeholder="Enter Property Address"
                   />
                 </div>
 
                 <div>
                   Create Secret Key (This will allow you to invite others to manage the property):
                   <input 
-                  onChange={this.props.inputChangeHandler}
-                  name="propSecret" 
-                  placeholder="Enter Secret Key"
+                    type="password"
+                    onChange={this.props.inputChangeHandler}
+                    name="propSecret" 
+                    placeholder="Enter Secret Key"
                   />
                 </div>
               </form>

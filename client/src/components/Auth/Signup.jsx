@@ -23,9 +23,8 @@ class Signup extends Component {
       propName: '',
       propAddress: '',
       propSecret: '',
-      userID: null,
       propertyID: null,
-      currentProperty: null
+      apt_unit: ''
     }
 
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
@@ -75,34 +74,48 @@ class Signup extends Component {
       secret_key: this.state.propSecret
     }
 
+    // Adds user to user table and sets state's userID for queries below
     const newUser = await axios
       .post('http://localhost:3396/api/auth/signup', userBody);
 
-    this.setState({ 
-      userID: newUser.data.id 
-    });
-
+    // if a new property has been entered, adds it to the property's table and sets propertyID
+    // in the state for queries below
     if (this.state.propName && this.state.propAddress && this.state.propSecret) {
       const newProp = await axios
         .post('http://localhost:3396/api/properties/create', propBody);
-      
-      this.setState({ 
-        propertyID: newProp.data.id 
+
+      this.setState({
+        propertyID: newProp.data.id
       });
     }
+
+    // add apartment unit to the table if it exists
+    let tempUnit = '';
     
-    // axios to add both user and prop IDs to joint table
-    await axios
-    .post('http://localhost:3396/api/usersProperties/addUsersProperties', {
+    if (this.state.apt_unit) {
+      const newAptUnit = await axios
+      .post('http://localhost:3396/api/aptUnits/create', {
+        unit: this.state.apt_unit
+      });
+      tempUnit = newAptUnit;
+    } 
+    
+    // axios to add user, prop, and apartment unit IDs to joint table
+    const jointBody = {
       userID: newUser.data.id,
       propertyID: this.state.propertyID
-    });
+    }
+    this.state.userType === '0' ? jointBody.aptUnitID = tempUnit.data.id : jointBody.aptUnitID = 1;
 
+    await axios
+      .post('http://localhost:3396/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits', jointBody);
+ 
+    // set current property information
+    const currentProperty = await axios
+      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`)
 
-    const current = await axios
-      .get(`http://localhost:3396/api/properties/fetch/ID?id=${this.state.propertyID}`)
-    this.props.setPropertyData(current.data);
-    this.props.setCurrentProperty(current.data);
+    this.props.setPropertyData(currentProperty.data);
+    this.props.setCurrentProperty(currentProperty.data[0]);
 
     this.props.setUserData(newUser.data);
     this.props.history.push('/');
@@ -166,6 +179,7 @@ class Signup extends Component {
           <div>
             Password:
             <input 
+              type="password"
               name="password" 
               placeholder="Enter Password"
               onChange={this.inputChangeHandler}
@@ -185,9 +199,17 @@ class Signup extends Component {
                 inputChangeHandler={this.inputChangeHandler}
                 userType={this.state.userType} 
               />
-              needs:
-              - selected property OR
-              - new property fields
+              {
+                !this.state.propertyID ? null :
+                <div>
+                  Apartment Number/Unit:
+                  <input 
+                    name="apt_unit"
+                    placeholder="Enter Unit Number"
+                    onChange={this.inputChangeHandler}
+                  />
+                </div>
+              }
             </div>
           :
           this.state.userType === "1" ? 
