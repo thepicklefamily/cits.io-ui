@@ -11,6 +11,8 @@ import PropertyData from './propertyData';
 import CurrentProperty from './currentProperty';
 import TicketsData from './ticketsData';
 import TicketEditState from './ticketEditState';
+import CurrentTicketEntry from './currentTicketEntry';
+import CurrentTicketTenantData from './currentTicketTenantData';
 
 const allReducers = combineReducers({
   userData:UserData,
@@ -24,7 +26,9 @@ const allReducers = combineReducers({
   ticketsData: TicketsData,
   propertyData: PropertyData,
   currentProperty: CurrentProperty,
-  ticketEditState: TicketEditState
+  ticketEditState: TicketEditState,
+  currentTicketEntry: CurrentTicketEntry,
+  currentTicketTenantData: CurrentTicketTenantData
 });
 
 export default allReducers;

@@ -5,6 +5,7 @@ import { setTicketsData } from '../../actions/setTicketsData';
 import { setTicketEditState } from '../../actions/setTicketEditState';
 import TicketEntry from './TicketEntry.jsx';
 import TicketEntryForm from './TicketEntryForm.jsx';
+import TicketDetails from './TicketDetails.jsx';
 import axios from 'axios';
 
 class Tickets extends Component {
@@ -28,9 +29,8 @@ class Tickets extends Component {
     //ticketData: array of retrieved tickets
     //currentTicketEntry: one looking at for details/update states
     //ticketEditState: if they click edit or add new entry (on top), should change
-        //'preview' (list view)
-        //'details' (details on 1)
-        //'update' (edit 1) - mgr only
+        //'list' (list view)
+        //'details' (details on 1 for tenant / details + update status for mgr
         // 'create' - tenant only
 
   }
@@ -40,13 +40,13 @@ class Tickets extends Component {
   }
 
   onCancelHandler() {
-    this.props.setTicketEditState('preview');
+    this.props.setTicketEditState('list');
   }
 
   render() {
     return (
       <div>
-        <div>{this.props.userData.type === 0 && this.props.ticketEditState === 'preview' ? 
+        <div>{this.props.userData.type === 0 && this.props.ticketEditState === 'list' ? 
           <button onClick={this.onAddHandler.bind(this)}>SUBMIT NEW TICKET</button> 
           : 
           null
@@ -61,7 +61,14 @@ class Tickets extends Component {
         </div>
         <br/><br/>
         
-        {this.props.ticketEditState === 'preview' ? 
+        {this.props.ticketEditState === 'details' ? 
+          <TicketDetails/>
+          :
+          null
+          }
+
+
+        {this.props.ticketEditState === 'list' ? 
           <div>SUBMITTED TICKETS:
           <br/><br/>
           <div>
@@ -85,7 +92,8 @@ const mapStateToProps = state => {
     userData: state.userData,
     currentProperty: state.currentProperty,
     ticketsData: state.ticketsData,
-    ticketEditState: state.ticketEditState
+    ticketEditState: state.ticketEditState,
+    currentTicketEntry: state.CurrentTicketEntry
   }
 };
 

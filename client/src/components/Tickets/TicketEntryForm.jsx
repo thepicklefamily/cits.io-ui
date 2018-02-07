@@ -31,7 +31,7 @@ class TicketEntryForm extends Component {
     const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${this.props.userData.id}`);
     this.props.setTicketsData(data);
     //return back to list of entries view:
-    this.props.setTicketEditState('preview');
+    this.props.setTicketEditState('list');
   }
 
   render() {
