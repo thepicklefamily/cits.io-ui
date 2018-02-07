@@ -11,6 +11,7 @@ import Phonebook from './Phonebook/Phonebook.jsx';
 import Profile from './Profile/Profile.jsx';
 import Chat from './Chat/Chat.jsx';
 import Articles from './Articles/Articles.jsx';
+import Tickets from './Tickets/Tickets.jsx';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../store.js';
@@ -40,6 +41,7 @@ class App extends Component {
               <Route path='/signup' component={Signup}/>
               <Route path='/login' component={Login}/>
               <Route path='/chat' component={Chat}/>
+              <Route path='/tickets' component={Tickets}/>
               <Route path='/articles' component={Articles}/>
               <Route path='/' component={Mein}/>
             </Switch>
