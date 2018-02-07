@@ -32,15 +32,26 @@ class Login extends Component {
       : 
       console.log('bad username and/or bad password'); // HANDLE ERROR HERE
 
-    // query properties using userdata
-    const propertyData = await axios
-      .get(`http://localhost:3396/api/usersProperties/getUsersProperties?userID=${d.data.id}`)
+    // DEPRECATED
+    // query properties using userdata 
+    // const propertyData = await axios
+    //   .get(`http://localhost:3396/api/usersProperties/getUsersProperties?userID=${d.data.id}`)
 
     // set array of properties user is in to the redux state
-    this.props.setPropertyData(propertyData.data);
+    // this.props.setPropertyData(propertyData.data);
     
     // set current and active property to the first property in the array above
-    await this.props.setCurrentProperty(propertyData.data[0]);
+    // await this.props.setCurrentProperty(propertyData.data[0]);
+
+
+    // set all property data
+
+
+    // set current and active property
+
+
+    // set current and active apartment number
+
   }
 
   render() {
