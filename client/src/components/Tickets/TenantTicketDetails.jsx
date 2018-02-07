@@ -19,8 +19,6 @@ class TenantTicketDetails extends Component {
     this.props.setTicketEditState('list');
   }
 
-
-
   render() {
     return (
       <div>
