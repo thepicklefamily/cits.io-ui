@@ -16,20 +16,20 @@ class Profile extends Component {
 
   componentDidUpdate() {
     (this.props.profileEditState === 1) ?
-      (document.getElementsByName('email')[0].value = this.props.userData.email ? 
-        this.props.userData.email 
+      (document.getElementsByName('email')[0].value = localStorage.getItem('email') ? 
+        localStorage.getItem('email')
         : 
         null,
-      document.getElementsByName('full_name')[0].value = this.props.userData.full_name ? 
-        this.props.userData.full_name 
+      document.getElementsByName('full_name')[0].value = localStorage.getItem('full_name') ? 
+        localStorage.getItem('full_name')
         : 
         null,
-      document.getElementsByName('username')[0].value = this.props.userData.username ? 
-        this.props.userData.username 
+      document.getElementsByName('username')[0].value = localStorage.getItem('username') ? 
+        localStorage.getItem('username') 
         : 
         null,
-      document.getElementsByName('phonenumber')[0].value = this.props.userData.phonenumber ? 
-        this.props.userData.phonenumber 
+      document.getElementsByName('phonenumber')[0].value = localStorage.getItem('phonenumber') ? 
+        localStorage.getItem('phonenumber')
         : 
         null) 
       : 
@@ -55,16 +55,16 @@ class Profile extends Component {
     return (
       <div>
         <h3>PROFILE</h3><br/>
-        {this.props.userData.type === 0 ?
+        {localStorage.getItem('type') === 0 ?
           <div>
             <h5>MEMBERS ONLY</h5>
             <br/>
             {this.props.profileEditState === 0 ? 
               <div>
-                FULL NAME:<div>{this.props.userData.full_name}</div><br/>
-                EMAIL:<div>{this.props.userData.email}</div><br/>
-                USERNAME:<div>{this.props.userData.username}</div><br/>
-                PHONE NUMBER:<div>{this.props.userData.phonenumber}</div><br/>
+                FULL NAME:<div>{localStorage.getItem('full_name')}</div><br/>
+                EMAIL:<div>{localStorage.getItem('email')}</div><br/>
+                USERNAME:<div>{localStorage.getItem('username')}</div><br/>
+                PHONE NUMBER:<div>{localStorage.getItem('phonenumber')}</div><br/>
                 <button onClick={this.onEditHandler.bind(this)}>EDIT</button></div> 
               : 
               <div>
@@ -84,10 +84,10 @@ class Profile extends Component {
             <br/>
             {this.props.profileEditState === 0 ? 
               <div>
-                FULL NAME:<div>{this.props.userData.full_name}</div><br/>
-                EMAIL:<div>{this.props.userData.email}</div><br/>
-                USERNAME:<div>{this.props.userData.username}</div><br/>
-                PHONE NUMBER:<div>{this.props.userData.phonenumber}</div><br/>
+                FULL NAME:<div>{localStorage.getItem('full_name')}</div><br/>
+                EMAIL:<div>{localStorage.getItem('email')}</div><br/>
+                USERNAME:<div>{localStorage.getItem('username')}</div><br/>
+                PHONE NUMBER:<div>{localStorage.getItem('phonenumber')}</div><br/>
                 <button onClick={this.onEditHandler.bind(this)}>EDIT</button></div> 
               : 
               <div>

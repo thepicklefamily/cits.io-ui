@@ -27,6 +27,17 @@ class Login extends Component {
       await axios.post('http://localhost:3396/api/auth/login', payload) 
       : 
       {};
+    console.log('this is client side login payload', d);
+    localStorage.removeItem('randid');
+    localStorage.setItem('token', d.data.token.accessToken);
+    localStorage.setItem('id', d.data.id);
+    localStorage.setItem('username', d.data.username);
+    localStorage.setItem('type', d.data.type);
+    localStorage.setItem('full_name', d.data.full_name);
+    localStorage.setItem('email', d.data.email);
+    localStorage.setItem('phonenumber', d.data.phonenumber);
+    console.log('this is client console tester', d.data.token.accessToken);
+    
     d.data ? 
       (this.props.setUserData(d.data), this.props.history.push('/')) 
       : 
@@ -38,6 +49,7 @@ class Login extends Component {
 
     // set array of properties user is in to the redux state
     this.props.setPropertyData(propertyData.data);
+    localStorage.setItem('propertyId', JSON.stringify(propertyData.data[0].id));
     
     // set current and active property to the first property in the array above
     await this.props.setCurrentProperty(propertyData.data[0]);

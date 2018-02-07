@@ -23,7 +23,7 @@ class ArticleEntry extends Component {
         {JSON.stringify(this.props.article)}
         <img src={this.props.article.photo_url}/>
         <div className="">
-        {this.props.userData.type === 1 ? <button onClick={this.onEditHandler.bind(this)}>EDIT</button> : null}
+        {localStorage.getItem('type') === '1' ? <button onClick={this.onEditHandler.bind(this)}>EDIT</button> : null}
         <br/><br/>
         </div>  
       </div>

@@ -12,7 +12,7 @@ class Core extends Component {
   render() {
     return (
       <div>
-        <h3>PRODUCT INFORMATION</h3>
+        {localStorage.getItem('token') ? <h3>LOGGED IN PRODUCT PAGE</h3> : <h3>LOGGED OUT PRODUCT PAGE</h3>}
       </div>
     );
   }

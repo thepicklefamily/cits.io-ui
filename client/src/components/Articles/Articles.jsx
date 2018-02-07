@@ -16,7 +16,7 @@ class Articles extends Component {
 
   async componentWillMount() {
     this.props.setArticleEditState('0');
-    const { data } = await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${this.props.currentProperty.id}`);
+    const { data } = await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`);
     await this.props.setArticlesData(data);
 
   }
@@ -39,7 +39,7 @@ class Articles extends Component {
         ARTICLE DATA:
         <br />
         <br />
-        {this.props.userData.type === 1 ? (
+        {localStorage.getItem('type') === '1' ? (
           this.props.currentArticleEntry &&
           this.props.articleEditState !== "0" ? (
             <div>
@@ -61,7 +61,7 @@ class Articles extends Component {
           "No DATA"
         )}
         {this.props.articleEditState === "0" &&
-        this.props.userData.type === 1 ? (
+        localStorage.getItem('type') === '1' ? (
           <button onClick={this.onAddHandler.bind(this)}>ADD NEW ENTRY</button>
         ) : null
         }

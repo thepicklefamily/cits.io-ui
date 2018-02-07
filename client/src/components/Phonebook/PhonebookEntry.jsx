@@ -22,7 +22,7 @@ class PhonebookEntry extends Component {
         COMPANY: {this.props.data.company} <br/>
         SERVICE: {this.props.data.service} <br/>
         CONTACT INFO: {this.props.data.contactinfo} <br/>
-        {this.props.userData.type === 1 ? 
+        {localStorage.getItem('type') === '1' ? 
           <button onClick={this.onEditHandler.bind(this)}>EDIT ENTRY</button> 
           : 
           null
