@@ -43,11 +43,10 @@ class Tickets extends Component {
     this.props.setTicketEditState('preview');
   }
 
-
   render() {
     return (
       <div>
-        <div>{this.props.userData.type === 0 ? 
+        <div>{this.props.userData.type === 0 && this.props.ticketEditState === 'preview' ? 
           <button onClick={this.onAddHandler.bind(this)}>SUBMIT NEW TICKET</button> 
           : 
           null

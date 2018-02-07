@@ -16,6 +16,7 @@ class TicketEntryForm extends Component {
   async submitNewTicket () {
     const payload = {
       category: document.getElementsByName('category')[0].value,
+      //once we have apt_num in table working properly, we could/should pre-populate it for the tenant
       apt_num: document.getElementsByName('apt_num')[0].value,
       subject: document.getElementsByName('subject')[0].value,
       description: document.getElementsByName('description')[0].value,
@@ -38,15 +39,21 @@ class TicketEntryForm extends Component {
       <div>
         <br/><br/>
         TICKET INFORMATION <br/><br/>
-        <input type='text' name='category' placeholder='category'></input>
+        <select name='category'>
+          <option value="" hidden >Select a category...</option>
+          <option value="plumbing">Plumbing</option>
+          <option value="Electrical">Electrical</option>
+          <option value="Aesthetic">Aesthetic</option>
+          <option value="Other">Other</option>
+        </select>
         <br/><br/>
         <input type='text' name='apt_num' placeholder='Apt. Num'></input>
         <br/><br/>
         <input type='text' name='subject' placeholder='Subject'></input>
         <br/><br/>
-        <input type='text' name='description' placeholder='Please describe the issue...'></input>
+        <textarea rows="4" cols="50" type='text' name='description' placeholder='Please describe the issue...'></textarea>
         <br/><br/>
-        <input type='text' name='photo_url' placeholder='If you have a photo, provide url here'></input>
+        <textarea rows="2" cols="50" type='text' name='photo_url' placeholder='If you have a photo, provide url here'></textarea>
         <br/><br/>
         <button onClick={this.submitNewTicket.bind(this)}>SUBMIT</button> 
         <br/><br/>
