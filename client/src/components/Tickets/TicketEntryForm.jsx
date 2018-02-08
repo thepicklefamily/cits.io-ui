@@ -8,6 +8,9 @@ import axios from 'axios';
 class TicketEntryForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      managerEmails: []
+    }
   }
 
   async componentDidMount () {
@@ -16,6 +19,11 @@ class TicketEntryForm extends Component {
     for (let i = 0; i < data.length; i++) {
       data[i].id.toString() === localStorage.getItem('propertyId') ? document.getElementsByName('apt_num')[0].value = data[i].unit : null;
     } 
+    const emails = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesManagers?propertyID=${localStorage.getItem('propertyId')}`);
+    await this.setState({
+      managerEmails: emails.data
+    })
+    console.log(this.state);
   }
 
   //change category to a dropdown of a handful of options, including Other
