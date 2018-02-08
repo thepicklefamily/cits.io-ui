@@ -116,7 +116,16 @@ class Signup extends Component {
 
     this.props.setPropertyData(currentProperty.data);
     this.props.setCurrentProperty(currentProperty.data[0]);
-
+    localStorage.setItem('propertyId', JSON.stringify(currentProperty.data[0].id));
+    console.log('this is signup: ', newUser);
+    localStorage.removeItem('randid');
+    localStorage.setItem('token', newUser.data.token.accessToken);
+    localStorage.setItem('id', newUser.data.id);
+    localStorage.setItem('username', newUser.data.username);
+    localStorage.setItem('type', newUser.data.type);
+    localStorage.setItem('full_name', newUser.data.full_name);
+    localStorage.setItem('email', newUser.data.email);
+    localStorage.setItem('phonenumber', newUser.data.phonenumber);
     this.props.setUserData(newUser.data);
     this.props.history.push('/');
   }

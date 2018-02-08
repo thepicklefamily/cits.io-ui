@@ -34,6 +34,9 @@ class Nav extends Component {
               localStorage.removeItem('id'),
               localStorage.removeItem('type'),
               localStorage.removeItem('username'),
+              localStorage.removeItem('email'),
+              localStorage.removeItem('full_name'),
+              localStorage.removeItem('phonenumber'),
               this.props.history.push('/')
             )}}>LOGOUT</button>
           </div> 
