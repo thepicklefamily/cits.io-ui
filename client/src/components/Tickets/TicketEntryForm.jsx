@@ -33,6 +33,23 @@ class TicketEntryForm extends Component {
       date: (new Date()).toString()
     };
     await axios.post('http://localhost:3396/api/tickets/create', payload);
+    const emailPayload = {
+      name: localStorage.getItem('full_name'),
+      email: localStorage.getItem('email'),
+      phone: localStorage.getItem('phonenumber'),
+      description: payload.description,
+      subject: payload.subject,
+      date: payload.date,
+      category: payload.category,
+      apt_num: payload.apt_num
+    }
+    try {
+      const data = await axios.post('http://localhost:8080/tickets/sendTicketEmail', emailPayload)
+      console.log(data)
+    } catch (err) {
+      console.log(err);
+    }
+    
     //getting the new updated list of tickets for the user:
     const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`);
     this.props.setTicketsData(data);
