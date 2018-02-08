@@ -30,7 +30,7 @@ class TenantTicketDetails extends Component {
         {localStorage.getItem('type') === '0' ? 
           <div>
               Name: {localStorage.getItem('full_name')}  <br/>
-              Apt. Num: WE DONT HAVE THIS YET  <br/>
+              Apt. Num: {this.props.currentTicketEntry.apt_num}  <br/>
               Phone Number: {localStorage.getItem('phonenumber')}  <br/>
               Email: {localStorage.getItem('email')}  <br/>
               Status: {this.props.currentTicketEntry.status}  <br/>
@@ -38,7 +38,7 @@ class TenantTicketDetails extends Component {
           :
           <div>
             Name: {this.props.currentTicketTenantData[0].full_name}  <br/>
-            Apt. Num: WE DONT HAVE THIS YET  <br/>
+            Apt. Num: {this.props.currentTicketEntry.apt_num}  <br/>
             Phone Number: {this.props.currentTicketTenantData[0].phonenumber}  <br/>
             Email: {this.props.currentTicketTenantData[0].email}  <br/>
             Status:
