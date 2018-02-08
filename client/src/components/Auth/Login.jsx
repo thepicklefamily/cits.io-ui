@@ -43,9 +43,9 @@ class Login extends Component {
       : 
       console.log('bad username and/or bad password'); // HANDLE ERROR HERE
 
-    // query properties using userdata
+    // query properties using userdata 
     const propertyData = await axios
-      .get(`http://localhost:3396/api/usersProperties/getUsersProperties?userID=${d.data.id}`)
+      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${d.data.id}`)
 
     // set array of properties user is in to the redux state
     this.props.setPropertyData(propertyData.data);
