@@ -22,6 +22,8 @@ class ArticleEntry extends Component {
         Article Entry: <br/>
         {JSON.stringify(this.props.article)}
         <img src={this.props.article.photo_url}/>
+        <br/><br/>
+        <button onClick={() => {console.log('clicked')}}>More Info</button> 
         <div className="">
         {localStorage.getItem('type') === '1' ? <button onClick={this.onEditHandler.bind(this)}>EDIT</button> : null}
         <br/><br/>
