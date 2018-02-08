@@ -16,7 +16,7 @@ class Phonebook extends Component {
 
   async componentWillMount() {
     this.props.setPhonebookEditState('0');
-    const { data } = await axios.get(`http://localhost:3396/api/phonebooks/${this.props.currentProperty.id}`);
+    const { data } = await axios.get(`http://localhost:3396/api/phonebooks/${localStorage.getItem('propertyId')}`);
     await this.props.setPhonebookData(data);
   }
 
@@ -34,21 +34,19 @@ class Phonebook extends Component {
       <div>
         PHONEBOOK DATA:
         <br/><br/>
-        {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && this.props.userData.type === 1 ? 
+        {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && localStorage.getItem('type') === '1' ? 
           <div>
             <PhonebookEntryForm/>
             <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button>
           </div> 
           : 
           this.props.phonebookData ? 
-            this.props.phonebookData.map(entry => { 
-              return <PhonebookEntry key={entry.id} data={entry}/> 
-            }) 
+            this.props.phonebookData.map( entry => <PhonebookEntry key={entry.id} data={entry}/> ) 
             : 
-            "No DATA"
+            'No DATA'
           )
         }
-        {this.props.phonebookEditState === '0' && this.props.userData.type === 1 ? 
+        {this.props.phonebookEditState === '0' && localStorage.getItem('type') === '1' ? 
           <button onClick={this.onAddHandler.bind(this)}>ADD NEW ENTRY</button> 
           : 
           null

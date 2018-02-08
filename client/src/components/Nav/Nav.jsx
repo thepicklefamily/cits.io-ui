@@ -17,7 +17,7 @@ class Nav extends Component {
   render() {
     return (
       <div>
-        { this.props.userData ? 
+        { localStorage.getItem('token') ? 
           // LOGGED IN
           <div>
             <button onClick={() => this.props.history.push('/')}>Go to Home</button>
@@ -30,6 +30,14 @@ class Nav extends Component {
               this.props.setPropertyData(null),
               this.props.setCurrentProperty(null),
               this.props.setUserData(null),
+              localStorage.removeItem('token'),
+              localStorage.removeItem('propertyId'),
+              localStorage.removeItem('id'),
+              localStorage.removeItem('type'),
+              localStorage.removeItem('username'),
+              localStorage.removeItem('email'),
+              localStorage.removeItem('full_name'),
+              localStorage.removeItem('phonenumber'),
               this.props.history.push('/')
             )}}>LOGOUT</button>
           </div> 

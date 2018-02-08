@@ -22,13 +22,13 @@ class TicketEntryForm extends Component {
       description: document.getElementsByName('description')[0].value,
       photo_url: document.getElementsByName('photo_url')[0].value,
       status: 'Pending',
-      userId: this.props.userData.id,
-      propertyId: this.props.currentProperty.id,
+      userId: localStorage.getItem('id'),
+      propertyId: localStorage.getItem('propertyId'),
       date: (new Date()).toString()
     };
     await axios.post('http://localhost:3396/api/tickets/create', payload);
     //getting the new updated list of tickets for the user:
-    const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${this.props.userData.id}`);
+    const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`);
     this.props.setTicketsData(data);
     //return back to list of entries view:
     this.props.setTicketEditState('list');

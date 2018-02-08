@@ -53,13 +53,13 @@ class Messages extends Component {
 
     })
     let type = '';
-    if (this.props.userData.type === 1) {
+    if (localStorage.getItem('type') === 1) {
       type = 'Manager';
     } else {
       type = 'Tenant';
     }
     this.setState({
-      username: this.props.userData.username,
+      username: localStorage.getItem('username'),
       type,
     })
   }

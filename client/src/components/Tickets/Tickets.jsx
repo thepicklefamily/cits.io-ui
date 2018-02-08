@@ -7,6 +7,7 @@ import TicketEntry from './TicketEntry.jsx';
 import TicketEntryForm from './TicketEntryForm.jsx';
 import TicketDetails from './TicketDetails.jsx';
 import axios from 'axios';
+import { locale } from 'moment';
 
 class Tickets extends Component {
   constructor(props) {
@@ -16,12 +17,12 @@ class Tickets extends Component {
   async componentWillMount () {
     //if user is tenant, get tenant's tickets:
       // var tickets;
-    if (this.props.userData.type === 0) {
-      const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${this.props.userData.id}`);
+    if (localStorage.getItem('type') === '0') {
+      const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`);
       this.props.setTicketsData(data);
     //if user is manager, get property's tickets:
     } else {
-      const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${this.props.currentProperty.id}`);
+      const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${localStorage.getItem('propertyId')}`);
       this.props.setTicketsData(data);
     }
   
@@ -46,7 +47,7 @@ class Tickets extends Component {
   render() {
     return (
       <div>
-        <div>{this.props.userData.type === 0 && this.props.ticketEditState === 'list' ? 
+        <div>{localStorage.getItem('type') === '0' && this.props.ticketEditState === 'list' ? 
           <button onClick={this.onAddHandler.bind(this)}>SUBMIT NEW TICKET</button> 
           : 
           null

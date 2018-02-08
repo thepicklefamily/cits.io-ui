@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { setTicketEditState } from '../../actions/setTicketEditState';
 import { setTicketsData } from '../../actions/setTicketsData';
 import axios from 'axios';
+import { locale } from 'moment';
 
 class TenantTicketDetails extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class TenantTicketDetails extends Component {
     payload.status = document.getElementsByName('status')[0].value,
     await axios.put('http://localhost:3396/api/userTickets/edit', payload);
     //getting the new updated list of tickets for the property:
-    const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${this.props.currentProperty.id}`);
+    const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${localStorage.getItem('propertyId')}`);
     this.props.setTicketsData(data);
     //return back to list of entries view:
     this.props.setTicketEditState('list');
@@ -26,12 +27,12 @@ class TenantTicketDetails extends Component {
     return (
       <div>
         TENANT  <br/>
-        {this.props.userData.type === 0 ? 
+        {localStorage.getItem('type') === '0' ? 
           <div>
-              Name: {this.props.userData.fullName}  <br/>
+              Name: {localStorage.getItem('full_name')}  <br/>
               Apt. Num: WE DONT HAVE THIS YET  <br/>
-              Phone Number: {this.props.userData.phonenumber}  <br/>
-              Email: {this.props.userData.email}  <br/>
+              Phone Number: {localStorage.getItem('phonenumber')}  <br/>
+              Email: {localStorage.getItem('email')}  <br/>
               Status: {this.props.currentTicketEntry.status}  <br/>
             </div>
           :
@@ -42,9 +43,9 @@ class TenantTicketDetails extends Component {
             Email: {this.props.currentTicketTenantData[0].email}  <br/>
             Status:
             <select name='status' defaultValue={this.props.currentTicketEntry.status}>
-                <option value="Pending" >Pending</option>
-                <option value="In-Progress" >In-Progress</option>
-                <option value="Complete" >Complete</option>
+                <option value='Pending' >Pending</option>
+                <option value='In-Progress' >In-Progress</option>
+                <option value='Complete' >Complete</option>
             </select>
              <br/>
             <button onClick={this.onUpdateStatusHandler.bind(this)}>Save</button>

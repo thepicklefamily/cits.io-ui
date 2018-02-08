@@ -45,14 +45,14 @@ class PhonebookEntryForm extends Component {
       await axios.post('http://localhost:3396/api/phonebooks/create', payload)
       :
       await axios.put('http://localhost:3396/api/phonebooks/update', payload);
-    const d = await axios.get(`http://localhost:3396/api/phonebooks/${this.props.currentProperty.id}`);
+    const d = await axios.get(`http://localhost:3396/api/phonebooks/${localStorage.getItem('propertyId')}`);
     this.props.setPhonebookData(d.data);
     data ? await this.props.setPhonebookEditState('0') : null;
   }
 
   async onDeleteHandler() {
     await axios.delete(`http://localhost:3396/api/phonebooks/delete/${this.props.currentPhonebookEntry.id}`);
-    const d = await axios.get(`http://localhost:3396/api/phonebooks/${this.props.currentProperty.id}`);
+    const d = await axios.get(`http://localhost:3396/api/phonebooks/${localStorage.getItem('propertyId')}`);
     await this.props.setPhonebookData(d.data);
     await this.props.setPhonebookEditState('0');
   }

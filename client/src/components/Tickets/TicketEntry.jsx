@@ -52,13 +52,13 @@ class TicketEntry extends Component {
     return (
       <div>
         Ticket Entry: <br/>
-        subject: {`${this.props.data.subject} `}
-        category: {`${this.props.data.category} `}
+        subject: {`${this.props.data.subject}`}
+        category: {`${this.props.data.category}`}
         apt_num: {this.props.data.apt_num} <br/>
         description: {this.props.data.description} <br/>
         status: {this.props.data.status} <br/>
         {<button onClick={this.onDetailsHandler.bind(this)}>DETAILS</button>}
-        {this.props.userData.type === 1 ? 
+        {localStorage.getItem('type') === '1' ? 
           <button onClick={this.deleteModalHandler.bind(this)}>DELETE</button> 
           : 
           null

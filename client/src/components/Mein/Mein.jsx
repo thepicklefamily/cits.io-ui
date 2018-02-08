@@ -22,7 +22,7 @@ class Mein extends Component {
     return (
       <div>
         <h3>BANNER GOES HERE</h3>
-        {this.props.userData ? 
+        {localStorage.getItem('token') ? 
           <div>Status: Logged In</div> 
           : 
           <div>Status: Logged Out</div>

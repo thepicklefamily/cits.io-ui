@@ -16,7 +16,7 @@ class TicketDetails extends Component {
   async componentWillMount () {
     //if manager, need to query for tenant's user info to display on ticket
     //add redis memcache for this tenant data after query once?
-    if (this.props.userData.type === 1) {
+    if (localStorage.getItem('type') === '1') {
       const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${this.props.currentTicketEntry.userid}`);
       await this.props.setCurrentTicketTenantData(data);
     }
@@ -34,7 +34,7 @@ class TicketDetails extends Component {
         description: {this.props.currentTicketEntry.description} <br/>
         Provided Photo: {this.props.currentTicketEntry.photo_url} <br/>
         <img src={this.props.currentTicketEntry.photo_url}/>
-        {this.props.userData.type === 0 || this.props.currentTicketTenantData ? 
+        {localStorage.getItem('type') === '0' || this.props.currentTicketTenantData ? 
           <TenantTicketDetails/>
           :
           null
