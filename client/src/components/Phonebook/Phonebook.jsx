@@ -41,7 +41,7 @@ class Phonebook extends Component {
           </div> 
           : 
           this.props.phonebookData ? 
-            this.props.phonebookData.map( entry => { 
+            this.props.phonebookData.map(entry => { 
               return <PhonebookEntry key={entry.id} data={entry}/> 
             }) 
             : 

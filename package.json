@@ -24,6 +24,5 @@
   "homepage": "https://github.com/thepicklefamily/cits.io-ui#readme",
   "dependencies": {
     "lodash": "^4.17.4"
-  },
-  "devDependencies": {}
+  }
 }
