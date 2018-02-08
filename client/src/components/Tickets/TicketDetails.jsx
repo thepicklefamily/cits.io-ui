@@ -30,9 +30,10 @@ class TicketDetails extends Component {
     return (
       <div>
         subject: {this.props.currentTicketEntry.subject} <br/>
-        category: {this.props.currentTicketEntry.category}
+        category: {this.props.currentTicketEntry.category} <br/>
         description: {this.props.currentTicketEntry.description} <br/>
         Provided Photo: {this.props.currentTicketEntry.photo_url} <br/>
+        <img src={this.props.currentTicketEntry.photo_url}/>
         {this.props.userData.type === 0 || this.props.currentTicketTenantData ? 
           <TenantTicketDetails/>
           :
