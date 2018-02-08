@@ -10,9 +10,15 @@ class TicketEntryForm extends Component {
     super(props);
   }
 
+  async componentDidMount () {
+    //this prepopulates the apt number in the ticket submission form:
+    const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`);
+    for (let i = 0; i < data.length; i++) {
+      data[i].id.toString() === localStorage.getItem('propertyId') ? document.getElementsByName('apt_num')[0].value = data[i].unit : null;
+    } 
+  }
 
   //change category to a dropdown of a handful of options, including Other
-
   async submitNewTicket () {
     const payload = {
       category: document.getElementsByName('category')[0].value,

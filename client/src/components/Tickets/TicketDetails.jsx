@@ -15,7 +15,6 @@ class TicketDetails extends Component {
 
   async componentWillMount () {
     //if manager, need to query for tenant's user info to display on ticket
-    //add redis memcache for this tenant data after query once?
     if (localStorage.getItem('type') === '1') {
       const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${this.props.currentTicketEntry.userid}`);
       await this.props.setCurrentTicketTenantData(data);
