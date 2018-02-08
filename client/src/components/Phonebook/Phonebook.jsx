@@ -43,7 +43,7 @@ class Phonebook extends Component {
           this.props.phonebookData ? 
             this.props.phonebookData.map( entry => <PhonebookEntry key={entry.id} data={entry}/> ) 
             : 
-            "No DATA"
+            'No DATA'
           )
         }
         {this.props.phonebookEditState === '0' && localStorage.getItem('type') === '1' ? 

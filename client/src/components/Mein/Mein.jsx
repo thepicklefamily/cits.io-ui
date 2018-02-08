@@ -4,8 +4,6 @@ import { bindActionCreators } from 'redux';
 import Login from '../Auth/Login.jsx';
 import Core from '../Core/Core.jsx';
 import Nav from '../Nav/Nav.jsx';
-import Chat from '../Chat/Chat.jsx';
-import Articles from '../Articles/Articles';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { setPhonebookEditState } from '../../actions/setPhonebookEditState';
@@ -30,8 +28,6 @@ class Mein extends Component {
           <div>Status: Logged Out</div>
         }
         <Switch>
-          <Route path='/chat' component={Chat}/>
-          <Route path='/viewArticles' component={Articles}/>
           <Route path='/' component={Core}/> {/* THIS IS WHERE THE HEADLINES/PRODUCT INFO GOES */}
         </Switch>
       </div>

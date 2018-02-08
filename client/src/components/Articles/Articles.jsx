@@ -23,25 +23,22 @@ class Articles extends Component {
 
   async onAddHandler() {
     await this.props.setCurrentArticleEntry({});
-    await this.props.setArticleEditState("1");
+    await this.props.setArticleEditState('1');
   }
 
   async onCancelHandler() {
-    await this.props.setArticleEditState("0");
+    await this.props.setArticleEditState('0');
   }
 
   render() {
     return (
       <div>
-        article Says Hello!
-        <br />
-        <br />
         ARTICLE DATA:
         <br />
         <br />
         {localStorage.getItem('type') === '1' ? (
           this.props.currentArticleEntry &&
-          this.props.articleEditState !== "0" ? (
+          this.props.articleEditState !== '0' ? (
             <div>
             <ArticleEntryForm data={this.props.currentArticleEntry}  />
             <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button> 
@@ -51,16 +48,16 @@ class Articles extends Component {
               return <ArticleEntry article={article} key={article.id} />;
             })
           ) : (
-            "No DATA"
+            'No DATA'
           )
         ) : this.props.articlesData ? (
           this.props.articlesData.map(article => {
             return <ArticleEntry article={article} key={article.id} />;
           })
         ) : (
-          "No DATA"
+          'No DATA'
         )}
-        {this.props.articleEditState === "0" &&
+        {this.props.articleEditState === '0' &&
         localStorage.getItem('type') === '1' ? (
           <button onClick={this.onAddHandler.bind(this)}>ADD NEW ENTRY</button>
         ) : null

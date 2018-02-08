@@ -27,17 +27,14 @@ class Login extends Component {
       await axios.post('http://localhost:3396/api/auth/login', payload) 
       : 
       {};
-    console.log('this is client side login payload', d);
     localStorage.removeItem('randid');
-    localStorage.setItem('token', d.data.token.accessToken);
+    localStorage.setItem('token', JSON.parse(d.headers.authorization).accessToken);
     localStorage.setItem('id', d.data.id);
     localStorage.setItem('username', d.data.username);
     localStorage.setItem('type', d.data.type);
     localStorage.setItem('full_name', d.data.full_name);
     localStorage.setItem('email', d.data.email);
     localStorage.setItem('phonenumber', d.data.phonenumber);
-    console.log('this is client console tester', d.data.token.accessToken);
-    
     d.data ? 
       (this.props.setUserData(d.data), this.props.history.push('/')) 
       : 

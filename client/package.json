@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "casperjs test tests/auth-tests.js",
     "dev1": "webpack -w",
     "build": "webpack -w"
   },
@@ -27,7 +27,11 @@
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "socket.io-client": "^2.0.4",
+    "sweetalert2": "^7.10.0",
     "webpack": "^3.10.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "casperjs": "^1.1.4",
+    "phantomjs-prebuilt": "^2.1.16"
+  }
 }

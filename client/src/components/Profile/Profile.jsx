@@ -55,7 +55,7 @@ class Profile extends Component {
     return (
       <div>
         <h3>PROFILE</h3><br/>
-        {localStorage.getItem('type') === 0 ?
+        {localStorage.getItem('type') === '0' ?
           <div>
             <h5>MEMBERS ONLY</h5>
             <br/>

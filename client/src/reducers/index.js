@@ -9,6 +9,10 @@ import articleEditState from './articleEditState';
 import currentArticleEntry from './currentArticleEntry';
 import propertyData from './propertyData';
 import currentProperty from './currentProperty';
+import ticketsData from './ticketsData';
+import ticketEditState from './ticketEditState';
+import currentTicketEntry from './currentTicketEntry';
+import currentTicketTenantData from './currentTicketTenantData';
 
 const allReducers = combineReducers({
   userData,
@@ -20,7 +24,11 @@ const allReducers = combineReducers({
   articleEditState,
   currentArticleEntry,
   propertyData,
-  currentProperty
+  currentProperty,
+  ticketsData,
+  ticketEditState,
+  currentTicketEntry,
+  currentTicketTenantData
 });
 
 export default allReducers;
