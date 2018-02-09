@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { setTicketEditState } from '../../actions/setTicketEditState';
 import { setTicketsData } from '../../actions/setTicketsData';
 import axios from 'axios';
+import moment from 'moment';
 
 class TicketEntryForm extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class TicketEntryForm extends Component {
       status: 'Pending',
       userId: localStorage.getItem('id'),
       propertyId: localStorage.getItem('propertyId'),
-      date: (new Date()).toString()
+      date: moment(new Date()).format('MMMM Do YYYY')
     };
     await axios.post('http://localhost:3396/api/tickets/create', payload);
     const emailPayload = {
