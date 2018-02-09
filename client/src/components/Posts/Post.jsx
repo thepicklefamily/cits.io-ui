@@ -2,62 +2,73 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { setCurrentArticlePosts } from '../../actions/setCurrentArticlePosts';
+import { setCurrentViewArticle } from '../../actions/setCurrentViewArticle';
+
 
 class Post extends Component {
   constructor(props) {
     super(props);
-  }
-  async onAddHandler () {
-    const payload = {
-      property_id: this.props.currentProperty.id,
-      user_id: this.props.userData.id, 
-      title: document.getElementsByName('title')[0].value.toString(),
-      content: document.getElementsByName('content')[0].value.toString(),
-      date: document.getElementsByName('date')[0].value.toString(),
-      photo_url: document.getElementsByName('photo')[0].value.toString()
+
+    this.state = {
+      reply: '',
+      date: ''
     }
-    const { data } = await axios.post(`http://localhost:3396/api/articles/addArticle`, payload);
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${this.props.currentProperty.id}`);
-    this.props.setArticlesData(d.data);
-    data ?  await this.props.setArticleEditState('0') : null;
+  }
+
+  onChangeHandler (e) {
+    this.setState({
+      [e.target.name] : e.target.value
+    })
   }
 
   async onAddHandler () {
     const payload = {
-      username: this.props.,
-      test: ,
-      date: ,
-      article_id,
-      parent_id
+      username: localStorage.getItem('username'),
+      text: this.state.reply,
+      date: this.state.date,
+      article_id: this.props.post.articleid,
+      parent_id: this.props.post.id
     }
-    console.log('clicked');
-    console.log(this.props.post)
+
+    const { data } = await axios.post(`http://localhost:3396/api/posts/addPost`, payload);
+    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`);
+    this.props.setCurrentArticlePosts(d.data);
+
   }
   
-  async onUpdateHandler () {
-
-  }
-
   async onDeleteHandler () {
-
+    await axios.delete(`http://localhost:3396/api/posts/deletePost/${this.props.post.id}`);
+    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`);
+    await this.props.setCurrentArticlePosts(d.data);
   }
+  
+  // async onUpdateHandler () {
 
+  // }
   render() {
     return (
       <div>
         <br/>
-        {JSON.stringify(this.props.post)}
+        {/* {JSON.stringify(this.props.post)} */}
         <li>
           <div className="username">{ this.props.post.username }</div>
           <div className="text">{ this.props.post.text }</div>
           <div className="date">{ this.props.post.date }</div> 
-          <ul>
+          { localStorage.getItem('type') === '1' ? (
+            <button onClick={this.onDeleteHandler.bind(this)}>DELETE</button>
+          ) : null}
+          <br/><br/>
+          reply: <input onChange={this.onChangeHandler.bind(this)} type='text' name='reply'></input>
+          date: <input onChange={this.onChangeHandler.bind(this)} type='text' name='date'></input>
           <button onClick={this.onAddHandler.bind(this)}>Reply</button>
+
+          <ul>
           { this.props.post.children ?  this.props.post.children.map( child => {
             return ( 
               <div className="">
                 <br/>
-                  <Post key={child.id} post={child}/>
+                  <Post {...this.props} key={child.id} post={child}/>
               </div>
             )
           }) : null}
@@ -72,27 +83,16 @@ class Post extends Component {
 
 const mapStateToProps = state => {
   return {
-    
+    currentViewArticle: state.currentViewArticle,
+    currentArticlePosts: state.currentArticlePosts
   }
 };
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    
+    setCurrentViewArticle: setCurrentViewArticle,
+    setCurrentArticlePosts: setCurrentArticlePosts
   }, dispatch)
 };
 
 export default connect(mapStateToProps, matchDispatchToProps)(Post);
-
-// const { children } = this.props
-
-// return (
-//   <div className="comments">
-//     {children.map(comment =>
-//       <div key={comment.id} className="comment">
-//         <span>{comment.content}</span>
-//         {comment.children && <Comments children={comment.children}/>}
-//       </div>
-//     )}
-//   </div>
-// )
