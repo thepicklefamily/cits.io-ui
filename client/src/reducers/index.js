@@ -15,6 +15,7 @@ import currentTicketTenantData from './currentTicketTenantData';
 import searchResults from './searchResults';
 import currentViewArticle from './currentViewArticle';
 import currentArticlePosts from './currentArticlePosts';
+import clickedUserData from './clickedUserData';
 
 const allReducers = combineReducers({
   phonebookData,
@@ -32,7 +33,8 @@ const allReducers = combineReducers({
   currentTicketTenantData,
   searchResults,
   currentViewArticle,
-  currentArticlePosts
+  currentArticlePosts,
+  clickedUserData
 });
 
 export default allReducers;

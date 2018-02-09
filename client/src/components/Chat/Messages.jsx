@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
+import { setClickedUserData } from '../../actions/setClickedUserData';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import moment from 'moment';
@@ -107,13 +108,11 @@ class Messages extends Component {
     try {
       const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${e.target.name}`)
       data ? console.log('you got data', data) : console.log('error getting user data');
-      const payload = {
-        full_name: data.full_name,
-        email: data.email,
-        phonenumber: data.phonenumber,
-        id: data.id
-      }
-      
+      delete data[0].password
+      delete data[0].type
+      const payload = data;
+      console.log('payload', payload);
+      this.props.setClickedUserData(payload)
     } catch (err) {
       console.log('userProfile err ', err);
     }
@@ -146,7 +145,7 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    //
+    setClickedUserData: setClickedUserData
   }, dispatch);
 };
 
