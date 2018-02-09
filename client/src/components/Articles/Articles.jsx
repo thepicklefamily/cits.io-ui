@@ -4,10 +4,11 @@ import { bindActionCreators } from "redux";
 import { setArticlesData } from "../../actions/setArticlesData";
 import { setArticleEditState } from "../../actions/setArticleEditState";
 import { setCurrentArticleEntry } from "../../actions/setCurrentArticleEntry";
+import { setCurrentViewArticle } from "../../actions/setCurrentViewArticle";
 import ArticleEntry from "./ArticleEntry";
 import ArticleEntryForm from './ArticleEntryForm';
+import ArticleProfile from './ArticleProfile';
 import axios from "axios";
-import PhonebookEntryForm from "../Phonebook/PhonebookEntryForm";
 
 class Articles extends Component {
   constructor(props) {
@@ -43,22 +44,27 @@ class Articles extends Component {
             <ArticleEntryForm data={this.props.currentArticleEntry}  />
             <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button> 
             </div>
-          ) : this.props.articlesData ? (
+          ) : this.props.articlesData && this.props.currentViewArticle === '0' ? (
             this.props.articlesData.map(article => {
               return <ArticleEntry article={article} key={article.id} />;
             })
           ) : (
-            'No DATA'
+            <div>
+              <ArticleProfile/>
+            </div>
           )
-        ) : this.props.articlesData ? (
+        ) : this.props.articlesData && this.props.currentViewArticle === '0'? (
           this.props.articlesData.map(article => {
             return <ArticleEntry article={article} key={article.id} />;
           })
         ) : (
-          'No DATA'
+          <div>
+            <ArticleProfile/>
+          </div>
         )}
-        {this.props.articleEditState === '0' &&
-        localStorage.getItem('type') === '1' ? (
+
+        {this.props.articleEditState === "0" &&
+        localStorage.getItem('type') === '1' && this.props.currentViewArticle === '0' ? (
           <button onClick={this.onAddHandler.bind(this)}>ADD NEW ENTRY</button>
         ) : null
         }
@@ -73,7 +79,9 @@ const mapStateToProps = state => {
     articlesData: state.articlesData,
     currentArticleEntry: state.currentArticleEntry,
     articleEditState: state.articleEditState,
-    currentProperty: state.currentProperty
+    currentProperty: state.currentProperty,
+    currentViewArticle: state.currentViewArticle,
+    currentArticlePosts: state.currentArticlePosts
   };
 };
 
@@ -82,7 +90,8 @@ const matchDispatchToProps = dispatch => {
     {
       setArticlesData: setArticlesData,
       setCurrentArticleEntry: setCurrentArticleEntry,
-      setArticleEditState: setArticleEditState
+      setArticleEditState: setArticleEditState,
+      setCurrentViewArticle: setCurrentViewArticle
     },
     dispatch
   );
