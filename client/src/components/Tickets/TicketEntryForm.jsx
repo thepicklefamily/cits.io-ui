@@ -49,7 +49,8 @@ class TicketEntryForm extends Component {
       subject: payload.subject,
       date: payload.date,
       category: payload.category,
-      apt_num: payload.apt_num
+      apt_num: payload.apt_num,
+      managerEmails: this.state.managerEmails
     }
     try {
       const data = await axios.post('http://localhost:8080/tickets/sendTicketEmail', emailPayload)
