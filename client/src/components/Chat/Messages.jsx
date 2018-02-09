@@ -13,6 +13,7 @@ class Messages extends Component {
       messages: [],
       message: '',
       username: '',
+      email: '',
       roomname: '',
       type: ''
     }
@@ -24,6 +25,7 @@ class Messages extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.goToProfile = this.goToProfile.bind(this);
   }
   componentWillMount() {
     axios.get(`http://localhost:3396/api/chat/getMessages`, this.config)
@@ -65,6 +67,7 @@ class Messages extends Component {
     }
     this.setState({
       username: localStorage.getItem('username'),
+      email: localStorage.getItem('email'),
       type,
     })
   }
@@ -86,17 +89,21 @@ class Messages extends Component {
     const payload = {
       message: this.state.message,
       username: this.state.username,
+      email: this.state.email,
       roomname: 'ROOMNAME',
       type: this.state.type
     }
     try {
-      const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload, this.config)
-      console.log(this.state, 'state');
+      const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload)
       data.data ? this.state.socket.emit('client.message', (data.data)) : console.log('error retrieving data');
     } catch (err) {
       console.log('error', err);
     }
     document.getElementById('message').value = '';
+  }
+  async goToProfile(e) {
+    e.preventDefault();
+    console.log('clicked', e.target.name);
   }
   render() {
     return (
@@ -105,7 +112,7 @@ class Messages extends Component {
           <ul>
             {this.state.messages.map((message, i) => (
               <div key={i}>
-                <li>{message.username} ({message.type}): {message.message} <br/>{moment(message.date).fromNow()}</li>
+                <li><a onClick={this.goToProfile} href="#" name={message.email}>{message.username}</a> ({message.type}): {message.message} <br/>{moment(message.date).fromNow()}</li>
               </div>
             ))}
           </ul>
