@@ -107,6 +107,13 @@ class Messages extends Component {
     try {
       const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${e.target.name}`)
       data ? console.log('you got data', data) : console.log('error getting user data');
+      const payload = {
+        full_name: data.full_name,
+        email: data.email,
+        phonenumber: data.phonenumber,
+        id: data.id
+      }
+      
     } catch (err) {
       console.log('userProfile err ', err);
     }
