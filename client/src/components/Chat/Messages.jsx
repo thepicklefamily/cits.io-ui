@@ -104,6 +104,14 @@ class Messages extends Component {
   async goToProfile(e) {
     e.preventDefault();
     console.log('clicked', e.target.name);
+    try {
+      const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${e.target.name}`)
+      data ? console.log('you got data', data) : console.log('error getting user data');
+    } catch (err) {
+      console.log('userProfile err ', err);
+    }
+
+
   }
   render() {
     return (
