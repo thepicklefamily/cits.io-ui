@@ -13,7 +13,7 @@ class Messages extends Component {
       messages: [],
       message: '',
       username: '',
-      email: '',
+      userId: null,
       roomname: '',
       type: ''
     }
@@ -67,7 +67,7 @@ class Messages extends Component {
     }
     this.setState({
       username: localStorage.getItem('username'),
-      email: localStorage.getItem('email'),
+      userId: localStorage.getItem('id'),
       type,
     })
   }
@@ -89,7 +89,7 @@ class Messages extends Component {
     const payload = {
       message: this.state.message,
       username: this.state.username,
-      email: this.state.email,
+      userId: this.state.userId,
       roomname: 'ROOMNAME',
       type: this.state.type
     }
@@ -112,7 +112,7 @@ class Messages extends Component {
           <ul>
             {this.state.messages.map((message, i) => (
               <div key={i}>
-                <li><a onClick={this.goToProfile} href="#" name={message.email}>{message.username}</a> ({message.type}): {message.message} <br/>{moment(message.date).fromNow()}</li>
+                <li><a onClick={this.goToProfile} href="#" name={message.userId}>{message.username}</a> ({message.type}): {message.message} <br/>{moment(message.date).fromNow()}</li>
               </div>
             ))}
           </ul>
