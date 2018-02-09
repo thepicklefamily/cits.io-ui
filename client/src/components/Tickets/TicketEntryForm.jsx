@@ -4,10 +4,14 @@ import { bindActionCreators } from 'redux';
 import { setTicketEditState } from '../../actions/setTicketEditState';
 import { setTicketsData } from '../../actions/setTicketsData';
 import axios from 'axios';
+import moment from 'moment';
 
 class TicketEntryForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      managerEmails: []
+    }
   }
 
   async componentDidMount () {
@@ -16,6 +20,11 @@ class TicketEntryForm extends Component {
     for (let i = 0; i < data.length; i++) {
       data[i].id.toString() === localStorage.getItem('propertyId') ? document.getElementsByName('apt_num')[0].value = data[i].unit : null;
     } 
+    const emails = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesManagers?propertyID=${localStorage.getItem('propertyId')}`);
+    await this.setState({
+      managerEmails: emails.data
+    })
+    console.log(this.state);
   }
 
   //change category to a dropdown of a handful of options, including Other
@@ -30,9 +39,27 @@ class TicketEntryForm extends Component {
       status: 'Pending',
       userId: localStorage.getItem('id'),
       propertyId: localStorage.getItem('propertyId'),
-      date: (new Date()).toString()
+      date: moment(new Date()).format('MMMM Do YYYY')
     };
     await axios.post('http://localhost:3396/api/tickets/create', payload);
+    const emailPayload = {
+      name: localStorage.getItem('full_name'),
+      email: localStorage.getItem('email'),
+      phone: localStorage.getItem('phonenumber'),
+      description: payload.description,
+      subject: payload.subject,
+      date: payload.date,
+      category: payload.category,
+      apt_num: payload.apt_num,
+      managerEmails: this.state.managerEmails
+    }
+    try {
+      const data = await axios.post('http://localhost:8080/tickets/sendTicketEmail', emailPayload)
+      console.log(data)
+    } catch (err) {
+      console.log(err);
+    }
+    
     //getting the new updated list of tickets for the user:
     const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`);
     this.props.setTicketsData(data);
