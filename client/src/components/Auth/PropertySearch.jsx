@@ -174,7 +174,6 @@ class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData: state.userData,
     searchResults: state.searchResults
   }
 };

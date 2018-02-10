@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import { setUserData } from '../../actions/setUserData';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
 import axios from 'axios';
@@ -39,13 +38,13 @@ class Login extends Component {
     localStorage.setItem('phonenumber', d.data.phonenumber);
 
     d.data ? 
-      (this.props.setUserData(d.data), this.props.history.push('/')) 
+      this.props.history.push('/') 
       : 
       console.log('bad username and/or bad password'); // HANDLE ERROR HERE
     this.config.headers.authorization = await localStorage.getItem('token')
     const propertyData = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config)
     this.props.setPropertyData(propertyData.data);
-    localStorage.setItem('propertyId', '1');
+    localStorage.setItem('propertyId', propertyData.data[0].id.toString());
     await this.props.setCurrentProperty(propertyData.data[0]);
   }
 
@@ -90,7 +89,6 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setUserData: setUserData,
     setPropertyData: setPropertyData,
     setCurrentProperty: setCurrentProperty
   }, dispatch);

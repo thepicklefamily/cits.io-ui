@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import { setUserData } from '../../actions/setUserData';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
 
@@ -28,7 +27,6 @@ class Nav extends Component {
             <button onClick={() => {(
               this.props.setPropertyData(null),
               this.props.setCurrentProperty(null),
-              this.props.setUserData(null),
               localStorage.removeItem('token'),
               localStorage.removeItem('propertyId'),
               localStorage.removeItem('id'),
@@ -61,7 +59,6 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setUserData: setUserData,
     setPropertyData: setPropertyData,
     setCurrentProperty: setCurrentProperty
   }, dispatch);
