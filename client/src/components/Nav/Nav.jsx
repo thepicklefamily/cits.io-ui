@@ -15,21 +15,33 @@ class Nav extends Component {
     
     var socket = io('http://localhost:4155/chat-notifications');
 
-    socket.on('connect', () => {
+    socket.on('connect', (data) => {
       console.log('connected to chat-notifications socket');
       //send user id so socket server can look up initial notifications to give
       socket.emit('notifications.ready', { userId: localStorage.getItem('id') } );
     });
     socket.on('initial.notifications', (data) => {
-      console.log('initial.notifications data', data);
+      console.log('initial.notifications data = ', data);
       //should get an array of prop ids for which to render notifications
       //here would want to update state where you would also have logic to appropriately render the initial notifications in nav bar
-    })
+    });
+    socket.on('notifications.whileonline', (data) => {
+      console.log('notifications.whileonline data = ', data);
+      //should get a propId, one at a time, when any messages are sent.
+      //would want to see if that propId exists on this user (prolly on state)
+        //if so, appropriately render the notification in nav bar
+    });
 
   }
 
   sendLastTimeInChat () {
     //send the last times in each chat room for each prop to socket server to update mongodb.
+
+    //last online times should be in state. may even just use that instead of payload.
+    //what if they x out from chat itself though. both chat and nav bar components open. which component would unmount first?
+    //chat has to update state before this can send proper info.
+
+    socket.emit('lastOnlineTimes', payload);
   }
 
   componentWillUnmount () {
