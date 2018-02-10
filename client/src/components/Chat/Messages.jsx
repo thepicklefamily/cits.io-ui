@@ -104,20 +104,16 @@ class Messages extends Component {
   }
   async goToProfile(e) {
     e.preventDefault();
-    console.log('clicked', e.target.name);
     try {
       const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${e.target.name}`)
-      data ? console.log('you got data', data) : console.log('error getting user data');
       delete data[0].password
       delete data[0].type
       const payload = data;
-      console.log('payload', payload);
       this.props.setClickedUserData(payload)
     } catch (err) {
       console.log('userProfile err ', err);
     }
-
-
+    this.props.changeHistory();
   }
   render() {
     return (
@@ -126,7 +122,7 @@ class Messages extends Component {
           <ul>
             {this.state.messages.map((message, i) => (
               <div key={i}>
-                <li><a onClick={this.goToProfile} href="#" name={message.userId}>{message.username}</a> ({message.type}): {message.message} <br/>{moment(message.date).fromNow()}</li>
+                <li><a href="!" onClick={this.goToProfile} name={message.userId}>{message.username}</a> ({message.type}): {message.message} <br/>{moment(message.date).fromNow()}</li>
               </div>
             ))}
           </ul>
