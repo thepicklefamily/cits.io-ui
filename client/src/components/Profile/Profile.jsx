@@ -28,6 +28,7 @@ class Profile extends Component {
       propertyID: null,
       apt_unit: '',
     };
+
     this.config = {
       headers: {
         authorization: ''
@@ -50,7 +51,7 @@ class Profile extends Component {
 
   async setPropertyData() {
     const propertyData = await axios
-      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`);
+      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
 
     await this.setState({
       propertyData: propertyData.data
@@ -59,9 +60,7 @@ class Profile extends Component {
 
   async selectProperty(propertyID, secret) {
     if (this.state.userType === '1' && propertyID) {
-      const selectedProperty = await axios.get(`http://localhost:3396/api/properties/fetch/ID?id=${propertyID}`);
-
-      console.log('selecteddddddddddd',selectedProperty)
+      const selectedProperty = await axios.get(`http://localhost:3396/api/properties/fetch/ID?id=${propertyID}`, this.config);
       
       if (selectedProperty.data[0].secret_key === secret) {
         this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) })
@@ -85,7 +84,7 @@ class Profile extends Component {
 
     if (this.state.userType === '0') {
       const newUnit = await axios
-        .post('http://localhost:3396/api/aptUnits/create', { unit: this.state.apt_unit });
+        .post('http://localhost:3396/api/aptUnits/create', { unit: this.state.apt_unit }, this.config);
       tempUnit = newUnit;
     }
 
@@ -98,7 +97,7 @@ class Profile extends Component {
       }
 
       const newProperty = await axios
-        .post('http://localhost:3396/api/properties/create', propBody);
+        .post('http://localhost:3396/api/properties/create', propBody, this.config);
 
       await this.setState({ 
         propertyID: newProperty.data.id 
@@ -116,7 +115,7 @@ class Profile extends Component {
     jointBody.aptUnitID = 1;
 
     await axios
-      .post('http://localhost:3396/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits', jointBody);
+      .post('http://localhost:3396/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits', jointBody, this.config);
 
     // reset propertyData 
     this.setPropertyData();
