@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
+import { setSearchResults } from '../../actions/setSearchResults';
 import axios from 'axios';
 
 class Signup extends Component {
@@ -9,7 +10,6 @@ class Signup extends Component {
     super(props);
 
     this.state = {
-      results: [],
       searchInput: '',
       secret: ''
     }
@@ -22,6 +22,11 @@ class Signup extends Component {
 
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.searchClickHandler = this.searchClickHandler.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  handleKeyPress(e) {
+    (e.keyCode === 13) ? this.searchClickHandler() : null;
   }
 
   inputChangeHandler(e) {
@@ -31,17 +36,13 @@ class Signup extends Component {
   }
 
   async searchClickHandler() {
-    const searchResults = await axios
+    const searchData = await axios
       .get(`http://localhost:3396/api/properties/fetch/name?name=${this.state.searchInput}`, this.config);
     
-    !searchResults.data.length ? 
-    this.setState({ 
-      results: ["No Results"]
-    })
+    !searchData.data.length ? 
+    this.props.setSearchResults(["No Results"])
     :
-    this.setState({
-      results: searchResults.data
-    });
+    this.props.setSearchResults(searchData.data);
 
     document.getElementById('searchInputField').value = '';
   }
@@ -56,20 +57,21 @@ class Signup extends Component {
             name="searchInput" 
             placeholder="Enter Property Name Here"
             onChange={this.inputChangeHandler}
+            onKeyUp={this.handleKeyPress}
           />
           <button onClick={this.searchClickHandler}>Search</button>
         {/* </form> */}
         {
-          !this.state.results.length ? null :
+          !this.props.searchResults.length ? null :
           this.props.userType === "0" ?
             <div>
               {
-                this.state.results[0] === "No Results" ? 
+                this.props.searchResults[0] === "No Results" ? 
                 <div>
                   No results, please try again.
                 </div>
                 : 
-                this.state.results.map(property => 
+                this.props.searchResults.map(property => 
                   <div key={property.id}>
                     <div>
                       {property.name}
@@ -91,12 +93,12 @@ class Signup extends Component {
           this.props.userType === "1" ?
             <div>
               {
-                this.state.results[0] === "No Results" ? 
+                this.props.searchResults[0] === "No Results" ? 
                 <div>
                   No results, please try again.
                 </div>
                 : 
-                this.state.results.map(property => 
+                this.props.searchResults.map(property => 
                   <div key={property.id}>
                     <div>
                       {property.name}
@@ -131,7 +133,7 @@ class Signup extends Component {
         }
         {
           this.props.userType === "1" ?
-            <div>
+            <div><br/>
               or Add New Property:
               <form action="">
                 <div>
@@ -172,13 +174,20 @@ class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
+<<<<<<< HEAD
     //
+||||||| merged common ancestors
+    userData: state.userData
+=======
+    userData: state.userData,
+    searchResults: state.searchResults
+>>>>>>> Allows users to add properties that they are associated with
   }
 };
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    //
+    setSearchResults
   }, dispatch);
 };
 

@@ -194,7 +194,8 @@ class PropertyListItem extends Component {
                       />
                     </div>
                   </div>
-                </div><br/>
+                </div><br/><br/>
+
 
                 <button onClick={this.propertyUpdateHandler}>SAVE CHANGES</button>
                 <button onClick={this.cancelHandler}>CANCEL</button>
