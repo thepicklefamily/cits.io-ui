@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { setCurrentArticlePosts } from '../../actions/setCurrentArticlePosts';
 import { setCurrentViewArticle } from '../../actions/setCurrentViewArticle';
+import axios from 'axios';
 
 
 class Post extends Component {
@@ -14,6 +14,16 @@ class Post extends Component {
       reply: '',
       date: ''
     }
+
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
+  }
+  
+  async componentWillMount() {
+    this.config.headers.authorization = localStorage.getItem('token');
   }
 
   onChangeHandler (e) {
@@ -34,15 +44,15 @@ class Post extends Component {
 
     console.log(payload)
 
-    const { data } = await axios.post(`http://localhost:3396/api/posts/addPost`, payload);
-    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`);
+    const { data } = await axios.post(`http://localhost:3396/api/posts/addPost`, payload, this.config);
+    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
     this.props.setCurrentArticlePosts(d.data);
 
   }
   
   async onDeleteHandler () {
-    await axios.delete(`http://localhost:3396/api/posts/deletePost/${this.props.post.id}`);
-    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`);
+    await axios.delete(`http://localhost:3396/api/posts/deletePost/${this.props.post.id}`, this.config);
+    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
     await this.props.setCurrentArticlePosts(d.data);
   }
   

@@ -40,6 +40,7 @@ class Articles extends Component {
   }
 
   render() {
+    console.log('article props: ', this.props );
     return (
       <div>
         ARTICLE DATA:

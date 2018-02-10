@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
 import { setCurrentViewArticle } from '../../actions/setCurrentViewArticle';
 import { setCurrentArticlePosts } from '../../actions/setCurrentArticlePosts';
 import Post from '../Posts/Post';
@@ -11,10 +10,17 @@ import Post from '../Posts/Post';
 class ArticleProfile extends Component {
   constructor(props) {
     super(props);
+
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
   }
 
   async componentWillMount() {
-    const { data } = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.currentViewArticle.id}`);
+    this.config.headers.authorization = localStorage.getItem('token');
+    const { data } = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config);
     this.props.setCurrentArticlePosts(data);
   }
 
