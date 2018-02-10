@@ -103,7 +103,6 @@ class TicketEntryForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData:state.userData,
     currentProperty: state.currentProperty,
     ticketsData: state.ticketsData,
     ticketEditState: state.ticketEditState

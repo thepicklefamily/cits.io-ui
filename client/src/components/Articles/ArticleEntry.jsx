@@ -5,7 +5,6 @@ import { setCurrentArticleEntry }from '../../actions/setCurrentArticleEntry';
 import { setArticleEditState } from "../../actions/setArticleEditState";
 import { setCurrentViewArticle } from '../../actions/setCurrentViewArticle';
 import ArticleProfile from "./ArticleProfile";
-import axios from 'axios';
 
 
 class ArticleEntry extends Component {

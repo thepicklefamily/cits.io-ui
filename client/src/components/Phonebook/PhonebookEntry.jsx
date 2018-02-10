@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { setPhonebookEditState } from '../../actions/setPhonebookEditState';
 import { setCurrentPhonebookEntry } from '../../actions/setCurrentPhonebookEntry';
-// import axios from 'axios';
 
 class PhonebookEntry extends Component {
   constructor(props) {

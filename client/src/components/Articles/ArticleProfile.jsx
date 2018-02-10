@@ -24,7 +24,7 @@ class ArticleProfile extends Component {
   }
 
   async componentWillMount() {
-    this.config.headers.authorization = localStorage.getItem('token');
+    this.config.headers.authorization = await localStorage.getItem('token');
     const { data } = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config);
     data ? await this.props.setCurrentArticlePosts(data) : this.props.setCurrentViewArticle('0');
   }

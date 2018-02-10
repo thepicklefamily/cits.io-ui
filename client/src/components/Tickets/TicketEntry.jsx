@@ -80,7 +80,6 @@ class TicketEntry extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData:state.userData,
     ticketsData: state.ticketsData,
     ticketEditState: state.ticketEditState,
     currentTicketEntry: state.currentTicketEntry
