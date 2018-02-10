@@ -35,7 +35,6 @@ class PhonebookEntry extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData:state.userData,
     phonebookEditState:state.phonebookEditState
   }
 };
@@ -47,4 +46,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default (connect(mapStateToProps, matchDispatchToProps)(PhonebookEntry));
+export default connect(mapStateToProps, matchDispatchToProps)(PhonebookEntry);

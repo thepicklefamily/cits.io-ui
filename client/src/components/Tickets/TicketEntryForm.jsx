@@ -12,15 +12,21 @@ class TicketEntryForm extends Component {
     this.state = {
       managerEmails: []
     }
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
   }
 
   async componentDidMount () {
+    this.config.headers.authorization = localStorage.getItem('token');
     //this prepopulates the apt number in the ticket submission form:
-    const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`);
+    const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
     for (let i = 0; i < data.length; i++) {
       data[i].id.toString() === localStorage.getItem('propertyId') ? document.getElementsByName('apt_num')[0].value = data[i].unit : null;
     } 
-    const emails = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesManagers?propertyID=${localStorage.getItem('propertyId')}`);
+    const emails = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesManagers?propertyID=${localStorage.getItem('propertyId')}`, this.config);
     await this.setState({
       managerEmails: emails.data
     })
@@ -41,7 +47,7 @@ class TicketEntryForm extends Component {
       propertyId: localStorage.getItem('propertyId'),
       date: moment(new Date()).format('MMMM Do YYYY')
     };
-    await axios.post('http://localhost:3396/api/tickets/create', payload);
+    await axios.post('http://localhost:3396/api/tickets/create', payload, this.config);
     const emailPayload = {
       name: localStorage.getItem('full_name'),
       email: localStorage.getItem('email'),
@@ -54,14 +60,14 @@ class TicketEntryForm extends Component {
       managerEmails: this.state.managerEmails
     }
     try {
-      const data = await axios.post('http://localhost:8080/tickets/sendTicketEmail', emailPayload)
+      const data = await axios.post('http://localhost:8080/tickets/sendTicketEmail', emailPayload, this.config)
       console.log(data)
     } catch (err) {
       console.log(err);
     }
     
     //getting the new updated list of tickets for the user:
-    const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`);
+    const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`, this.config);
     this.props.setTicketsData(data);
     //return back to list of entries view:
     this.props.setTicketEditState('list');
@@ -111,4 +117,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default (connect(mapStateToProps, matchDispatchToProps)(TicketEntryForm));
+export default connect(mapStateToProps, matchDispatchToProps)(TicketEntryForm);

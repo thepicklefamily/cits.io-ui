@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
@@ -15,7 +16,6 @@ import Tickets from './Tickets/Tickets.jsx';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../store.js';
-// import { withRouter } from 'react-router';
 
 
 class App extends Component {

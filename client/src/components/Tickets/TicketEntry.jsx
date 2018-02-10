@@ -10,6 +10,15 @@ import swal from 'sweetalert2';
 class TicketEntry extends Component {
   constructor(props) {
     super(props);
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
+  }
+
+  componentWillMount() {
+    this.config.headers.authorization = localStorage.getItem('token');
   }
 
   onDetailsHandler() {
@@ -40,9 +49,9 @@ class TicketEntry extends Component {
 
   async onDeleteHandler() {
     //delete:
-    await axios.delete(`http://localhost:3396/api/userTickets/delete/${this.props.data.id}`);
+    await axios.delete(`http://localhost:3396/api/userTickets/delete/${this.props.data.id}`, this.config);
     //get and set the new updated list of tickets for the property for the property manager:
-    const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${this.props.data.propertyid}`);
+    const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${this.props.data.propertyid}`, this.config);
     this.props.setTicketsData(data);
     //return back to list of entries view:
     this.props.setTicketEditState('list');
@@ -86,4 +95,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default (connect(mapStateToProps, matchDispatchToProps)(TicketEntry));
+export default connect(mapStateToProps, matchDispatchToProps)(TicketEntry);

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { setProfileEditState } from '../../actions/setProfileEditState';
-// import { withRouter } from 'react-router';
 import axios from 'axios';
 
 class Profile extends Component {
@@ -18,6 +17,11 @@ class Profile extends Component {
       new_password: '',
       confirm_password: ''
     };
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
 
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.updateUserHandler = this.updateUserHandler.bind(this);
@@ -25,6 +29,7 @@ class Profile extends Component {
   }
 
   componentWillMount() {
+    this.config.headers.authorization = localStorage.getItem('token');
     this.props.setProfileEditState(0);
   }
 
@@ -46,7 +51,7 @@ class Profile extends Component {
       phonenumber: this.state.phonenumber
     }
 
-    await axios.put('http://localhost:3396/api/users/editUser', userBody);
+    await axios.put('http://localhost:3396/api/users/editUser', userBody, this.config);
 
     // updates the users' data on the local storage
     localStorage.setItem('username', this.state.username);
@@ -56,7 +61,7 @@ class Profile extends Component {
 
     // updates password if current password matches
     if (this.state.password && this.state.new_password && this.state.confirm_password) {
-      const userData = await axios.get(`http://localhost:3396/api/users/fetch/${localStorage.getItem('id')}`);
+      const userData = await axios.get(`http://localhost:3396/api/users/fetch/${localStorage.getItem('id')}`, this.config);
 
       const passwordBody = {
         user_id: localStorage.getItem('id'),
@@ -66,7 +71,7 @@ class Profile extends Component {
       }
 
       this.state.new_password !== this.state.confirm_password ? alert('Password not updated, new password entries must match!') :
-      await axios.put('http://localhost:3396/api/users/editPassword', passwordBody);
+      await axios.put('http://localhost:3396/api/users/editPassword', passwordBody, this.config);
     }
 
     // takes user out of edit state
@@ -201,7 +206,6 @@ class Profile extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData: state.userData,
     profileEditState: state.profileEditState
   }
 };
@@ -212,4 +216,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default (connect(mapStateToProps, matchDispatchToProps)(Profile));
+export default connect(mapStateToProps, matchDispatchToProps)(Profile);

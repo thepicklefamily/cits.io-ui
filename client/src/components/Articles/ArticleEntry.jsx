@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setCurrentArticleEntry }from '../../actions/setCurrentArticleEntry';
 import { setArticleEditState } from "../../actions/setArticleEditState";
-import axios from 'axios';
 
 
 class ArticleEntry extends Component {
@@ -33,9 +32,7 @@ class ArticleEntry extends Component {
 
 const mapStateToProps = state => { 
   return {
-    userData: state.userData,
     articleEditState: state.articleEditState
-    // articlesData: state.articlesData
   }
 };
 

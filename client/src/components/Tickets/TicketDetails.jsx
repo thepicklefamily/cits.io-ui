@@ -11,12 +11,18 @@ import axios from 'axios';
 class TicketDetails extends Component {
   constructor(props) {
     super(props);
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
   }
 
   async componentWillMount () {
+    this.config.headers.authorization = localStorage.getItem('token');
     //if manager, need to query for tenant's user info to display on ticket
     if (localStorage.getItem('type') === '1') {
-      const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${this.props.currentTicketEntry.userid}`);
+      const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${this.props.currentTicketEntry.userid}`, this.config);
       await this.props.setCurrentTicketTenantData(data);
     }
   }
@@ -48,7 +54,6 @@ class TicketDetails extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData:state.userData,
     ticketsData: state.ticketsData,
     ticketEditState: state.ticketEditState,
     currentTicketEntry: state.currentTicketEntry,
@@ -65,4 +70,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default (connect(mapStateToProps, matchDispatchToProps)(TicketDetails));
+export default connect(mapStateToProps, matchDispatchToProps)(TicketDetails);

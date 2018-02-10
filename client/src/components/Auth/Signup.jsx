@@ -2,7 +2,6 @@ require('babel-polyfill');
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router';
 import PropertySearch from './PropertySearch';
 import { setUserData } from '../../actions/setUserData';
 import { setPropertyData } from '../../actions/setPropertyData';
@@ -26,6 +25,11 @@ class Signup extends Component {
       propertyID: null,
       apt_unit: ''
     }
+    this.config = {
+      headers: {
+        authorization: 'raw'
+      }
+    };
 
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.submitHandler = this.submitHandler.bind(this);
@@ -40,7 +44,12 @@ class Signup extends Component {
 
   async selectProperty(propertyID, secret) {
     if (this.state.userType === '1' && propertyID) {
-      const selectedProperty = await axios.get(`http://localhost:3396/api/properties/fetch/ID?id=${propertyID}`);
+      let config = {
+        headers: {
+          authorization: 'raw'
+        }
+      };
+      const selectedProperty = await axios.get(`http://localhost:3396/api/properties/fetch/ID?id=${propertyID}`, this.config);
       
       if (selectedProperty.data[0].secret_key === secret) {
         this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) })
@@ -82,7 +91,7 @@ class Signup extends Component {
     // in the state for queries below
     if (this.state.propName && this.state.propAddress && this.state.propSecret) {
       const newProp = await axios
-        .post('http://localhost:3396/api/properties/create', propBody);
+        .post('http://localhost:3396/api/properties/create', propBody, this.config);
 
       this.setState({
         propertyID: newProp.data.id
@@ -96,7 +105,7 @@ class Signup extends Component {
       const newAptUnit = await axios
       .post('http://localhost:3396/api/aptUnits/create', {
         unit: this.state.apt_unit
-      });
+      }, this.config);
       tempUnit = newAptUnit;
     } 
     
@@ -108,11 +117,11 @@ class Signup extends Component {
     this.state.userType === '0' ? jointBody.aptUnitID = tempUnit.data.id : jointBody.aptUnitID = 1;
 
     await axios
-      .post('http://localhost:3396/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits', jointBody);
+      .post('http://localhost:3396/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits', jointBody, this.config);
  
     // set current property information
     const currentProperty = await axios
-      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`)
+      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`, this.config)
 
     this.props.setPropertyData(currentProperty.data);
     this.props.setCurrentProperty(currentProperty.data[0]);
@@ -255,10 +264,9 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setUserData: setUserData,
     setPropertyData: setPropertyData,
     setCurrentProperty: setCurrentProperty
   }, dispatch);
 };
 
-export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Signup));
+export default connect(mapStateToProps, matchDispatchToProps)(Signup);
