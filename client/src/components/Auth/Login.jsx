@@ -44,7 +44,7 @@ class Login extends Component {
     this.config.headers.authorization = await localStorage.getItem('token')
     const propertyData = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config)
     this.props.setPropertyData(propertyData.data);
-    localStorage.setItem('propertyId', '1');
+    localStorage.setItem('propertyId', propertyData.data[0].id.toString());
     await this.props.setCurrentProperty(propertyData.data[0]);
   }
 
