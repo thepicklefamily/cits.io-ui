@@ -23,11 +23,18 @@ class PropertyListItem extends Component {
       }
     };
 
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
+
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.saveHandler = this.saveHandler.bind(this);
     this.editHandler = this.editHandler.bind(this);
     this.cancelHandler = this. cancelHandler.bind(this);
     this.propertyUpdateHandler = this.propertyUpdateHandler.bind(this);
+    this.removeHandler = this.removeHandler.bind(this);
   }
 
   componentWillMount() {
@@ -38,6 +45,10 @@ class PropertyListItem extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
+  }
+
+  componentWillMount() {
+    this.config.headers.authorization = localStorage.getItem('token');
   }
 
   async propertyUpdateHandler() {
@@ -95,6 +106,17 @@ class PropertyListItem extends Component {
     this.setState({ edit: 1 });
   }
 
+  async removeHandler() {
+    // logic to delete associate between user and property
+    const userID = localStorage.getItem('id');
+    const propID = this.props.property.id;
+
+    await axios
+      .delete(`http://localhost:3396/api/usersPropertiesAptUnits/deleteUsersPropertiesAptUnits?userID=${userID}&propertyID=${propID}`, this.config);
+
+    this.props.setPropertyData();
+  }
+
   cancelHandler() {
     this.setState({ edit: 0 });
   }
@@ -118,6 +140,7 @@ class PropertyListItem extends Component {
                   Unit#: {this.props.property.unit}
                 </div>
                 <button onClick={this.editHandler}>Edit</button>
+                <button onClick={this.removeHandler}>Remove</button>
               </div>
               :
               <div>
@@ -144,6 +167,7 @@ class PropertyListItem extends Component {
                   {this.props.property.address}
                 </div>
                 <button onClick={this.editHandler}>Edit</button>
+                <button onClick={this.removeHandler}>Remove</button>
               </div>
               :
               <div>
