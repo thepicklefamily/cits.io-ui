@@ -53,6 +53,12 @@ class ArticleProfile extends Component {
     const { data } = await axios.post(`http://localhost:3396/api/posts/addPost`, payload, this.config);
     const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config);
     this.props.setCurrentArticlePosts(d.data);
+    document.getElementsByName('reply').forEach( field => {
+      field.value = '';
+    });
+    document.getElementsByName('date').forEach( field => {
+      field.value = '';
+    });
   }
 
   async onCancelHandler () {
