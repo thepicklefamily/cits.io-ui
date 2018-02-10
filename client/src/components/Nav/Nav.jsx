@@ -3,10 +3,39 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
+import io from 'socket.io-client/dist/socket.io.js';
 
 class Nav extends Component {
   constructor(props) {
     super(props);
+  }
+
+
+  componentWillMount () {
+    
+    var socket = io('http://localhost:4155/chat-notifications');
+
+    socket.on('connect', () => {
+      console.log('connected to chat-notifications socket');
+      //send user id so socket server can look up initial notifications to give
+      socket.emit('notifications.ready', { userId: localStorage.getItem('id') } );
+    });
+    socket.on('initial.notifications', (data) => {
+      console.log('initial.notifications data', data);
+      //should get an array of prop ids for which to render notifications
+      //here would want to update state where you would also have logic to appropriately render the initial notifications in nav bar
+    })
+
+  }
+
+  sendLastTimeInChat () {
+    //send the last times in each chat room for each prop to socket server to update mongodb.
+  }
+
+  componentWillUnmount () {
+    //if still logged in, send the lastonline times from state
+    //otherwise, will have already sent it when logged out (below in logout button)
+    localStorage.getItem('token') ? this.sendLastTimeInChat() : null;
   }
 
   // use conditionals to render different navs
@@ -35,6 +64,7 @@ class Nav extends Component {
               localStorage.removeItem('email'),
               localStorage.removeItem('full_name'),
               localStorage.removeItem('phonenumber'),
+              this.sendLastTimeInChat.bind(this),
               this.props.history.push('/')
             )}}>LOGOUT</button>
           </div> 
