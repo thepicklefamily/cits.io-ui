@@ -174,14 +174,8 @@ class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
-<<<<<<< HEAD
-    //
-||||||| merged common ancestors
-    userData: state.userData
-=======
     userData: state.userData,
     searchResults: state.searchResults
->>>>>>> Allows users to add properties that they are associated with
   }
 };
 
