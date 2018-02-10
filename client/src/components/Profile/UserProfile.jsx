@@ -5,11 +5,25 @@ import { bindActionCreators } from 'redux';
 class UserProfile extends Component {
   constructor(props) {
     super(props)
+    this.goBack = this.goBack.bind(this);
+  }
+  componentDidMount() {
+    console.log(this.props.clickedUserData);
+  }
+  goBack() {
+    this.props.history.push('/chat');
   }
   render() {
+    let user = this.props.clickedUserData[0]
     return (
       <div>
         <h1>HELLO FROM USERPROFILE</h1>
+        <ul>
+          <li>Name: {user.full_name}</li>
+          <li>Phone: {user.phonenumber}</li>
+          <li>email: {user.email}</li>
+        </ul>
+        <button onClick={this.goBack}>Back to Chat</button>
       </div>
     )
   }
@@ -19,7 +33,7 @@ class UserProfile extends Component {
 
 const mapStateToProps = state => {
   return {
-    
+    clickedUserData: state.clickedUserData
   }
 };
 
