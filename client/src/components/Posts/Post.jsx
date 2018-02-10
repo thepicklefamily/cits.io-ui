@@ -26,7 +26,6 @@ class Post extends Component {
   
   async componentWillMount() {
     this.config.headers.authorization = localStorage.getItem('token');
-    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
   }
 
   onChangeHandler (e) {
@@ -35,8 +34,6 @@ class Post extends Component {
     this.setState({
       [e.target.name] : e.target.value
     })
-
-    e.target.reset();
   }
 
   async onAddHandler () {
@@ -49,8 +46,15 @@ class Post extends Component {
     }
 
     const { data } = await axios.post(`http://localhost:3396/api/posts/addPost`, payload, this.config);
+    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
     this.props.setCurrentArticlePosts(d.data);
-
+    console.log(document.getElementsByName('reply'));
+    document.getElementsByName('reply').forEach( field => {
+      field.value = '';
+    });
+    document.getElementsByName('date').forEach( field => {
+      field.value = '';
+    });
   }
   
   async onDeleteHandler () {
