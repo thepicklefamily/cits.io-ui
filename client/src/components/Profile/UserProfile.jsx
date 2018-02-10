@@ -17,7 +17,7 @@ class UserProfile extends Component {
     let user = this.props.clickedUserData[0]
     return (
       <div>
-        <h1>HELLO FROM USERPROFILE</h1>
+        <h3>User Profile</h3>
         <ul>
           <li>Name: {user.full_name}</li>
           <li>Phone: {user.phonenumber}</li>
