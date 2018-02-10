@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setProfileEditState } from '../../actions/setProfileEditState';
+import { setSearchResults } from '../../actions/setSearchResults';
+// import { withRouter } from 'react-router';
 import axios from 'axios';
+import PropertyListItem from './PropertyListItem';
+import PropertySearch from '../Auth/PropertySearch';
 
 class Profile extends Component {
   constructor(props) {
@@ -13,10 +17,18 @@ class Profile extends Component {
       email: localStorage.getItem('email'),
       username: localStorage.getItem('username'),
       phonenumber: localStorage.getItem('phonenumber'),
+      userType: localStorage.getItem('type'),
       password: '',
       new_password: '',
-      confirm_password: ''
+      confirm_password: '',
+      propertyData: [],
+      propName: '',
+      propAddress: '',
+      propSecret: '',
+      propertyID: null,
+      apt_unit: '',
     };
+
     this.config = {
       headers: {
         authorization: ''
@@ -26,14 +38,97 @@ class Profile extends Component {
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.updateUserHandler = this.updateUserHandler.bind(this);
     this.onCancelHandler = this.onCancelHandler.bind(this);
+    this.setPropertyData = this.setPropertyData.bind(this);
+    this.selectProperty = this.selectProperty.bind(this);
+    this.addPropertyHandler = this.addPropertyHandler.bind(this);
   }
 
   componentWillMount() {
     this.config.headers.authorization = localStorage.getItem('token');
     this.props.setProfileEditState(0);
+    this.setPropertyData();
+  }
+
+  async setPropertyData() {
+    const propertyData = await axios
+      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
+
+    await this.setState({
+      propertyData: propertyData.data
+    });
+  }
+
+  async selectProperty(propertyID, secret) {
+    if (this.state.userType === '1' && propertyID) {
+      const selectedProperty = await axios.get(`http://localhost:3396/api/properties/fetch/ID?id=${propertyID}`, this.config);
+      
+      if (selectedProperty.data[0].secret_key === secret) {
+        this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) })
+      } else {
+        alert('Your secret key does not match, please try again!')
+      };
+    } 
+      else 
+    {
+      this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) });
+    }
+
+    if (document.getElementById('secretInputField')) {
+      document.getElementById('secretInputField').value = '';
+    }
+  }
+
+  async addPropertyHandler() {
+    // if user is tenant, add unit to apt_units table
+    let tempUnit = '';
+
+    if (this.state.userType === '0') {
+      const newUnit = await axios
+        .post('http://localhost:3396/api/aptUnits/create', { unit: this.state.apt_unit }, this.config);
+      tempUnit = newUnit;
+    }
+
+    // if property is being added, add property info to properties table
+    if (this.state.propName && this.state.propAddress && this.state.propSecret) {
+      const propBody = {
+        name: this.state.propName,
+        secret_key: this.state.propSecret,
+        address: this.state.propAddress
+      }
+
+      const newProperty = await axios
+        .post('http://localhost:3396/api/properties/create', propBody, this.config);
+
+      await this.setState({ 
+        propertyID: newProperty.data.id 
+      });
+    }
+
+    // add add relationship to joint table
+    const jointBody = {
+      userID: localStorage.getItem('id'),
+      propertyID: this.state.propertyID
+    };
+
+    this.state.userType === '0' ? 
+    jointBody.aptUnitID = tempUnit.data.id :
+    jointBody.aptUnitID = 1;
+
+    await axios
+      .post('http://localhost:3396/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits', jointBody, this.config);
+
+    // reset propertyData 
+    this.setPropertyData();
+    
+    // empty the searchResults in the redux store
+    this.props.setSearchResults([]);
+
+    // empty out the propertyID
+    this.setState({ propertyID: null });
   }
 
   inputChangeHandler(e) {
+    e.persist();
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -155,37 +250,37 @@ class Profile extends Component {
               PASSWORD: 
               <div>
                 <div>
-                  Enter your current password:
+                  Current password:
                   <div>
                     <input 
                       type='password' 
                       name='password' 
                       onChange={this.inputChangeHandler} 
-                      placeholder='Current Password'
+                      placeholder='Enter your current password'
                     />
                   </div>
                 </div><br/>
 
                 <div>
-                  Enter your new password:
+                  New password:
                   <div>
                     <input 
                       type='password' 
                       name='new_password' 
                       onChange={this.inputChangeHandler} 
-                      placeholder='New Password'
+                      placeholder='Enter your new password'
                     />
                   </div>
                 </div><br/>
 
                 <div>
-                  Confirm your new password:
+                  Confirm new password:
                   <div>
                     <input 
                       type='password' 
                       name='confirm_password' 
                       onChange={this.inputChangeHandler} 
-                      placeholder='Confirm New Password'
+                      placeholder='Confirm new password'
                     />
                   </div>
                 </div>
@@ -196,7 +291,45 @@ class Profile extends Component {
             </div>
           }
           {
-
+            // your properties
+            <div>
+              <h3>Properties Info</h3>
+              <ul>
+                {
+                  this.state.propertyData.map(property => 
+                    <PropertyListItem 
+                      key={property.id}
+                      property={property}
+                      setPropertyData={this.setPropertyData}
+                    />
+                  )
+                }
+              </ul>
+            </div>
+          }
+          {
+            // search properties
+            <div>
+              <h3>Add Property</h3>
+              <PropertySearch 
+                propertyID={this.state.propertyID}
+                selectProperty={this.selectProperty}
+                inputChangeHandler={this.inputChangeHandler}
+                userType={localStorage.getItem('type')}
+              />
+              {
+                !this.state.propertyID ? null :
+                <div>
+                  Apartment Number/Unit:
+                  <input 
+                    name="apt_unit"
+                    placeholder="Enter Unit Number"
+                    onChange={this.inputChangeHandler}
+                  />
+                </div>
+              }
+              <button onClick={this.addPropertyHandler}>Add Property to Account</button>
+            </div>
           }
         </div>
       </div>
@@ -212,7 +345,8 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setProfileEditState:setProfileEditState
+    setProfileEditState,
+    setSearchResults
   }, dispatch);
 };
 

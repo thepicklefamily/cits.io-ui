@@ -13,6 +13,7 @@ import ticketsData from './ticketsData';
 import ticketEditState from './ticketEditState';
 import currentTicketEntry from './currentTicketEntry';
 import currentTicketTenantData from './currentTicketTenantData';
+import searchResults from './searchResults';
 
 const allReducers = combineReducers({
   userData,
@@ -28,7 +29,8 @@ const allReducers = combineReducers({
   ticketsData,
   ticketEditState,
   currentTicketEntry,
-  currentTicketTenantData
+  currentTicketTenantData,
+  searchResults
 });
 
 export default allReducers;
