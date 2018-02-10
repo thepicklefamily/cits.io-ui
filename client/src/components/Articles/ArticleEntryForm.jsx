@@ -54,8 +54,8 @@ class ArticleEntryForm extends Component {
   }
   
   async onDeleteHandler () {
-    await axios.delete(`http://localhost:3396/api/articles/deleteArticle/${this.props.data.id}/${localStorage.getItem('propertyId')}`, this.config);
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
+    await axios.delete(`http://localhost:3396/api/articles/deleteArticle/${this.props.data.id}`)
+    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`);
     await this.props.setArticlesData(d.data);
     await this.props.setArticleEditState('0');
   }
