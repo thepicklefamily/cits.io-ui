@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import PropertySearch from './PropertySearch';
-import { setUserData } from '../../actions/setUserData';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
 import axios from 'axios';
@@ -134,7 +133,6 @@ class Signup extends Component {
     localStorage.setItem('full_name', newUser.data.full_name);
     localStorage.setItem('email', newUser.data.email);
     localStorage.setItem('phonenumber', newUser.data.phonenumber);
-    this.props.setUserData(newUser.data);
     this.props.history.push('/');
   }
 
@@ -258,7 +256,7 @@ class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData: state.userData
+    //
   }
 };
 
