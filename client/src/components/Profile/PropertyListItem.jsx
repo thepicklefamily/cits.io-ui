@@ -220,7 +220,7 @@ class PropertyListItem extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData: state.userData,
+    //
   }
 };
 

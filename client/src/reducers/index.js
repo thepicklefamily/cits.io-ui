@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import userData from './userData';
 import phonebookData from './phonebookData';
 import phonebookEditState from './phonebookEditState';
 import currentPhonebookEntry from './currentPhonebookEntry';
@@ -18,7 +17,6 @@ import currentViewArticle from './currentViewArticle';
 import currentArticlePosts from './currentArticlePosts';
 
 const allReducers = combineReducers({
-  userData,
   phonebookData,
   phonebookEditState,
   currentPhonebookEntry,
