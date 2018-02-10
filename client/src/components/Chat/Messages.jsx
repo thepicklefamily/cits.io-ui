@@ -92,6 +92,7 @@ class Messages extends Component {
     if (document.getElementById('message').value === '') {
       return;
     }
+    const timeStamp = Date.now()
     const payload = {
       message: this.state.message,
       username: this.state.username,
@@ -101,7 +102,13 @@ class Messages extends Component {
     }
     try {
       const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload, this.config)
-      data.data ? this.state.socket.emit('client.message', (data.data)) : console.log('error retrieving data');
+      console.log(this.state, 'state');
+      data.data ? 
+        (data.data.propId = localStorage.getItem('propertyId'),
+        data.data.timeStamp = timeStamp,
+        this.state.socket.emit('client.message', (data.data)))
+        :
+        console.log('error retrieving data');
     } catch (err) {
       console.log('error', err);
     }
