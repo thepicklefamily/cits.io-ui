@@ -33,11 +33,11 @@ class ArticleProfile extends Component {
         {JSON.stringify(this.props.currentArticlePosts)}
         { this.props.currentArticlePosts ? this.props.currentArticlePosts.map(post => {
           return (
-          <div>
+          <div key={post.id}> 
             <ul className="">
               <li>
                 <ul>
-                  <Post key={post.id} post={post} />
+                  <Post post={post} />
                 </ul>
               </li>
             </ul>

@@ -23,6 +23,7 @@ class Post extends Component {
   }
 
   async onAddHandler () {
+    console.log(this.props.post.id)
     const payload = {
       username: localStorage.getItem('username'),
       text: this.state.reply,
@@ -30,6 +31,8 @@ class Post extends Component {
       article_id: this.props.post.articleid,
       parent_id: this.props.post.id
     }
+
+    console.log(payload)
 
     const { data } = await axios.post(`http://localhost:3396/api/posts/addPost`, payload);
     const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`);
@@ -52,6 +55,7 @@ class Post extends Component {
         <br/>
         {/* {JSON.stringify(this.props.post)} */}
         <li>
+          <h2 className="">{this.props.post.id}</h2>
           <div className="username">{ this.props.post.username }</div>
           <div className="text">{ this.props.post.text }</div>
           <div className="date">{ this.props.post.date }</div> 
@@ -66,9 +70,9 @@ class Post extends Component {
           <ul>
           { this.props.post.children ?  this.props.post.children.map( child => {
             return ( 
-              <div className="">
+              <div className="" key={child.id}>
                 <br/>
-                  <Post {...this.props} key={child.id} post={child}/>
+                  <Post {...this.props} post={child}/>
               </div>
             )
           }) : null}
