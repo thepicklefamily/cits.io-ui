@@ -265,7 +265,7 @@ const mapStateToProps = state => {
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
     setPropertyData: setPropertyData,
-    setCurrentProperty: setCurrentProperty
+    setCurrentProperty: setCurrentProperty,
   }, dispatch);
 };
 

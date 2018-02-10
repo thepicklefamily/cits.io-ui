@@ -39,7 +39,6 @@ class Post extends Component {
   }
 
   async onAddHandler () {
-    console.log(this.props.post.id)
     const payload = {
       username: localStorage.getItem('username'),
       text: this.state.reply,
@@ -47,8 +46,6 @@ class Post extends Component {
       article_id: this.props.post.articleid,
       parent_id: this.props.post.id
     }
-
-    console.log(payload)
 
     const { data } = await axios.post(`http://localhost:3396/api/posts/addPost`, payload, this.config);
     const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
@@ -61,10 +58,7 @@ class Post extends Component {
     const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
     await this.props.setCurrentArticlePosts(d.data);
   }
-  
-  // async onUpdateHandler () {
 
-  // }
   render() {
     return (
       <div>

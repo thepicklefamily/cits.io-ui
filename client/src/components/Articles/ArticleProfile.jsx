@@ -11,6 +11,11 @@ class ArticleProfile extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      reply: '',
+      date: ''
+    }
+
     this.config = {
       headers: {
         authorization: ''
@@ -21,7 +26,33 @@ class ArticleProfile extends Component {
   async componentWillMount() {
     this.config.headers.authorization = localStorage.getItem('token');
     const { data } = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config);
-    this.props.setCurrentArticlePosts(data);
+    data ? await this.props.setCurrentArticlePosts(data) : this.props.setCurrentViewArticle('0');
+  }
+
+  onChangeHandler (e) {
+    e.preventDefault();
+
+    this.setState({
+      [e.target.name] : e.target.value
+    })
+
+    // e.target.reset();
+  }
+
+  async onAddHandler () {
+    const payload = {
+      username: localStorage.getItem('username'),
+      text: this.state.reply,
+      date: this.state.date,
+      article_id: this.props.currentViewArticle.id,
+      parent_id: null
+    }
+
+    console.log(payload)
+
+    const { data } = await axios.post(`http://localhost:3396/api/posts/addPost`, payload, this.config);
+    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config);
+    this.props.setCurrentArticlePosts(d.data);
   }
 
   async onCancelHandler () {
@@ -31,6 +62,7 @@ class ArticleProfile extends Component {
 
 
   render() {
+    console.log('article profile', this.props);
     return (
       <div>
         ARTICLE PROFILE: 
@@ -49,8 +81,11 @@ class ArticleProfile extends Component {
             </ul>
             </div>
             );
-        }) : null }
+        }) : null}
         <br/>
+        reply: <input onChange={this.onChangeHandler.bind(this)} type='text' name='reply'></input>
+        date: <input onChange={this.onChangeHandler.bind(this)} type='text' name='date'></input>
+        <button onClick={this.onAddHandler.bind(this)}>Add a Comment</button>
         <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button> 
       </div>
     );
