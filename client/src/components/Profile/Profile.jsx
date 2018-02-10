@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setProfileEditState } from '../../actions/setProfileEditState';
 import axios from 'axios';
+import PropertyListItem from './PropertyListItem';
+import PropertySearch from '../Auth/PropertySearch';
 
 class Profile extends Component {
   constructor(props) {
@@ -15,7 +17,11 @@ class Profile extends Component {
       phonenumber: localStorage.getItem('phonenumber'),
       password: '',
       new_password: '',
-      confirm_password: ''
+      confirm_password: '',
+      propertyData: [],
+      propName: '',
+      propAddress: '',
+      propSecret: '',
     };
     this.config = {
       headers: {
@@ -26,14 +32,26 @@ class Profile extends Component {
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.updateUserHandler = this.updateUserHandler.bind(this);
     this.onCancelHandler = this.onCancelHandler.bind(this);
+    this.setPropertyData = this.setPropertyData.bind(this);
   }
 
   componentWillMount() {
     this.config.headers.authorization = localStorage.getItem('token');
     this.props.setProfileEditState(0);
+    this.setPropertyData();
+  }
+
+  async setPropertyData() {
+    const propertyData = await axios
+      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`);
+
+    await this.setState({
+      propertyData: propertyData.data
+    });
   }
 
   inputChangeHandler(e) {
+    e.persist();
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -155,37 +173,37 @@ class Profile extends Component {
               PASSWORD: 
               <div>
                 <div>
-                  Enter your current password:
+                  Current password:
                   <div>
                     <input 
                       type='password' 
                       name='password' 
                       onChange={this.inputChangeHandler} 
-                      placeholder='Current Password'
+                      placeholder='Enter your current password'
                     />
                   </div>
                 </div><br/>
 
                 <div>
-                  Enter your new password:
+                  New password:
                   <div>
                     <input 
                       type='password' 
                       name='new_password' 
                       onChange={this.inputChangeHandler} 
-                      placeholder='New Password'
+                      placeholder='Enter your new password'
                     />
                   </div>
                 </div><br/>
 
                 <div>
-                  Confirm your new password:
+                  Confirm new password:
                   <div>
                     <input 
                       type='password' 
                       name='confirm_password' 
                       onChange={this.inputChangeHandler} 
-                      placeholder='Confirm New Password'
+                      placeholder='Confirm new password'
                     />
                   </div>
                 </div>
@@ -196,7 +214,31 @@ class Profile extends Component {
             </div>
           }
           {
-
+            // your properties
+            <div>
+              <h3>Properties Info</h3>
+              <ul>
+                {
+                  this.state.propertyData.map(property => 
+                    <PropertyListItem 
+                      key={property.id}
+                      property={property}
+                      setPropertyData={this.setPropertyData}
+                    />
+                  )
+                }
+              </ul>
+            </div>
+          }
+          {
+            // search properties
+            <div>
+              <h3>Add Property</h3>
+              <PropertySearch 
+                userType={localStorage.getItem('type')}
+                inputChangeHandler={this.inputChangeHandler}
+              />
+            </div>
           }
         </div>
       </div>
