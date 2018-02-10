@@ -12,17 +12,23 @@ import { locale } from 'moment';
 class Tickets extends Component {
   constructor(props) {
     super(props);
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
   }
 
   async componentWillMount () {
+    this.config.headers.authorization = localStorage.getItem('token');
     //if user is tenant, get tenant's tickets:
       // var tickets;
     if (localStorage.getItem('type') === '0') {
-      const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`);
+      const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`, this.config);
       this.props.setTicketsData(data);
     //if user is manager, get property's tickets:
     } else {
-      const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${localStorage.getItem('propertyId')}`);
+      const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${localStorage.getItem('propertyId')}`, this.config);
       this.props.setTicketsData(data);
     }
   
@@ -105,4 +111,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default (connect(mapStateToProps, matchDispatchToProps)(Tickets));
+export default connect(mapStateToProps, matchDispatchToProps)(Tickets);

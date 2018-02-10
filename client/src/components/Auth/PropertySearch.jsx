@@ -1,4 +1,3 @@
-require('babel-polyfill');
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
@@ -15,6 +14,12 @@ class Signup extends Component {
       secret: ''
     }
 
+    this.config = {
+      headers: {
+        authorization: 'raw'
+      }
+    };
+
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.searchClickHandler = this.searchClickHandler.bind(this);
   }
@@ -27,7 +32,7 @@ class Signup extends Component {
 
   async searchClickHandler() {
     const searchResults = await axios
-      .get(`http://localhost:3396/api/properties/fetch/name?name=${this.state.searchInput}`);
+      .get(`http://localhost:3396/api/properties/fetch/name?name=${this.state.searchInput}`, this.config);
     
     !searchResults.data.length ? 
     this.setState({ 
@@ -167,7 +172,7 @@ class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData: state.userData
+    //
   }
 };
 
@@ -177,4 +182,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Signup));
+export default connect(mapStateToProps, matchDispatchToProps)(Signup);

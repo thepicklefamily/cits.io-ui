@@ -7,16 +7,21 @@ import { setCurrentArticleEntry } from "../../actions/setCurrentArticleEntry";
 import ArticleEntry from "./ArticleEntry";
 import ArticleEntryForm from './ArticleEntryForm';
 import axios from "axios";
-import PhonebookEntryForm from "../Phonebook/PhonebookEntryForm";
 
 class Articles extends Component {
   constructor(props) {
     super(props);
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
   }
 
   async componentWillMount() {
+    this.config.headers.authorization = await localStorage.getItem('token');
     this.props.setArticleEditState('0');
-    const { data } = await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`);
+    const { data } = await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     await this.props.setArticlesData(data);
 
   }
@@ -69,7 +74,6 @@ class Articles extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData: state.userData,
     articlesData: state.articlesData,
     currentArticleEntry: state.currentArticleEntry,
     articleEditState: state.articleEditState,

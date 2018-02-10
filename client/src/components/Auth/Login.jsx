@@ -1,4 +1,3 @@
-require('babel-polyfill');
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
@@ -6,12 +5,15 @@ import { setUserData } from '../../actions/setUserData';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
 import axios from 'axios';
-// import { withRouter } from 'react-router';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
   }
 
   handleKeyPress(e) {
@@ -39,10 +41,10 @@ class Login extends Component {
       (this.props.setUserData(d.data), this.props.history.push('/')) 
       : 
       console.log('bad username and/or bad password'); // HANDLE ERROR HERE
-    const propertyData = await axios
-      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${d.data.id}`)
+    this.config.headers.authorization = await localStorage.getItem('token')
+    const propertyData = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config)
     this.props.setPropertyData(propertyData.data);
-    localStorage.setItem('propertyId', JSON.stringify(propertyData.data[0].id));
+    localStorage.setItem('propertyId', '1');
     await this.props.setCurrentProperty(propertyData.data[0]);
   }
 
@@ -54,7 +56,7 @@ class Login extends Component {
           Username:<br/>
           <input type='text' name='username'/><br/>
           Password:<br/>
-          <input onKeyUp={this.handleKeyPress} type='password' name='password'/><br/>
+          <input onKeyUp={this.handleKeyPress.bind(this)} type='password' name='password'/><br/>
           <button onClick={this.onSubmitHandler.bind(this)}>Submit</button>
         </div>
       </div>
@@ -81,7 +83,6 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData: state.userData,
     currentProperty: state.currentProperty
   }
 };
@@ -94,4 +95,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default (connect(mapStateToProps, matchDispatchToProps)(Login));
+export default connect(mapStateToProps, matchDispatchToProps)(Login);

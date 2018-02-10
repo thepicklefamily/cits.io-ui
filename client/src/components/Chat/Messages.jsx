@@ -16,12 +16,17 @@ class Messages extends Component {
       roomname: '',
       type: ''
     }
+    this.config = {
+      headers: {
+        authorization: localStorage.getItem('token')
+      }
+    };
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
   componentWillMount() {
-    axios.get(`http://localhost:3396/api/chat/getMessages`)
+    axios.get(`http://localhost:3396/api/chat/getMessages`, this.config)
       .then((res) => {
         this.setState({
           messages: res.data
@@ -43,7 +48,7 @@ class Messages extends Component {
     })
     socket.on('server.message', async (data) => {
       try {
-        const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`)
+        const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config)
         await this.setState({
           messages: [...this.state.messages, message.data[0]]
         })
@@ -85,7 +90,7 @@ class Messages extends Component {
       type: this.state.type
     }
     try {
-      const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload)
+      const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload, this.config)
       console.log(this.state, 'state');
       data.data ? this.state.socket.emit('client.message', (data.data)) : console.log('error retrieving data');
     } catch (err) {

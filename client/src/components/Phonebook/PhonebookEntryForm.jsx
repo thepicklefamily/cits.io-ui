@@ -9,9 +9,15 @@ import axios from 'axios';
 class PhonebookEntryForm extends Component {
   constructor(props) {
     super(props);
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
   }
 
   componentDidMount() {
+    this.config.headers.authorization = localStorage.getItem('token')
     document.getElementsByName('company')[0].value = this.props.currentPhonebookEntry.company ? 
       this.props.currentPhonebookEntry.company 
       : 
@@ -29,7 +35,7 @@ class PhonebookEntryForm extends Component {
   async onAddHandler() {
     const payload = this.props.phonebookEditState === '1' ? 
       {
-        propertyId: this.props.currentProperty.id.toString(),
+        propertyId: localStorage.getItem('propertyId'),
         company: document.getElementsByName('company')[0].value.toString(),
         service: document.getElementsByName('service')[0].value.toString(),
         contactInfo: document.getElementsByName('contactinfo')[0].value.toString()
@@ -42,17 +48,17 @@ class PhonebookEntryForm extends Component {
         contactInfo: document.getElementsByName('contactinfo')[0].value.toString()
       }
     const { data } = this.props.phonebookEditState === '1' ?
-      await axios.post('http://localhost:3396/api/phonebooks/create', payload)
+      await axios.post('http://localhost:3396/api/phonebooks/create', payload, this.config)
       :
-      await axios.put('http://localhost:3396/api/phonebooks/update', payload);
-    const d = await axios.get(`http://localhost:3396/api/phonebooks/${localStorage.getItem('propertyId')}`);
+      await axios.put('http://localhost:3396/api/phonebooks/update', payload, this.config);
+    const d = await axios.get(`http://localhost:3396/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setPhonebookData(d.data);
     data ? await this.props.setPhonebookEditState('0') : null;
   }
 
   async onDeleteHandler() {
-    await axios.delete(`http://localhost:3396/api/phonebooks/delete/${this.props.currentPhonebookEntry.id}`);
-    const d = await axios.get(`http://localhost:3396/api/phonebooks/${localStorage.getItem('propertyId')}`);
+    await axios.delete(`http://localhost:3396/api/phonebooks/delete/${this.props.currentPhonebookEntry.id}`, this.config);
+    const d = await axios.get(`http://localhost:3396/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
     await this.props.setPhonebookData(d.data);
     await this.props.setPhonebookEditState('0');
   }
@@ -101,4 +107,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default (connect(mapStateToProps, matchDispatchToProps)(PhonebookEntryForm));
+export default connect(mapStateToProps, matchDispatchToProps)(PhonebookEntryForm);

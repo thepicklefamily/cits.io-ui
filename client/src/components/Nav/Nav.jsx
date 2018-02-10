@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import { Route, Switch } from 'react-router-dom';
 import { setUserData } from '../../actions/setUserData';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
@@ -56,7 +55,7 @@ class Nav extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData: state.userData
+    //
   }
 };
 

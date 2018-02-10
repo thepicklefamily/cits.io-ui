@@ -5,7 +5,6 @@ import Login from '../Auth/Login.jsx';
 import Core from '../Core/Core.jsx';
 import Nav from '../Nav/Nav.jsx';
 import { Route, Switch } from 'react-router-dom';
-import { withRouter } from 'react-router';
 import { setPhonebookEditState } from '../../actions/setPhonebookEditState';
 
 class Mein extends Component {
@@ -37,7 +36,7 @@ class Mein extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData: state.userData
+    //
   }
 };
 
@@ -47,4 +46,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default (connect(mapStateToProps, matchDispatchToProps)(Mein));
+export default connect(mapStateToProps, matchDispatchToProps)(Mein);

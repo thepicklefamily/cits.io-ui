@@ -12,11 +12,17 @@ import axios from 'axios';
 class Phonebook extends Component {
   constructor(props) {
     super(props);
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
   }
 
   async componentWillMount() {
     this.props.setPhonebookEditState('0');
-    const { data } = await axios.get(`http://localhost:3396/api/phonebooks/${localStorage.getItem('propertyId')}`);
+    this.config.headers.authorization = await localStorage.getItem('token');
+    const { data } = await axios.get(`http://localhost:3396/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
     await this.props.setPhonebookData(data);
   }
 
@@ -58,7 +64,6 @@ class Phonebook extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData: state.userData,
     phonebookData: state.phonebookData,
     phonebookEditState: state.phonebookEditState,
     currentPhonebookEntry: state.currentPhonebookEntry,
@@ -74,4 +79,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default (connect(mapStateToProps, matchDispatchToProps)(Phonebook));
+export default connect(mapStateToProps, matchDispatchToProps)(Phonebook);

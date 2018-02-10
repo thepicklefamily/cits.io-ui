@@ -9,15 +9,24 @@ import { locale } from 'moment';
 class TenantTicketDetails extends Component {
   constructor(props) {
     super(props);
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
+  }
+  
+  componentWillMount() {
+    this.config.headers.authorization = localStorage.getItem('token');
   }
 
   async onUpdateStatusHandler() {
     //manager updates status:
     var payload = this.props.currentTicketEntry;
     payload.status = document.getElementsByName('status')[0].value,
-    await axios.put('http://localhost:3396/api/userTickets/edit', payload);
+    await axios.put('http://localhost:3396/api/userTickets/edit', payload, this.config);
     //getting the new updated list of tickets for the property:
-    const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${localStorage.getItem('propertyId')}`);
+    const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setTicketsData(data);
     //return back to list of entries view:
     this.props.setTicketEditState('list');
@@ -59,7 +68,6 @@ class TenantTicketDetails extends Component {
 
 const mapStateToProps = state => {
   return {
-    userData:state.userData,
     currentProperty: state.currentProperty,
     currentTicketEntry: state.currentTicketEntry,
     currentTicketTenantData: state.currentTicketTenantData
@@ -73,4 +81,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default (connect(mapStateToProps, matchDispatchToProps)(TenantTicketDetails));
+export default connect(mapStateToProps, matchDispatchToProps)(TenantTicketDetails);

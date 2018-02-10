@@ -9,9 +9,15 @@ import axios from 'axios';
 class ArticleEntryForm extends Component {
   constructor(props) {
     super(props);
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
   }
 
   componentDidMount() {
+    this.config.headers.authorization = localStorage.getItem('token');
     document.getElementsByName('title')[0].value = this.props.data.title ? this.props.data.title : null;
     document.getElementsByName('date')[0].value = this.props.data.date ? this.props.data.date : null;
     document.getElementsByName('content')[0].value = this.props.data.content ? this.props.data.content : null;
@@ -27,8 +33,8 @@ class ArticleEntryForm extends Component {
       date: document.getElementsByName('date')[0].value.toString(),
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
-    const { data } = await axios.post(`http://localhost:3396/api/articles/addArticle`, payload);
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`);
+    const { data } = await axios.post(`http://localhost:3396/api/articles/addArticle`, payload, this.config);
+    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setArticlesData(d.data);
     data ?  await this.props.setArticleEditState('0') : null;
   }
@@ -41,15 +47,15 @@ class ArticleEntryForm extends Component {
       date: document.getElementsByName('date')[0].value.toString(),
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
-    const { data } = await axios.put(`http://localhost:3396/api/articles/editArticle`, payload);
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`);
+    const { data } = await axios.put(`http://localhost:3396/api/articles/editArticle`, payload, this.config);
+    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setArticlesData(d.data);
     data ?  await this.props.setArticleEditState('0') : null;
   }
   
   async onDeleteHandler () {
-    await axios.delete(`http://localhost:3396/api/articles/deleteArticle/${this.props.data.id}/${localStorage.getItem('propertyId')}`)
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`);
+    await axios.delete(`http://localhost:3396/api/articles/deleteArticle/${this.props.data.id}/${localStorage.getItem('propertyId')}`, this.config);
+    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     await this.props.setArticlesData(d.data);
     await this.props.setArticleEditState('0');
   }
@@ -78,7 +84,6 @@ class ArticleEntryForm extends Component {
 }
 const mapStateToProps = state => { 
   return {
-    userData: state.userData,
     articleEditState: state.articleEditState,
     currentProperty: state.currentProperty
   }
