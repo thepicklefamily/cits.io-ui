@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import io from 'socket.io-client/dist/socket.io.js';
+import axios from 'axios';
+
 import { setCurrentArticlePosts } from '../../actions/setCurrentArticlePosts';
 import { setCurrentViewArticle } from '../../actions/setCurrentViewArticle';
-import axios from 'axios';
 
 
 class Post extends Component {
@@ -27,9 +29,13 @@ class Post extends Component {
   }
 
   onChangeHandler (e) {
+    e.preventDefault();
+
     this.setState({
       [e.target.name] : e.target.value
     })
+
+    e.target.reset();
   }
 
   async onAddHandler () {
