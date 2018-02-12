@@ -77,6 +77,23 @@ class Messages extends Component {
       type,
     })
   }
+
+  //will save the time that the user left chat. for notifications.
+  setPropIDTimeStampTuples() {
+    let prevLocalStorage = localStorage.getItem('propIDTimeStampTuples')
+    prevLocalStorage ? 
+      localStorage.setItem('propIDTimeStampTuples', `${prevLocalStorage}|${localStorage.getItem('propertyId')},${Date.now()}`)
+      :
+      localStorage.setItem('propIDTimeStampTuples', `${localStorage.getItem('propertyId')},${Date.now()}`)
+  }
+
+  componentWillUnmount () {
+        //can set time here onto localStorage. however, what if switch props while in chat? chat doesn't unmount then...
+        //so will have to add function in navbar to set time when switch props while window.location.href === "http://localhost:3000/chat" too.
+        console.log('Chat\'s Messages Component has been unmounted!');
+        this.setPropIDTimeStampTuples(); 
+  }
+
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -147,7 +164,7 @@ class Messages extends Component {
 }
 const mapStateToProps = state => {
   return {
-    //
+    chatNotificationSocket: state.chatNotificationSocket
   }
 };
 
