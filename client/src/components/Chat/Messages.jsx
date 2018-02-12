@@ -20,7 +20,7 @@ class Messages extends Component {
     }
     this.config = {
       headers: {
-        authorization: localStorage.getItem('token')
+        authorization: ''
       }
     };
     this.handleClick = this.handleClick.bind(this);
@@ -29,6 +29,7 @@ class Messages extends Component {
     this.goToProfile = this.goToProfile.bind(this);
   }
   componentWillMount() {
+    this.config.headers.authorization = localStorage.getItem('token');
     axios.get(`http://localhost:3396/api/chat/getMessages`, this.config)
       .then((res) => {
         this.setState({
@@ -51,9 +52,10 @@ class Messages extends Component {
     })
     socket.on('server.message', async (data) => {
       try {
-        const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config)
+        console.log('data', data);
+        // const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config) // // this was unneccessary
         await this.setState({
-          messages: [...this.state.messages, message.data[0]]
+          messages: [...this.state.messages, data]
         })
       } catch (err) {
         console.log('error fetching messages');
@@ -95,7 +97,7 @@ class Messages extends Component {
       type: this.state.type
     }
     try {
-      const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload)
+      const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload, this.config)
       data.data ? this.state.socket.emit('client.message', (data.data)) : console.log('error retrieving data');
     } catch (err) {
       console.log('error', err);
@@ -105,7 +107,7 @@ class Messages extends Component {
   async goToProfile(e) {
     e.preventDefault();
     try {
-      const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${e.target.name}`)
+      const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${e.target.name}`, this.config)
       delete data[0].password
       delete data[0].type
       const payload = data;
