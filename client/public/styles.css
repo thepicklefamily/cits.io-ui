@@ -1,7 +1,9 @@
 /* --
   GENERIC RESET
 -- */
-
+* {
+  outline: none;
+}
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -117,22 +119,22 @@ table {
 }
 .loginInner > input::-webkit-input-placeholder { /* WebKit browsers */
   
-  color: #D0D0D0;
+  color: #aeaeae;
   font-size: small;
 }
 .loginInner > input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
   
-  color: #D0D0D0;
+  color: #aeaeae;
   font-size: small;
 }
 .loginInner > input::-moz-placeholder { /* Mozilla Firefox 19+ */
   
-  color: #D0D0D0;
+  color: #aeaeae;
   font-size: small;
 }
 .loginInner > input:-ms-input-placeholder { /* Internet Explorer 10+ */
   
-  color: #D0D0D0;
+  color: #aeaeae;
   font-size: small;
 }
 #loginWord {
@@ -163,4 +165,79 @@ table {
 }
 /* --
   LOGIN
+-- */
+
+/* --
+  SIGNUP
+-- */
+.propertySearch {
+  color: #787878;
+}
+.signUpMain {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 5vh auto auto auto;
+}
+.signUpInner {
+  background-color: #F1F1F1;
+  color: #F1F1F1;
+  margin: 3vh auto 2vh auto;
+  width: 30%;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  padding: 40px;
+}
+.signUpInnerInputs {
+  border: none; 
+  width: 80%;
+  height: 35px;
+  padding-left: 15px;
+  margin: 5px;
+  color: #616161;
+  font-size: small;
+}
+.signUpButtons {
+  color: #fff;
+  font-size: medium;
+  border: none;
+  background-color: #48832B;
+  padding: 10px 30px;
+  margin: 15px 10px 0 0;
+}
+.signUpButtons:hover {
+  cursor: pointer;  
+}
+.signUpButtons:focus {
+  outline: none;
+}
+.signUpInner > input:focus {
+  outline: none;
+}
+.signUpInner > input::-webkit-input-placeholder { /* WebKit browsers */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+.signUpInner > input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+.signUpInner > input::-moz-placeholder { /* Mozilla Firefox 19+ */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+.signUpInner > input:-ms-input-placeholder { /* Internet Explorer 10+ */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+#signUpWord {
+  text-align: center;
+  font-size: 1.75em;
+  color: #787878;
+}
+
+/* --
+  SIGNUP
 -- */
