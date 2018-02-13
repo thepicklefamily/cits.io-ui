@@ -9,8 +9,8 @@ class Footer extends Component {
 
   render() {
     return (
-      <div>
-        HELLO FROM FOOTER
+      <div className="footer">
+        Copyright {(new Date()).getFullYear()} &copy; Castle in the Sky. All Rights Reserved
       </div>
     );
   }

@@ -63,7 +63,7 @@ class Messages extends Component {
 
     })
     let type = '';
-    if (localStorage.getItem('type') === 1) {
+    if (localStorage.getItem('type') === '1') {
       type = 'Manager';
     } else {
       type = 'Tenant';

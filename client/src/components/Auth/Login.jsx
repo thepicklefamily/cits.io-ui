@@ -50,14 +50,15 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
-        Login Page Says Hello!
-        <div>
-          Username:<br/>
-          <input type='text' name='username'/><br/>
-          Password:<br/>
-          <input onKeyUp={this.handleKeyPress.bind(this)} type='password' name='password'/><br/>
-          <button onClick={this.onSubmitHandler.bind(this)}>Submit</button>
+      <div className="loginMain">
+        <h2 id="loginWord">LOGIN</h2>
+        <div className="loginInner">
+          <br/>
+          <input placeholder="Username" type='text' name='username'/><br/>
+          <br/>
+          <input placeholder="Password" onKeyUp={this.handleKeyPress.bind(this)} type='password' name='password'/><br/>
+          <button id="loginButton" onClick={this.onSubmitHandler.bind(this)}>Log In</button>
+          <a onClick={() => {this.props.history.push('/signUp')}} id="orSignUp">or sign up</a>
         </div>
       </div>
     );
