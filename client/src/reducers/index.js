@@ -36,13 +36,9 @@ const allReducers = combineReducers({
   searchResults,
   currentViewArticle,
   currentArticlePosts,
-<<<<<<< HEAD
   clickedUserData,
-  chatNotificationSocket
-=======
   chatNotificationSocket,
   notificationProperties
->>>>>>> [add] add initial chat notifications
 });
 
 export default allReducers;

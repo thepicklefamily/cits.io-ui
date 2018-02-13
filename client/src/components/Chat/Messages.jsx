@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-<<<<<<< HEAD
 import { setClickedUserData } from '../../actions/setClickedUserData';
-=======
 import { setNotificationProperties } from '../../actions/setNotificationProperties';
->>>>>>> [add] add initial chat notifications
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import moment from 'moment';
@@ -34,7 +31,6 @@ class Messages extends Component {
   }
   componentWillMount() {
     this.config.headers.authorization = localStorage.getItem('token');
-    console.log('Chat\'s Messages Component has been mounted!');
     axios.get(`http://localhost:3396/api/chat/getMessages`, this.config)
       .then((res) => {
         this.setState({
@@ -62,7 +58,6 @@ class Messages extends Component {
     socket.on('server.message', async (data) => {
       try {
         //sending confirmation back to server that saw message (for chat notifications):
-        console.log('hi i am new message', data)
         this.props.chatNotificationSocket.emit('message.received', { 
           userId: localStorage.getItem('id'),
           propId: data.propId,
@@ -111,12 +106,6 @@ class Messages extends Component {
     }
   }
 
-  componentWillUnmount () {
-      //dont have access to the chat socket, will need to put it on state?? :(
-        // socket.disconnect()
-        console.log('Chat\'s Messages Component has been unmounted!');
-  }
-
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -142,7 +131,6 @@ class Messages extends Component {
     }
     try {
       const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload, this.config)
-      console.log(this.state, 'state');
       data.data ? 
         (data.data.propId = localStorage.getItem('propertyId'),
         data.data.timeStamp = timeStamp,
