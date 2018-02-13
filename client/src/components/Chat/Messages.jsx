@@ -30,6 +30,7 @@ class Messages extends Component {
   }
   componentWillMount() {
     this.config.headers.authorization = localStorage.getItem('token');
+    console.log('Chat\'s Messages Component has been mounted!');
     axios.get(`http://localhost:3396/api/chat/getMessages`, this.config)
       .then((res) => {
         this.setState({
@@ -56,7 +57,15 @@ class Messages extends Component {
     })
     socket.on('server.message', async (data) => {
       try {
-        // const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config) // // this was unneccessary
+        //sending confirmation back to server that saw message (for chat notifications):
+        console.log('hi i am new message', data)
+        this.props.chatNotificationSocket.emit('message.received', { 
+          userId: localStorage.getItem('id'),
+          propId: data.propId,
+          timeStamp: data.timeStamp
+        });
+        //other chat logic:
+        const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config)
         await this.setState({
           messages: [...this.state.messages, data]
         })
