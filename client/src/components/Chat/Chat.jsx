@@ -8,6 +8,7 @@ import io from 'socket.io-client/dist/socket.io.js';
 class Chat extends Component {
   constructor(props) {
     super(props)
+    this.changeHistory = this.changeHistory.bind(this);
   }
   componentWillMount() {
     // const socket = io.connect('http://localhost:4155', {
@@ -23,13 +24,15 @@ class Chat extends Component {
     // socket.on('server.initialState', () => {
     //   this.setState({ socket })
     // })
-
+  }
+  changeHistory() {
+    this.props.history.push('/userProfile');
   }
   render() {
     return (
-      <div>
+      <div className="chatContainer">
         <Members />
-        <Messages />
+        <Messages changeHistory={this.changeHistory}/>
       </div>
     )
   }

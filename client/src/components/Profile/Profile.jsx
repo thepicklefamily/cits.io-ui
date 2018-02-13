@@ -304,7 +304,7 @@ class Profile extends Component {
                 {
                   this.state.propertyData.map(property => 
                     <PropertyListItem 
-                      key={property.id}
+                      key={property.id} // if someone has multiple units at the same property, this will throw an error in the console.
                       property={property}
                       setPropertyData={this.setPropertyData}
                     />
