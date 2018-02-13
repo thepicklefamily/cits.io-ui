@@ -29,6 +29,7 @@ class PropertyListItem extends Component {
     this.cancelHandler = this. cancelHandler.bind(this);
     this.propertyUpdateHandler = this.propertyUpdateHandler.bind(this);
     this.removeHandler = this.removeHandler.bind(this);
+    this.deletePropertyHandler = this.deletePropertyHandler.bind(this);
   }
 
   componentWillMount() {
@@ -107,6 +108,21 @@ class PropertyListItem extends Component {
     this.props.setPropertyData();
   }
 
+  async deletePropertyHandler() {
+    const propID = this.props.property.id;
+
+    // delete all joint table rows that have the property id
+    await axios
+      .delete(`http://localhost:3396/api/usersPropertiesAptUnits/deleteByPropertyId?propertyID=${propID}`, this.config);
+
+    // delete property from db
+    await axios
+      .delete(`http://localhost:3396/api/properties/deleteProperty?propertyID=${propID}`, this.config);
+
+    // reset the data
+    this.props.setPropertyData();
+  }
+
   cancelHandler() {
     this.setState({ edit: 0 });
   }
@@ -157,7 +173,8 @@ class PropertyListItem extends Component {
                   {this.props.property.address}
                 </div>
                 <button onClick={this.editHandler}>Edit</button>
-                <button onClick={this.removeHandler}>Remove</button>
+                <button onClick={this.removeHandler}>Remove From Account</button>
+                <button onClick={this.deletePropertyHandler}>Delete Property</button>
               </div>
               :
               <div>
