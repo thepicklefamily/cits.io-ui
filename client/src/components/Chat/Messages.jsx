@@ -44,6 +44,7 @@ class Messages extends Component {
         roomId: location.pathname.slice(1) //this will change to the room of the property that I put into the URL
       }
     })
+    console.log('messages', socket)
     socket.on('connect', () => {
       socket.emit('client.ready', 'all');
     })
@@ -55,7 +56,6 @@ class Messages extends Component {
     })
     socket.on('server.message', async (data) => {
       try {
-        console.log('data', data);
         // const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config) // // this was unneccessary
         await this.setState({
           messages: [...this.state.messages, data]
