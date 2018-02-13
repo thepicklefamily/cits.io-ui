@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import PropertySearch from './PropertySearch';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
+import { setSecretErrorState } from '../../actions/setSecretErrorState';
 import axios from 'axios';
 
 class Signup extends Component {
@@ -22,6 +23,7 @@ class Signup extends Component {
       propAddress: '',
       propSecret: '',
       propertyID: null,
+      signupError: false,
       apt_unit: ''
     }
     this.config = {
@@ -51,13 +53,16 @@ class Signup extends Component {
       const selectedProperty = await axios.get(`http://localhost:3396/api/properties/fetch/ID?id=${propertyID}`, this.config);
       
       if (selectedProperty.data[0].secret_key === secret) {
+        this.props.setSecretErrorState(false);
         this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) })
       } else {
-        alert('Your secret key does not match, please try again!')
+        this.props.setSecretErrorState(true);
+        // alert('Your secret key does not match, please try again!')
       };
     } 
       else 
     {
+      // this.props.setSecretErrorState(false);
       this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) });
     }
 
@@ -81,11 +86,16 @@ class Signup extends Component {
       address: this.state.propAddress,
       secret_key: this.state.propSecret
     }
-
+    let newUser = '';
     // Adds user to user table and sets state's userID for queries below
-    const newUser = await axios
-      .post('http://localhost:3396/api/auth/signup', userBody);
-
+    try {
+      newUser = await axios
+        .post('http://localhost:3396/api/auth/signup', userBody);
+      this.setState({ signupError: false });
+    }
+    catch (err) {
+      this.setState({ signupError: true });
+    }
     // if a new property has been entered, adds it to the property's table and sets propertyID
     // in the state for queries below
     if (this.state.propName && this.state.propAddress && this.state.propSecret) {
@@ -239,6 +249,7 @@ class Signup extends Component {
             </div>
           : null
         } 
+        { this.state.signupError ? <div>INVALID SIGNUP</div> : null }
         {
           !this.state.userType ? null :
           <div>
@@ -264,6 +275,7 @@ const matchDispatchToProps = dispatch => {
   return bindActionCreators({
     setPropertyData: setPropertyData,
     setCurrentProperty: setCurrentProperty,
+    setSecretErrorState: setSecretErrorState
   }, dispatch);
 };
 
