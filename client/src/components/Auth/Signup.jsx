@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import PropertySearch from './PropertySearch';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
+import { setSearchResults } from '../../actions/setSearchResults';
 import axios from 'axios';
 
 class Signup extends Component {
@@ -120,7 +121,10 @@ class Signup extends Component {
  
     // set current property information
     const currentProperty = await axios
-      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`, this.config)
+      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`, this.config);
+
+    // clears searchResults from the redux store
+    this.props.setSearchResults([]);
 
     this.props.setPropertyData(currentProperty.data);
     this.props.setCurrentProperty(currentProperty.data[0]);
@@ -262,8 +266,9 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setPropertyData: setPropertyData,
-    setCurrentProperty: setCurrentProperty,
+    setPropertyData,
+    setCurrentProperty,
+    setSearchResults
   }, dispatch);
 };
 
