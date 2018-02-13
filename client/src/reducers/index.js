@@ -17,6 +17,7 @@ import currentViewArticle from './currentViewArticle';
 import currentArticlePosts from './currentArticlePosts';
 import clickedUserData from './clickedUserData';
 import chatNotificationSocket from './chatNotificationSocket';
+import notificationProperties from './notificationProperties';
 
 const allReducers = combineReducers({
   phonebookData,
@@ -35,8 +36,13 @@ const allReducers = combineReducers({
   searchResults,
   currentViewArticle,
   currentArticlePosts,
+<<<<<<< HEAD
   clickedUserData,
   chatNotificationSocket
+=======
+  chatNotificationSocket,
+  notificationProperties
+>>>>>>> [add] add initial chat notifications
 });
 
 export default allReducers;

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
+<<<<<<< HEAD
 import { setClickedUserData } from '../../actions/setClickedUserData';
+=======
+import { setNotificationProperties } from '../../actions/setNotificationProperties';
+>>>>>>> [add] add initial chat notifications
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import moment from 'moment';
@@ -85,22 +89,32 @@ class Messages extends Component {
       userId: localStorage.getItem('id'),
       type,
     })
+
+    this.props.notificationProperties ? this.clearNotifications() : null;
   }
 
-  //will save the time that the user left chat. for notifications.
-  setPropIDTimeStampTuples() {
-    let prevLocalStorage = localStorage.getItem('propIDTimeStampTuples')
-    prevLocalStorage ? 
-      localStorage.setItem('propIDTimeStampTuples', `${prevLocalStorage}|${localStorage.getItem('propertyId')},${Date.now()}`)
-      :
-      localStorage.setItem('propIDTimeStampTuples', `${localStorage.getItem('propertyId')},${Date.now()}`)
+  clearNotifications () {
+    //clear notification once you go to chat page:
+    const currentProperty = +localStorage.getItem('propertyId')
+    if (this.props.notificationProperties.includes(currentProperty)) {
+      document.getElementById('chatButton').innerHTML = 'Go to Chat';
+      document.title = 'CITS';
+      let properties = this.props.notificationProperties.slice();
+      properties.splice(properties.indexOf(currentProperty), 1);
+      this.props.setNotificationProperties(properties);
+      //send confirmation back to server that saw messages in this chat room up to this point (for chat notifications):
+      this.props.chatNotificationSocket.emit('message.received', { 
+        userId: localStorage.getItem('id'),
+        propId: currentProperty,
+        timeStamp: Date.now()
+      });
+    }
   }
 
   componentWillUnmount () {
-        //can set time here onto localStorage. however, what if switch props while in chat? chat doesn't unmount then...
-        //so will have to add function in navbar to set time when switch props while window.location.href === "http://localhost:3000/chat" too.
+      //dont have access to the chat socket, will need to put it on state?? :(
+        // socket.disconnect()
         console.log('Chat\'s Messages Component has been unmounted!');
-        this.setPropIDTimeStampTuples(); 
   }
 
   handleChange(e) {
@@ -173,13 +187,15 @@ class Messages extends Component {
 }
 const mapStateToProps = state => {
   return {
+    notificationProperties: state.notificationProperties,
     chatNotificationSocket: state.chatNotificationSocket
   }
 };
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setClickedUserData: setClickedUserData
+    setClickedUserData,
+    setNotificationProperties
   }, dispatch);
 };
 

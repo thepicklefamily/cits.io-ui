@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
 import { setChatNotificationSocket } from '../../actions/setChatNotificationSocket';
+import { setNotificationProperties } from '../../actions/setNotificationProperties';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 
@@ -17,28 +18,41 @@ class Nav extends Component {
     };
   }
 
-
-
   async componentWillMount () {
 
-    this.setPropertyList();
+    await this.setPropertyList();
 
-    //initiate socket connection for notifications and add to state
+    //initiate socket connection for notifications and add to state:
     const socket = io('http://localhost:4155/chat-notifications');
     await this.props.setChatNotificationSocket(socket);
-
-    this.props.chatNotificationSocket.on('connect', (data) => {
+    await this.props.chatNotificationSocket.on('connect', (data) => {
       console.log('connected to chat-notifications socket');
-      //send user id so socket server can look up initial notifications to give
-
-      /*ADD HERE: SEND PROP IDS FROM STATE TOO - THIS WAY ONLY LOOKING UP USER'S CURRENT PROPS - eg if they deleted props, those entries would still be in mongodb
-      but dont want notifications for those, so instead send an array telling server all possible props to care about and look up */
-      this.props.chatNotificationSocket.emit('notifications.ready', { userId: localStorage.getItem('id') } );
+      //send userid and array of user's props so server can tell client which props to give this user notifications for:
+      this.sendInfoForInitialNotifications();
     });
-    this.props.chatNotificationSocket.on('initial.notifications', (data) => {
-      console.log('initial.notifications data = ', data);
-      //should get an array of prop ids for which to render notifications
-      //here would want to update state where you would also have logic to appropriately render the initial notifications in nav bar
+    this.props.chatNotificationSocket.on('initial.notifications', (notifPropsArray) => {
+      console.log('initial.notifications notifPropsArray = ', notifPropsArray);
+      //should get an array of prop ids for which to render notifications.
+      this.props.setNotificationProperties(notifPropsArray);
+      if (this.props.notificationProperties) {
+        //if a property on the notifications list array is the current property, render the notification on the chat button:
+        if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId'))) {
+          document.getElementById('chatButton').innerHTML = 'Go to Chat *MSG*';
+          document.title = '● CITS';
+        }
+        //if there is a property on the notifications list array that isn't the current property, render the notification on the property select button:
+        let notifsDisplay = '';
+        for (let i = 0; i < this.props.notificationProperties.length; i++) {
+          if (this.props.notificationProperties[i] !== +localStorage.getItem('propertyId')) {
+            notifsDisplay += ' ' + this.props.notificationProperties[i];
+          }
+        }
+        notifsDisplay !== '' ? 
+          (document.getElementById('propSelectButton').innerHTML = `CastleLogo *MSG* for props ${notifsDisplay}`,
+          document.title = '● CITS')
+          :
+          null;
+      }
     });
     this.props.chatNotificationSocket.on('notifications.whileonline', (data) => {
       console.log('notifications.whileonline data = ', data);
@@ -46,45 +60,23 @@ class Nav extends Component {
       //would want to see if that propId exists on this user (prolly on state)
         //if so, appropriately render the notification in nav bar
     });
-
-
-    //getting userId ahead of time because speed is extremely important here.
-    const userId = localStorage.getItem('id');
-    //sending last times user was in any property chat rooms when user leaves site
-    window.onbeforeunload = function () {
-      if (window.location.href === "http://localhost:3000/chat") {
-        const payload = {
-          userId,
-          //may send null for propIDTimeStampTuples if nothing there. cant afford speed loss of managing if null here - will manage that on server
-          //also, the new entry made and sent here won't ever be saved, but that's fine, don't need it to be.
-          times: `${localStorage.getItem('propIDTimeStampTuples')}|${localStorage.getItem('propertyId')},${Date.now()}`,
-        };
-        socket.emit('send.lastonline', payload);
-      } else {
-        const payload = {
-          userId,
-          times: localStorage.getItem('propIDTimeStampTuples'),
-        };
-        socket.emit('send.lastonline', payload);
-      }
-    };
-    localStorage.removeItem('propIDTimeStampTuples'); //not too important, but if time, why not. also clearing this item on logout
-  }
-
-  //not using in window.onbeforeunload (or anywhere) anymore because it's too slow
-  sendPropIDTimeStampTuples() {
-    let prevLocalStorage = localStorage.getItem('propIDTimeStampTuples');
-    prevLocalStorage ? 
-      `${prevLocalStorage}|${localStorage.getItem('propertyId')},${Date.now()}`
-      :
-      `${localStorage.getItem('propertyId')},${Date.now()}`;
   }
 
   //get and set user's properties list onto state
   async setPropertyList() {
     this.config.headers.authorization = localStorage.getItem('token');
     const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
-    this.props.setPropertyData(data);
+    //sometimes get an error object re token instead of actual property list array - eg if not logged in
+    Array.isArray(data) ? this.props.setPropertyData(data) : null;
+  }
+
+  sendInfoForInitialNotifications () {
+    if (this.props.propertyData) {
+      this.props.chatNotificationSocket.emit('notifications.ready', { 
+        userId: localStorage.getItem('id'),
+        propsArray: this.props.propertyData.map(prop => prop.id)
+      });
+    }
   }
 
   // use conditionals to render different navs
@@ -99,9 +91,10 @@ class Nav extends Component {
             <button onClick={() => this.props.history.push('/')}>Go to Home</button>
             <button onClick={() => this.props.history.push('/profile')}>Go to Profile</button>
             <button onClick={() => this.props.history.push('/phonebook')}>Go to Phonebook</button>
-            <button onClick={() => this.props.history.push('/chat')}>Go to Chat</button>
+            <button id='chatButton' onClick={() => this.props.history.push('/chat')}>Go to Chat</button>
             <button onClick={() => this.props.history.push('/tickets')}>Go to Tickets</button>
             <button onClick={() => this.props.history.push('/articles')}>Go to Articles</button>
+            <button id='propSelectButton' onClick={() => console.log('o hai, I am propSelectButton')}>CastleLogo</button>
             <button onClick={() => {(
               this.props.setPropertyData(null),
               this.props.setCurrentProperty(null),
@@ -113,7 +106,7 @@ class Nav extends Component {
               localStorage.removeItem('email'),
               localStorage.removeItem('full_name'),
               localStorage.removeItem('phonenumber'),
-              localStorage.removeItem('propIDTimeStampTuples'),
+              document.title = 'CITS',
               this.props.history.push('/')
             )}}>LOGOUT</button>
           </div> 
@@ -133,7 +126,8 @@ class Nav extends Component {
 const mapStateToProps = state => {
   return {
     propertyData: state.propertyData,
-    chatNotificationSocket: state.chatNotificationSocket
+    chatNotificationSocket: state.chatNotificationSocket,
+    notificationProperties: state.notificationProperties
   }
 };
 
@@ -141,7 +135,8 @@ const matchDispatchToProps = dispatch => {
   return bindActionCreators({
     setPropertyData,
     setCurrentProperty,
-    setChatNotificationSocket
+    setChatNotificationSocket,
+    setNotificationProperties
   }, dispatch);
 };
 
