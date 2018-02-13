@@ -23,12 +23,6 @@ class PropertyListItem extends Component {
       }
     };
 
-    this.config = {
-      headers: {
-        authorization: ''
-      }
-    };
-
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.saveHandler = this.saveHandler.bind(this);
     this.editHandler = this.editHandler.bind(this);
@@ -45,10 +39,6 @@ class PropertyListItem extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-  }
-
-  componentWillMount() {
-    this.config.headers.authorization = localStorage.getItem('token');
   }
 
   async propertyUpdateHandler() {
@@ -107,7 +97,7 @@ class PropertyListItem extends Component {
   }
 
   async removeHandler() {
-    // logic to delete associate between user and property
+    // delete associate between user and property
     const userID = localStorage.getItem('id');
     const propID = this.props.property.id;
 
