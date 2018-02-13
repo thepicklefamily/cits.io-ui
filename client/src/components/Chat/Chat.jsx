@@ -30,7 +30,7 @@ class Chat extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="chatContainer">
         <Members />
         <Messages changeHistory={this.changeHistory}/>
       </div>

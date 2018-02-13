@@ -6,6 +6,9 @@ import io from 'socket.io-client/dist/socket.io.js';
 class Members extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      socket: null
+    }
   }
   componentWillMount() {
     const socket = io.connect('http://localhost:4155', {
@@ -16,7 +19,7 @@ class Members extends Component {
     console.log('hey', socket);
     socket.on('connect', () => {
       console.log('getting to connect in client');
-      socket.emit('client.ready', 'SWAP WITH ROOM NAME AT SOME POINT');
+      socket.emit('client.ready', 'all');
     })
     socket.on('server.initialState', () => {
       this.setState({ socket })

@@ -45,10 +45,13 @@ class Messages extends Component {
       }
     })
     socket.on('connect', () => {
-      socket.emit('client.ready', 'SWAP WITH ROOM NAME AT SOME POINT');
+      socket.emit('client.ready', 'all');
     })
     socket.on('server.initialState', () => {
-      this.setState({ socket })
+      this.setState({ 
+        socket,
+        roomname: location.pathname.slice(1)
+      })
     })
     socket.on('server.message', async (data) => {
       try {

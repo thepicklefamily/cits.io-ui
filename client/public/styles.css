@@ -241,3 +241,16 @@ table {
 /* --
   SIGNUP
 -- */
+
+/* --
+  CHAT
+-- */
+
+.chatContainer {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+/* --
+  CHAT
+-- */
