@@ -102,6 +102,12 @@ class Profile extends Component {
       await this.setState({ 
         propertyID: newProperty.data.id 
       });
+
+      // empty the input fields
+      console.log(document.getElementsByName('propName'))
+      document.getElementsByName('propName')[0].value = '';
+      document.getElementsByName('propAddress')[0].value = '';
+      document.getElementsByName('propSecret')[0].value = '';
     }
 
     // add add relationship to joint table
