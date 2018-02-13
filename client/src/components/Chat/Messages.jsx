@@ -18,7 +18,7 @@ class Messages extends Component {
     }
     this.config = {
       headers: {
-        authorization: localStorage.getItem('token')
+        authorization: ''
       }
     };
     this.handleClick = this.handleClick.bind(this);
@@ -26,6 +26,7 @@ class Messages extends Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
   componentWillMount() {
+    this.config.headers.authorization = localStorage.getItem('token');
     axios.get(`http://localhost:3396/api/chat/getMessages`, this.config)
       .then((res) => {
         this.setState({
