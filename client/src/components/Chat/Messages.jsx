@@ -49,7 +49,7 @@ class Messages extends Component {
       socket.emit('client.ready', 'all');
     })
     socket.on('server.initialState', () => {
-      this.setState({ 
+      this.setState({
         socket,
         roomname: location.pathname.slice(1)
       })
@@ -122,18 +122,22 @@ class Messages extends Component {
   }
   render() {
     return (
-      <div>
-        <div>
-          <ul>
-            {this.state.messages.map((message, i) => (
-              <div key={i}>
-                <li><a href="!" onClick={this.goToProfile} name={message.userId}>{message.username}</a> ({message.type}): {message.message} <br/>{moment(message.date).fromNow()}</li>
-              </div>
-            ))}
-          </ul>
+      <div className="messagesMain">
+        <div className="messagesInner">
+          <div>
+            <ul>
+              {this.state.messages.map((message, i) => (
+                <div key={i}>
+                  <li><a href="!" onClick={this.goToProfile} name={message.userId}>{message.username}</a> ({message.type}): {message.message} <br />{moment(message.date).fromNow()}</li>
+                </div>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <input onKeyUp={this.handleKeyPress} id="message" onChange={this.handleChange} type="text" name="message" autoComplete="off"></input>
+            <button onClick={this.handleClick} type="submit">SUBMIT</button>
+          </div>
         </div>
-        <input onKeyUp={this.handleKeyPress} id="message" onChange={this.handleChange} type="text" name="message" autoComplete="off"></input>
-        <button onClick={this.handleClick} type="submit">SUBMIT</button>
       </div>
     )
   }

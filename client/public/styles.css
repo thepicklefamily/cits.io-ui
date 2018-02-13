@@ -75,9 +75,10 @@ table {
 }
 .main {
   grid-area: content;
-  overflow: scroll;
+  overflow: hidden;
 }
 .footer {
+  position: static;
   grid-area: footer;
   display: flex;
   justify-content: center;
@@ -248,9 +249,28 @@ table {
 
 .chatContainer {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 200px 1fr;
 }
-
+.membersMain {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 10vh auto auto auto;
+}
+.messagesMain {
+  overflow-y: scroll;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 8vh auto auto auto;
+  width: 80%;
+}
+.messagesInner {
+  background-color: #F1F1F1;
+  color: #000;
+  margin: 3vh auto 2vh auto;
+  width: 80%;
+  text-align: left;
+  border: 1px solid #e0e0e0;
+  padding: 40px;
+  overflow: scroll;
+}
 /* --
   CHAT
 -- */
