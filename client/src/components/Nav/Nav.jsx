@@ -34,8 +34,8 @@ class Nav extends Component {
     });
     this.props.chatNotificationSocket.on('initial.notifications', (notifPropsArray) => {
       //should get an array of prop ids for which to render notifications.
-      console.log('notifpropsarray', notifPropsArray)
-      if (notifPropsArray) {
+      console.log('init.notifpropsarray', notifPropsArray);
+      if (notifPropsArray.length) {
         this.props.setNotificationProperties(notifPropsArray);
         this.renderNotifications();
       }
@@ -47,9 +47,7 @@ class Nav extends Component {
       if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1) {
         for (let i = 0; i < this.props.propertyData.length; i++) {
           if (+propId === this.props.propertyData[i].id) {
-            console.log('notifpropsbefore', this.props.notificationProperties);
             this.props.setNotificationProperties(this.props.notificationProperties.concat(+propId));
-            console.log('notifpropsafter', this.props.notificationProperties);
             this.renderNotifications();
           }
         }
@@ -59,8 +57,9 @@ class Nav extends Component {
 
   //anytime get or do something notifications worthy / change the state of the notificationProperties, then run this func to render them all properly:
   renderNotifications() {
-            //if a property on the notifications list array is the current property, render the notification on the chat button:
-    if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && window.location.href !== "http://localhost:3000/chat") {
+            //if a property on the notifications list array is the current property, render the notification on the chat button, unless the user is looking at the chat page:
+    if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && window.location.href !== "http://localhost:3000/chat" || 
+      this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !document.hasFocus()) {
       document.getElementById('chatButton').innerHTML = 'Go to Chat *MSG*';
       document.title = '● CITS';
     }

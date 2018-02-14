@@ -88,7 +88,14 @@ class Messages extends Component {
       type,
     })
 
-    this.props.notificationProperties ? this.clearNotifications() : null;
+    this.props.notificationProperties.length ?
+      (this.clearNotifications(),
+      this.confirmMessagesSeen())
+      : 
+      null;
+
+      const clearNotifications = this.clearNotifications.bind(this);
+      window.addEventListener("focus", function() {clearNotifications()});
   }
 
   clearNotifications () {
@@ -97,16 +104,18 @@ class Messages extends Component {
     if (this.props.notificationProperties.includes(currentProperty)) {
       document.getElementById('chatButton').innerHTML = 'Go to Chat';
       document.title = 'CITS';
-      let properties = this.props.notificationProperties.slice();
-      properties.splice(properties.indexOf(currentProperty), 1);
+      const properties = this.props.notificationProperties.filter(prop => prop !== currentProperty);
       this.props.setNotificationProperties(properties);
-      //send confirmation back to server that saw messages in this chat room up to this point (for chat notifications):
-      this.props.chatNotificationSocket.emit('message.received', { 
-        userId: localStorage.getItem('id'),
-        propId: currentProperty,
-        timeStamp: Date.now()
-      });
     }
+  }
+  
+  confirmMessagesSeen () {
+    //send confirmation back to server that saw messages in this chat room up to this point (for chat notifications):
+    this.props.chatNotificationSocket.emit('message.received', { 
+      userId: +localStorage.getItem('id'),
+      propId: +localStorage.getItem('propertyId'),
+      timeStamp: Date.now()
+    });
   }
 
   handleChange(e) {
