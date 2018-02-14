@@ -1,6 +1,6 @@
 export default function (state=null, action) {
   switch (action.type) {
-    case 'SET_PROPERTY_DATA_SELECTOR':
+    case 'SET_CHAT_NOTIFICATION_SOCKET_SELECTOR':
       return action.payload;
       break;
   }

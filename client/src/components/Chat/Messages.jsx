@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { setClickedUserData } from '../../actions/setClickedUserData';
+import { setNotificationProperties } from '../../actions/setNotificationProperties';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import moment from 'moment';
@@ -56,7 +57,14 @@ class Messages extends Component {
     })
     socket.on('server.message', async (data) => {
       try {
-        // const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config) // // this was unneccessary
+        //sending confirmation back to server that saw message (for chat notifications):
+        this.props.chatNotificationSocket.emit('message.received', { 
+          userId: localStorage.getItem('id'),
+          propId: data.propId,
+          timeStamp: data.timeStamp
+        });
+        //other chat logic:
+        const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config)
         await this.setState({
           messages: [...this.state.messages, data]
         })
@@ -76,7 +84,28 @@ class Messages extends Component {
       userId: localStorage.getItem('id'),
       type,
     })
+
+    this.props.notificationProperties ? this.clearNotifications() : null;
   }
+
+  clearNotifications () {
+    //clear notification once you go to chat page:
+    const currentProperty = +localStorage.getItem('propertyId')
+    if (this.props.notificationProperties.includes(currentProperty)) {
+      document.getElementById('chatButton').innerHTML = 'Go to Chat';
+      document.title = 'CITS';
+      let properties = this.props.notificationProperties.slice();
+      properties.splice(properties.indexOf(currentProperty), 1);
+      this.props.setNotificationProperties(properties);
+      //send confirmation back to server that saw messages in this chat room up to this point (for chat notifications):
+      this.props.chatNotificationSocket.emit('message.received', { 
+        userId: localStorage.getItem('id'),
+        propId: currentProperty,
+        timeStamp: Date.now()
+      });
+    }
+  }
+
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -92,6 +121,7 @@ class Messages extends Component {
     if (document.getElementById('message').value === '') {
       return;
     }
+    const timeStamp = Date.now()
     const payload = {
       message: this.state.message,
       username: this.state.username,
@@ -101,7 +131,12 @@ class Messages extends Component {
     }
     try {
       const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload, this.config)
-      data.data ? this.state.socket.emit('client.message', (data.data)) : console.log('error retrieving data');
+      data.data ? 
+        (data.data.propId = localStorage.getItem('propertyId'),
+        data.data.timeStamp = timeStamp,
+        this.state.socket.emit('client.message', (data.data)))
+        :
+        console.log('error retrieving data');
     } catch (err) {
       console.log('error', err);
     }
@@ -140,13 +175,15 @@ class Messages extends Component {
 }
 const mapStateToProps = state => {
   return {
-    //
+    notificationProperties: state.notificationProperties,
+    chatNotificationSocket: state.chatNotificationSocket
   }
 };
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setClickedUserData: setClickedUserData
+    setClickedUserData,
+    setNotificationProperties
   }, dispatch);
 };
 

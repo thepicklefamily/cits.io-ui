@@ -3,10 +3,80 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
+import { setChatNotificationSocket } from '../../actions/setChatNotificationSocket';
+import { setNotificationProperties } from '../../actions/setNotificationProperties';
+import io from 'socket.io-client/dist/socket.io.js';
+import axios from 'axios';
 
 class Nav extends Component {
   constructor(props) {
     super(props);
+    this.config = {
+      headers: {
+        authorization: ''
+      }
+    };
+  }
+
+  async componentWillMount () {
+
+    await this.setPropertyList();
+
+    //initiate socket connection for notifications and add to state:
+    const socket = io('http://localhost:4155/chat-notifications');
+    await this.props.setChatNotificationSocket(socket);
+    await this.props.chatNotificationSocket.on('connect', (data) => {
+      console.log('connected to chat-notifications socket');
+      //send userid and array of user's props so server can tell client which props to give this user notifications for:
+      this.sendInfoForInitialNotifications();
+    });
+    this.props.chatNotificationSocket.on('initial.notifications', (notifPropsArray) => {
+      console.log('initial.notifications notifPropsArray = ', notifPropsArray);
+      //should get an array of prop ids for which to render notifications.
+      this.props.setNotificationProperties(notifPropsArray);
+      if (this.props.notificationProperties) {
+        //if a property on the notifications list array is the current property, render the notification on the chat button:
+        if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId'))) {
+          document.getElementById('chatButton').innerHTML = 'Go to Chat *MSG*';
+          document.title = '● CITS';
+        }
+        //if there is a property on the notifications list array that isn't the current property, render the notification on the property select button:
+        let notifsDisplay = '';
+        for (let i = 0; i < this.props.notificationProperties.length; i++) {
+          if (this.props.notificationProperties[i] !== +localStorage.getItem('propertyId')) {
+            notifsDisplay += ' ' + this.props.notificationProperties[i];
+          }
+        }
+        notifsDisplay !== '' ? 
+          (document.getElementById('propSelectButton').innerHTML = `CastleLogo *MSG* for props ${notifsDisplay}`,
+          document.title = '● CITS')
+          :
+          null;
+      }
+    });
+    this.props.chatNotificationSocket.on('notifications.whileonline', (data) => {
+      console.log('notifications.whileonline data = ', data);
+      //should get a propId, one at a time, when any messages are sent.
+      //would want to see if that propId exists on this user (prolly on state)
+        //if so, appropriately render the notification in nav bar
+    });
+  }
+
+  //get and set user's properties list onto state
+  async setPropertyList() {
+    this.config.headers.authorization = localStorage.getItem('token');
+    const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
+    //sometimes get an error object re token instead of actual property list array - eg if not logged in
+    Array.isArray(data) ? this.props.setPropertyData(data) : null;
+  }
+
+  sendInfoForInitialNotifications () {
+    if (this.props.propertyData) {
+      this.props.chatNotificationSocket.emit('notifications.ready', { 
+        userId: localStorage.getItem('id'),
+        propsArray: this.props.propertyData.map(prop => prop.id)
+      });
+    }
   }
 
   // use conditionals to render different navs
@@ -21,9 +91,10 @@ class Nav extends Component {
             <button onClick={() => this.props.history.push('/')}>Go to Home</button>
             <button onClick={() => this.props.history.push('/profile')}>Go to Profile</button>
             <button onClick={() => this.props.history.push('/phonebook')}>Go to Phonebook</button>
-            <button onClick={() => this.props.history.push('/chat')}>Go to Chat</button>
+            <button id='chatButton' onClick={() => this.props.history.push('/chat')}>Go to Chat</button>
             <button onClick={() => this.props.history.push('/tickets')}>Go to Tickets</button>
             <button onClick={() => this.props.history.push('/articles')}>Go to Articles</button>
+            <button id='propSelectButton' onClick={() => console.log('o hai, I am propSelectButton')}>CastleLogo</button>
             <button onClick={() => {(
               this.props.setPropertyData(null),
               this.props.setCurrentProperty(null),
@@ -35,6 +106,7 @@ class Nav extends Component {
               localStorage.removeItem('email'),
               localStorage.removeItem('full_name'),
               localStorage.removeItem('phonenumber'),
+              document.title = 'CITS',
               this.props.history.push('/')
             )}}>LOGOUT</button>
           </div> 
@@ -53,14 +125,18 @@ class Nav extends Component {
 
 const mapStateToProps = state => {
   return {
-    //
+    propertyData: state.propertyData,
+    chatNotificationSocket: state.chatNotificationSocket,
+    notificationProperties: state.notificationProperties
   }
 };
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setPropertyData: setPropertyData,
-    setCurrentProperty: setCurrentProperty
+    setPropertyData,
+    setCurrentProperty,
+    setChatNotificationSocket,
+    setNotificationProperties
   }, dispatch);
 };
 
