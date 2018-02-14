@@ -22,7 +22,8 @@ class Phonebook extends Component {
   async componentWillMount() {
     this.props.setPhonebookEditState('0');
     this.config.headers.authorization = await localStorage.getItem('token');
-    const { data } = await axios.get(`http://localhost:3396/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
+    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    const { data } = await axios.get(`${url}/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
     await this.props.setPhonebookData(data);
   }
 
