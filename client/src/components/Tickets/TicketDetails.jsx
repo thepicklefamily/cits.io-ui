@@ -11,6 +11,9 @@ import axios from 'axios';
 class TicketDetails extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      tenantInfoError: false
+    };
     this.config = {
       headers: {
         authorization: ''
@@ -22,9 +25,14 @@ class TicketDetails extends Component {
     this.config.headers.authorization = localStorage.getItem('token');
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     //if manager, need to query for tenant's user info to display on ticket
-    if (localStorage.getItem('type') === '1') {
-      const { data } = await axios.get(`${this.REST_URL}/api/users/fetch/${this.props.currentTicketEntry.userid}`, this.config);
-      await this.props.setCurrentTicketTenantData(data);
+    try {
+      if (localStorage.getItem('type') === '1') {
+        const { data } = await axios.get(`${this.REST_URL}/api/users/fetch/${this.props.currentTicketEntry.userid}`, this.config);
+        await this.props.setCurrentTicketTenantData(data);
+        this.setState({tenantInfoError: false});
+      }
+    } catch (err) {
+      this.setState({tenantInfoError: true});
     }
   }
 
@@ -45,6 +53,7 @@ class TicketDetails extends Component {
           :
           null
           }
+        { this.state.tenantInfoError ? <div>Error loading tenant details, please try again!</div> : null }
         <button onClick={this.onCancelHandler.bind(this)}>Back</button> 
 
         <br/><br/>

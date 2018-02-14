@@ -21,38 +21,41 @@ class Nav extends Component {
   async componentWillMount () {
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST: process.env.SOCKET_SERVER_LOCAL_HOST;
-
-    await this.setPropertyList();
-
-    //initiate socket connection for notifications and add to state:
-    const socket = io(`${this.SOCKET_URL}/chat-notifications`);
-    await this.props.setChatNotificationSocket(socket);
-    await this.props.chatNotificationSocket.on('connect', (data) => {
-      console.log('connected to chat-notifications socket');
-      //send userid and array of user's props so server can tell client which props to give this user notifications for:
-      this.sendInfoForInitialNotifications();
-    });
-    this.props.chatNotificationSocket.on('initial.notifications', (notifPropsArray) => {
-      //should get an array of prop ids for which to render notifications.
-      console.log('init.notifpropsarray', notifPropsArray);
-      if (notifPropsArray.length) {
-        this.props.setNotificationProperties(notifPropsArray);
-        this.renderNotifications();
-      }
-    });
-    this.props.chatNotificationSocket.on('notifications.whileonline', ({userId, propId}) => {
-      console.log('notifications.whileonline data = ', userId, propId);
-      //if the notification is for a msg not from this user, on this users prop list, and not on the notification props list yet
-      //then add it to the notification props list and re-render notifications.
-      if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1 && this.props.propertyData) {
-        for (let i = 0; i < this.props.propertyData.length; i++) {
-          if (+propId === this.props.propertyData[i].id) {
-            this.props.setNotificationProperties(this.props.notificationProperties.concat(+propId));
-            this.renderNotifications();
+    try {
+      await this.setPropertyList();
+  
+      //initiate socket connection for notifications and add to state:
+      const socket = io(`${this.SOCKET_URL}/chat-notifications`);
+      await this.props.setChatNotificationSocket(socket);
+      await this.props.chatNotificationSocket.on('connect', (data) => {
+        console.log('connected to chat-notifications socket');
+        //send userid and array of user's props so server can tell client which props to give this user notifications for:
+        this.sendInfoForInitialNotifications();
+      });
+      this.props.chatNotificationSocket.on('initial.notifications', (notifPropsArray) => {
+        //should get an array of prop ids for which to render notifications.
+        console.log('init.notifpropsarray', notifPropsArray);
+        if (notifPropsArray.length) {
+          this.props.setNotificationProperties(notifPropsArray);
+          this.renderNotifications();
+        }
+      });
+      this.props.chatNotificationSocket.on('notifications.whileonline', ({userId, propId}) => {
+        console.log('notifications.whileonline data = ', userId, propId);
+        //if the notification is for a msg not from this user, on this users prop list, and not on the notification props list yet
+        //then add it to the notification props list and re-render notifications.
+        if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1 && this.props.propertyData) {
+          for (let i = 0; i < this.props.propertyData.length; i++) {
+            if (+propId === this.props.propertyData[i].id) {
+              this.props.setNotificationProperties(this.props.notificationProperties.concat(+propId));
+              this.renderNotifications();
+            }
           }
         }
-      }
-    });
+      });
+    } catch (err) {
+      //
+    }
   }
 
   //anytime get or do something notifications worthy / change the state of the notificationProperties, then run this func to render them all properly:
@@ -82,10 +85,14 @@ class Nav extends Component {
 
   //get and set user's properties list onto state
   async setPropertyList() {
-    this.config.headers.authorization = localStorage.getItem('token');
-    const { data } = await axios.get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
-    //sometimes get an error object re token instead of actual property list array - eg if not logged in
-    Array.isArray(data) ? this.props.setPropertyData(data) : null;
+    try {
+      this.config.headers.authorization = localStorage.getItem('token');
+      const { data } = await axios.get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
+      //sometimes get an error object (that's not a catch err) re token instead of actual property list array - eg if not logged in
+      Array.isArray(data) ? this.props.setPropertyData(data) : null;
+    } catch (err) {
+      //
+    }
   }
 
   sendInfoForInitialNotifications () {
