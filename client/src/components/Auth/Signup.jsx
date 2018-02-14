@@ -5,13 +5,17 @@ import { bindActionCreators } from 'redux';
 import PropertySearch from './PropertySearch';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
+<<<<<<< HEAD
 import { setSecretErrorState } from '../../actions/setSecretErrorState';
+=======
+import { setSearchResults } from '../../actions/setSearchResults';
+>>>>>>> master
 import axios from 'axios';
 
 class Signup extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       userType: null,
       full_name: '',
@@ -51,7 +55,7 @@ class Signup extends Component {
         }
       };
       const selectedProperty = await axios.get(`http://localhost:3396/api/properties/fetch/ID?id=${propertyID}`, this.config);
-      
+
       if (selectedProperty.data[0].secret_key === secret) {
         this.props.setSecretErrorState(false);
         this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) })
@@ -59,10 +63,15 @@ class Signup extends Component {
         this.props.setSecretErrorState(true);
         // alert('Your secret key does not match, please try again!')
       };
+<<<<<<< HEAD
     } 
       else 
     {
       // this.props.setSecretErrorState(false);
+=======
+    }
+    else {
+>>>>>>> master
       this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) });
     }
 
@@ -109,15 +118,15 @@ class Signup extends Component {
 
     // add apartment unit to the table if it exists
     let tempUnit = '';
-    
+
     if (this.state.apt_unit) {
       const newAptUnit = await axios
-      .post('http://localhost:3396/api/aptUnits/create', {
-        unit: this.state.apt_unit
-      }, this.config);
+        .post('http://localhost:3396/api/aptUnits/create', {
+          unit: this.state.apt_unit
+        }, this.config);
       tempUnit = newAptUnit;
-    } 
-    
+    }
+
     // axios to add user, prop, and apartment unit IDs to joint table
     const jointBody = {
       userID: newUser.data.id,
@@ -127,10 +136,13 @@ class Signup extends Component {
 
     await axios
       .post('http://localhost:3396/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits', jointBody, this.config);
- 
+
     // set current property information
     const currentProperty = await axios
-      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`, this.config)
+      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`, this.config);
+
+    // clears searchResults from the redux store
+    this.props.setSearchResults([]);
 
     this.props.setPropertyData(currentProperty.data);
     this.props.setCurrentProperty(currentProperty.data[0]);
@@ -148,118 +160,115 @@ class Signup extends Component {
 
   render() {
     return (
-      <div>
-        Hello from signup!
+      <div className="signUpMain">
+        <h2 id="signUpWord">SIGN UP</h2>
         {/* Standard form displayed on page load */}
-        <form action="/api/auth/signup" method="post">
-          <div>
-            Select User Type:
-            <select 
-              name="userType"
-              defaultValue="select"
-              onChange={this.inputChangeHandler}
-            >
-              <option name="select" value="">Select User Type</option>
-              <option name="tenant" value="0">Tenant</option>
-              <option name="manager" value="1">Manager</option>
-            </select>
-          </div>
-          
-          <div>
-            Full Name:
-            <input 
-              name="full_name" 
-              placeholder="Enter Full Name"
-              onChange={this.inputChangeHandler}
-            />
-          </div>
-
-          <div>
-            Email:
-            <input 
-              name="email" 
-              placeholder="Enter Email"
-              onChange={this.inputChangeHandler}
-            />
-          </div>
-
-          <div>
-            Username:
-            <input 
-              name="username" 
-              placeholder="Enter Username"
-              onChange={this.inputChangeHandler}
-            />
-          </div>
-
-          <div>
-            Phone:
-            <input 
-              name="phone" 
-              placeholder="Phone Number"
-              onChange={this.inputChangeHandler}
-            />
-          </div>
-
-          <div>
-            Password:
-            <input 
-              type="password"
-              name="password" 
-              placeholder="Enter Password"
-              onChange={this.inputChangeHandler}
-            />
-          </div>
-        </form>
-
-        {/* Conditional properties form based on selected user type */}
-        {
-          !this.state.userType ? null :
-          this.state.userType === "0" ? 
+        <div className="signUpInner">
+          <form action="/api/auth/signup" method="post">
             <div>
-              Property (Tenant):
-              <PropertySearch
-                propertyID={this.state.propertyID}
-                selectProperty={this.selectProperty}
-                inputChangeHandler={this.inputChangeHandler}
-                userType={this.state.userType} 
+              Select User Type:
+            <select
+                className="signUpInnerInputs"
+                name="userType"
+                defaultValue="select"
+                onChange={this.inputChangeHandler}
+              >
+                <option name="select" value="">Select User Type</option>
+                <option name="tenant" value="0">Tenant</option>
+                <option name="manager" value="1">Manager</option>
+              </select>
+            </div>
+
+            <div>
+              Full Name:
+            <input
+                name="full_name"
+                placeholder="Enter Full Name"
+                onChange={this.inputChangeHandler}
+                className="signUpInnerInputs"
               />
-              {
-                !this.state.propertyID ? null :
+            </div>
+            <div>
+              <input
+                name="email"
+                placeholder="Enter Email"
+                onChange={this.inputChangeHandler}
+                className="signUpInnerInputs"
+              />
+            </div>
+            <div>
+              <input
+                name="username"
+                placeholder="Enter Username"
+                onChange={this.inputChangeHandler}
+                className="signUpInnerInputs"
+              />
+            </div>
+            <div>
+              <input
+                name="phone"
+                placeholder="Phone Number"
+                onChange={this.inputChangeHandler}
+                className="signUpInnerInputs"
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter Password"
+                onChange={this.inputChangeHandler}
+                className="signUpInnerInputs"
+              />
+            </div>
+          </form>
+
+          {/* Conditional properties form based on selected user type */}
+          {
+            !this.state.userType ? null :
+              this.state.userType === "0" ?
                 <div>
-                  Apartment Number/Unit:
-                  <input 
-                    name="apt_unit"
-                    placeholder="Enter Unit Number"
-                    onChange={this.inputChangeHandler}
+                  Property (Tenant):
+              <PropertySearch
+                    propertyID={this.state.propertyID}
+                    selectProperty={this.selectProperty}
+                    inputChangeHandler={this.inputChangeHandler}
+                    userType={this.state.userType}
                   />
+                  {
+                    !this.state.propertyID ? null :
+                      <div>
+                        Apartment Number/Unit:
+                  <input
+                          name="apt_unit"
+                          placeholder="Enter Unit Number"
+                          onChange={this.inputChangeHandler}
+                          className="signUpInnerInputs"
+                        />
+                      </div>
+                  }
                 </div>
-              }
-            </div>
-          :
-          this.state.userType === "1" ? 
-            <div>
-              Property (Manager):
-              <PropertySearch 
-                propertyID={this.state.propertyID}
-                selectProperty={this.selectProperty}
-                inputChangeHandler={this.inputChangeHandler}
-                userType={this.state.userType}
-              />
-            </div>
-          : null
-        } 
-        { this.state.signupError ? <div>INVALID SIGNUP</div> : null }
-        {
-          !this.state.userType ? null :
-          <div>
-            <button
-              onClick={this.submitHandler}
-            >
-              Sign Up
-            </button>
-          </div>
-        }
+                :
+                this.state.userType === "1" ?
+                  <div>
+                    Property (Manager):
+              <PropertySearch
+                      propertyID={this.state.propertyID}
+                      selectProperty={this.selectProperty}
+                      inputChangeHandler={this.inputChangeHandler}
+                      userType={this.state.userType}
+                    />
+                  </div>
+                  : null
+          }
+          { this.state.signupError ? <div>INVALID SIGNUP</div> : null }
+          {
+            !this.state.userType ? null :
+              <div>
+                <button className="signUpButtons" onClick={this.submitHandler}>Sign Up</button>
+              </div>
+          }
+        </div>
       </div>
     );
   }
@@ -273,9 +282,10 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setPropertyData: setPropertyData,
-    setCurrentProperty: setCurrentProperty,
-    setSecretErrorState: setSecretErrorState
+    setSecretErrorState,
+    setPropertyData,
+    setCurrentProperty,
+    setSearchResults
   }, dispatch);
 };
 

@@ -102,6 +102,12 @@ class Profile extends Component {
       await this.setState({ 
         propertyID: newProperty.data.id 
       });
+
+      // empty the input fields
+      console.log(document.getElementsByName('propName'))
+      document.getElementsByName('propName')[0].value = '';
+      document.getElementsByName('propAddress')[0].value = '';
+      document.getElementsByName('propSecret')[0].value = '';
     }
 
     // add add relationship to joint table
@@ -298,7 +304,7 @@ class Profile extends Component {
                 {
                   this.state.propertyData.map(property => 
                     <PropertyListItem 
-                      key={property.id}
+                      key={property.id} // if someone has multiple units at the same property, this will throw an error in the console.
                       property={property}
                       setPropertyData={this.setPropertyData}
                     />

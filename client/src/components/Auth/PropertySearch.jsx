@@ -50,7 +50,7 @@ class Signup extends Component {
 
   render() {
     return (
-      <div>
+      <div className="propertySearch">
         Search Property:
         {/* <form> */}
           <input 
@@ -59,8 +59,9 @@ class Signup extends Component {
             placeholder="Enter Property Name Here"
             onChange={this.inputChangeHandler}
             onKeyUp={this.handleKeyPress}
+            className="signUpInnerInputs"
           />
-          <button onClick={this.searchClickHandler}>Search</button>
+          <button className="signUpButtons" onClick={this.searchClickHandler}>Search</button>
         {/* </form> */}
         {
           !this.props.searchResults.length ? null :
@@ -82,9 +83,9 @@ class Signup extends Component {
                     </div>
                     {
                       this.props.propertyID === property.id ? 
-                      <button onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
+                      <button className="signUpButtons" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
                       :
-                      <button onClick={() => { this.props.selectProperty(property.id) }}>Select Property</button>
+                      <button className="signUpButtons" onClick={() => { this.props.selectProperty(property.id) }}>Select Property</button>
                     }
                   </div>
                 )
@@ -117,15 +118,16 @@ class Signup extends Component {
                           name="secret" 
                           placeholder="Enter Secret Key"
                           onChange={this.inputChangeHandler}
+                          className="signUpInnerInputs"
                         />
                       }
                       { this.props.secretErrorState ? <div>INVALID SECRET KEY</div> : null }
                     </div>
                     {
                       this.props.propertyID === property.id ? 
-                      <button onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
+                      <button className="signUpButtons" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
                       :
-                      <button onClick={() => { this.props.selectProperty(property.id, this.state.secret)}}>Select Property</button>
+                      <button className="signUpButtons" onClick={() => { this.props.selectProperty(property.id, this.state.secret)}}>Select Property</button>
                     }
                   </div>
                 )
@@ -135,7 +137,7 @@ class Signup extends Component {
         }
         {
           this.props.userType === "1" ?
-            <div><br/>
+            <div>
               or Add New Property:
               <form action="">
                 <div>
@@ -144,6 +146,7 @@ class Signup extends Component {
                     onChange={this.props.inputChangeHandler}
                     name="propName" 
                     placeholder="Enter Property Name"
+                    className="signUpInnerInputs"
                   />
                 </div>
 
@@ -153,6 +156,7 @@ class Signup extends Component {
                     onChange={this.props.inputChangeHandler}
                     name="propAddress" 
                     placeholder="Enter Property Address"
+                    className="signUpInnerInputs"
                   />
                 </div>
 
@@ -163,6 +167,7 @@ class Signup extends Component {
                     onChange={this.props.inputChangeHandler}
                     name="propSecret" 
                     placeholder="Enter Secret Key"
+                    className="signUpInnerInputs"
                   />
                 </div>
               </form>

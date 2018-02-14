@@ -13,7 +13,9 @@ import Profile from './Profile/Profile.jsx';
 import Chat from './Chat/Chat.jsx';
 import Articles from './Articles/Articles.jsx';
 import Tickets from './Tickets/Tickets.jsx';
+import UserProfile from './Profile/UserProfile';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../store.js';
 
@@ -27,29 +29,24 @@ class App extends Component {
     return (
       <Provider store={this.props.store}>
         <BrowserRouter>
-          <div>
-            <h4>*----- NAV TOP -----*</h4>
+          <div className="container">
             <Switch>
-              <Route path='/' component={Nav}/>
+              <Route path='/' component={Nav} />
             </Switch>
-            <h4>*----- NAV BOTTOM -----*</h4>
-            <br/>
-            <h4>*----- MAIN TOP -----*</h4>
-            <Switch> 
-              <Route path='/profile' component={Profile}/>
-              <Route path='/phonebook' component={Phonebook}/>
-              <Route path='/signup' component={Signup}/>
-              <Route path='/login' component={Login}/>
-              <Route path='/chat' component={Chat}/>
-              <Route path='/tickets' component={Tickets}/>
-              <Route path='/articles' component={Articles}/>
-              <Route path='/' component={Mein}/>
-            </Switch>
-            <h4>*----- MAIN BOTTOM -----*</h4>
-            <br/>
-            <h4>*----- FOOTER TOP -----*</h4>
-            <Footer/>
-            <h4>*----- FOOTER BOTTOM -----*</h4>
+            <div className="main">
+              <Switch>
+                <Route path='/profile' component={Profile} />
+                <Route path='/phonebook' component={Phonebook} />
+                <Route path='/signup' component={Signup} />
+                <Route path='/login' component={Login} />
+                <Route path='/chat' component={Chat} />
+                <Route path='/userProfile' component={UserProfile} />
+                <Route path='/tickets' component={Tickets} />
+                <Route path='/articles' component={Articles} />
+                <Route path='/' component={Mein} />
+              </Switch>
+            </div>
+            <Footer />
           </div>
         </BrowserRouter>
       </Provider>

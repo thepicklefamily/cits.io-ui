@@ -14,7 +14,7 @@ class Nav extends Component {
 
   render() {
     return (
-      <div>
+      <div className="header">
         { localStorage.getItem('token') ? 
           // LOGGED IN
           <div>

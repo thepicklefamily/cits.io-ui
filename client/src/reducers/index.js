@@ -16,6 +16,7 @@ import searchResults from './searchResults';
 import currentViewArticle from './currentViewArticle';
 import currentArticlePosts from './currentArticlePosts';
 import secretErrorState from './secretErrorState';
+import clickedUserData from './clickedUserData';
 
 const allReducers = combineReducers({
   phonebookData,
@@ -34,7 +35,8 @@ const allReducers = combineReducers({
   searchResults,
   currentViewArticle,
   currentArticlePosts,
-  secretErrorState
+  secretErrorState,
+  clickedUserData
 });
 
 export default allReducers;
