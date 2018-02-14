@@ -30,7 +30,7 @@ module.exports = {
         'REST_SERVER_LOCAL_HOST': JSON.stringify(process.env.REST_SERVER_LOCAL_HOST),
         'REST_SERVER_AWS_HOST': JSON.stringify(process.env.REST_SERVER_AWS_HOST),
         'SOCKET_SERVER_LOCAL_HOST': JSON.stringify(process.env.SOCKET_SERVER_LOCAL_HOST),
-        'SOCKET_SERVER_AWS_HOST': JSON.stringifty(process.env.SOCKET_SERVER_AWS_HOST),
+        'SOCKET_SERVER_AWS_HOST': JSON.stringify(process.env.SOCKET_SERVER_AWS_HOST),
         'SMTP_SERVER_LOCAL_HOST': JSON.stringify(process.env.SMTP_SERVER_LOCAL_HOST),
         'SMTP_SERVER_AWS_HOST': JSON.stringify(process.env.SMTP_SERVER_AWS_HOST)
       }
