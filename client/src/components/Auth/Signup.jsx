@@ -63,15 +63,9 @@ class Signup extends Component {
         this.props.setSecretErrorState(true);
         // alert('Your secret key does not match, please try again!')
       };
-<<<<<<< HEAD
     } 
       else 
     {
-      // this.props.setSecretErrorState(false);
-=======
-    }
-    else {
->>>>>>> master
       this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) });
     }
 
