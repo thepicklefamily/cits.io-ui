@@ -19,13 +19,13 @@ class TicketEntryForm extends Component {
     };
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     this.config.headers.authorization = localStorage.getItem('token');
     //this prepopulates the apt number in the ticket submission form:
     const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
     for (let i = 0; i < data.length; i++) {
       data[i].id.toString() === localStorage.getItem('propertyId') ? document.getElementsByName('apt_num')[0].value = data[i].unit : null;
-    } 
+    }
     const emails = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesManagers?propertyID=${localStorage.getItem('propertyId')}`, this.config);
     await this.setState({
       managerEmails: emails.data
@@ -34,7 +34,7 @@ class TicketEntryForm extends Component {
   }
 
   //change category to a dropdown of a handful of options, including Other
-  async submitNewTicket () {
+  async submitNewTicket() {
     const payload = {
       category: document.getElementsByName('category')[0].value,
       //once we have apt_num in table working properly, we could/should pre-populate it for the tenant
@@ -65,7 +65,7 @@ class TicketEntryForm extends Component {
     } catch (err) {
       console.log(err);
     }
-    
+
     //getting the new updated list of tickets for the user:
     const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`, this.config);
     this.props.setTicketsData(data);
@@ -75,27 +75,22 @@ class TicketEntryForm extends Component {
 
   render() {
     return (
-      <div>
-        <br/><br/>
-        TICKET INFORMATION <br/><br/>
-        <select name='category'>
-          <option value="" hidden >Select a category...</option>
-          <option value="plumbing">Plumbing</option>
-          <option value="Electrical">Electrical</option>
-          <option value="Aesthetic">Aesthetic</option>
-          <option value="Other">Other</option>
-        </select>
-        <br/><br/>
-        <input type='text' name='apt_num' placeholder='Apt. Num'></input>
-        <br/><br/>
-        <input type='text' name='subject' placeholder='Subject'></input>
-        <br/><br/>
-        <textarea rows="4" cols="50" type='text' name='description' placeholder='Please describe the issue...'></textarea>
-        <br/><br/>
-        <textarea rows="2" cols="50" type='text' name='photo_url' placeholder='If you have a photo, provide url here'></textarea>
-        <br/><br/>
-        <button onClick={this.submitNewTicket.bind(this)}>SUBMIT</button> 
-        <br/><br/>
+      <div className="ticketEntryMain">
+        <h2 id="ticketEntryWord">SUBMIT A TICKET</h2>
+        <div className="ticketEntryInner">
+          <select className="ticketEntryInnerSelect" name='category'>
+            <option value="" hidden >Select a category...</option>
+            <option value="plumbing">Plumbing</option>
+            <option value="Electrical">Electrical</option>
+            <option value="Aesthetic">Aesthetic</option>
+            <option value="Other">Other</option>
+          </select>
+          <input className="ticketEntryInnerInputs" type='text' name='apt_num' placeholder='Apt. Num'></input>
+          <input className="ticketEntryInnerInputs" type='text' name='subject' placeholder='Subject'></input>
+          <textarea className="ticketEntryInnerTextArea" rows="4" cols="50" type='text' name='description' placeholder='Please describe the issue...'></textarea>
+          <input className="ticketEntryInnerInputs" rows="2" cols="50" type='text' name='photo_url' placeholder='If you have a photo, provide url here'></input>
+          <button className="ticketEntryButtons" onClick={this.submitNewTicket.bind(this)}>SUBMIT</button>
+        </div>
       </div>
     );
   }

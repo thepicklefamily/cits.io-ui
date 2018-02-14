@@ -357,3 +357,120 @@ q:before, q:after {
 /* --
   CHAT
 -- */
+
+/* --
+  TICKETS
+-- */
+
+.ticketEntryMain {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 5vh auto auto auto;
+}
+.ticketEntryInner {
+  background-color: #F1F1F1;
+  color: #F1F1F1;
+  margin: 3vh auto 2vh auto;
+  width: 30%;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  padding: 40px;
+}
+.ticketEntryInnerInputs {
+  border: none; 
+  width: 80%;
+  height: 35px;
+  padding-left: 15px;
+  margin: 5px;
+  color: #616161;
+  font-size: small;
+}
+.ticketEntryInnerTextArea {
+  border: none; 
+  width: 80%;
+  height: 70px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding-left: 15px;
+  padding-top: 10px;
+  margin: 5px;
+  color: #616161;
+  font-size: small;
+  resize: none;
+}
+.ticketEntryInnerSelect {
+  border: none; 
+  width: 85%;
+  height: 35px;
+  padding-left: 15px;
+  margin: 5px;
+  color: #616161;
+  font-size: small;
+}
+.ticketEntryButtons {
+  color: #fff;
+  font-size: medium;
+  border: none;
+  background-color: #48832B;
+  padding: 10px 30px;
+  margin: 15px 10px 0 0;
+}
+.ticketEntryButtons:hover {
+  cursor: pointer;  
+}
+.ticketEntryButtons:focus {
+  outline: none;
+}
+.ticketEntryInner > input:focus {
+  outline: none;
+}
+.ticketEntryInner > input::-webkit-input-placeholder { /* WebKit browsers */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+.ticketEntryInner > input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+.ticketEntryInner > input::-moz-placeholder { /* Mozilla Firefox 19+ */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+.ticketEntryInner > input:-ms-input-placeholder { /* Internet Explorer 10+ */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+.ticketEntryInner > textarea:focus {
+  outline: none;
+}
+.ticketEntryInner > textarea::-webkit-input-placeholder { /* WebKit browsers */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+.ticketEntryInner > textarea:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+.ticketEntryInner > textarea::-moz-placeholder { /* Mozilla Firefox 19+ */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+.ticketEntryInner > textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
+  
+  color: #aeaeae;
+  font-size: small;
+}
+#ticketEntryWord {
+  text-align: center;
+  font-size: 1.75em;
+  color: #787878;
+}
+
+/* --
+  TICKETS
+-- */
