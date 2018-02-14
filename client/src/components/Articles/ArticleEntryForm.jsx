@@ -61,7 +61,13 @@ class ArticleEntryForm extends Component {
       date: document.getElementsByName('date')[0].value.toString(),
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
-    const { data } = await axios.put(`http://localhost:3396/api/articles/editArticle`, payload, this.config);
+    let data = null;
+    try {
+      data = { data } = await axios.put(`http://localhost:3396/api/articles/editArticle`, payload, this.config);
+    }
+    catch (err) {
+      this.setState({ articleError: true });
+    }
     const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setArticlesData(d.data);
     data ?  await this.props.setArticleEditState('0') : null;

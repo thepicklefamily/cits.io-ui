@@ -277,3 +277,36 @@ table {
 /* --
   ARTICLE
 -- */
+
+/* --
+  TICKET
+-- */
+.ticketError {
+  color: red;
+  font-size: 14px;
+}
+/* --
+  TICKET
+-- */
+
+/* --
+  PHONEBOOK
+-- */
+.phonebookError {
+  color: red;
+  font-size: 14px;
+}
+/* --
+  PHONEBOOK
+-- */
+
+/* --
+  PROFILE
+-- */
+.profileError {
+  color: red;
+  font-size: 14px;
+}
+/* --
+  PROFILE
+-- */

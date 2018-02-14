@@ -252,7 +252,7 @@ class Signup extends Component {
                   </div>
                   : null
           }
-          { this.state.signupError ? <div className="signUpError">INVALID SIGNUP</div> : null }
+          { this.state.signupError ? <div className="signUpError">Please check your input fields and try again!</div> : null }
           {
             !this.state.userType ? null :
               <div>

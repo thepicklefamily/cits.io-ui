@@ -27,8 +27,9 @@ class Login extends Component {
       username: document.getElementsByName('username')[0].value,
       password: document.getElementsByName('password')[0].value
     }
+    let d = null;
     try {
-      const d = await axios.post('http://localhost:3396/api/auth/login', payload) 
+      d = await axios.post('http://localhost:3396/api/auth/login', payload) 
       this.setState({ inputError: false });
       await localStorage.removeItem('randid');
       await localStorage.setItem('token', JSON.parse(d.headers.authorization).accessToken);
@@ -51,7 +52,7 @@ class Login extends Component {
     //   : 
     //   {};
 
-    d.data ? 
+    d && d.data ? 
       this.props.history.push('/')
       : 
       console.log('bad username and/or bad password'); // HANDLE ERROR HERE
@@ -82,7 +83,7 @@ class Login extends Component {
           <input placeholder="Username" type='text' name='username'/><br/>
           <br/>
           <input placeholder="Password" onKeyUp={this.handleKeyPress.bind(this)} type='password' name='password'/><br/>
-          { this.state.inputError ? <div className="loginError">Invalid Username/Password. Please try again.</div> : null }
+          { this.state.inputError ? <div className="loginError">Please check your input fields and try again!</div> : null }
           <button id="loginButton" onClick={this.onSubmitHandler.bind(this)}>Log In</button>
           <a onClick={() => {this.props.history.push('/signUp')}} id="orSignUp">or sign up</a>
         </div>
