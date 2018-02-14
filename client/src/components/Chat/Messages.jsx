@@ -31,7 +31,10 @@ class Messages extends Component {
   }
   componentWillMount() {
     this.config.headers.authorization = localStorage.getItem('token');
-    axios.get(`http://localhost:3396/api/chat/getMessages`, this.config)
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST: process.env.SOCKET_SERVER_LOCAL_HOST;
+    
+    axios.get(`${this.REST_URL}/api/chat/getMessages`, this.config)
       .then((res) => {
         this.setState({
           messages: res.data
@@ -40,7 +43,7 @@ class Messages extends Component {
       .catch(() => {
         console.log('error fetching messages.  WHOOPS!');
       })
-    const socket = io(`http://localhost:4155`, {
+    const socket = io(`${this.SOCKET_URL}`, {
       query: {
         roomId: location.pathname.slice(1) //this will change to the room of the property that I put into the URL
       }
@@ -64,7 +67,7 @@ class Messages extends Component {
           timeStamp: data.timeStamp
         });
         //other chat logic:
-        const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config)
+        const message = await axios.get(`${this.REST_URL}/api/chat/getMostRecentMessage`, this.config)
         await this.setState({
           messages: [...this.state.messages, data]
         })
@@ -130,7 +133,7 @@ class Messages extends Component {
       type: this.state.type
     }
     try {
-      const data = await axios.post(`http://localhost:3396/api/chat/addMessage`, payload, this.config)
+      const data = await axios.post(`${this.REST_URL}/api/chat/addMessage`, payload, this.config)
       data.data ? 
         (data.data.propId = localStorage.getItem('propertyId'),
         data.data.timeStamp = timeStamp,
@@ -145,7 +148,7 @@ class Messages extends Component {
   async goToProfile(e) {
     e.preventDefault();
     try {
-      const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${e.target.name}`, this.config)
+      const { data } = await axios.get(`${this.REST_URL}/api/users/fetch/${e.target.name}`, this.config)
       delete data[0].password
       delete data[0].type
       const payload = data;

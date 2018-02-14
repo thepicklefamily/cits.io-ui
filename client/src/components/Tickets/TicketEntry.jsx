@@ -49,9 +49,9 @@ class TicketEntry extends Component {
 
   async onDeleteHandler() {
     //delete:
-    await axios.delete(`http://localhost:3396/api/userTickets/delete/${this.props.data.id}`, this.config);
+    await axios.delete(`${this.REST_URL}/api/userTickets/delete/${this.props.data.id}`, this.config);
     //get and set the new updated list of tickets for the property for the property manager:
-    const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${this.props.data.propertyid}`, this.config);
+    const { data } = await axios.get(`${this.REST_URL}/api/propTickets/fetch/${this.props.data.propertyid}`, this.config);
     this.props.setTicketsData(data);
     //return back to list of entries view:
     this.props.setTicketEditState('list');

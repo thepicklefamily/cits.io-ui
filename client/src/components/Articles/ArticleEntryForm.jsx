@@ -16,6 +16,10 @@ class ArticleEntryForm extends Component {
     };
   }
 
+  componentWillMount() {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+  }
+  
   componentDidMount() {
     this.config.headers.authorization = localStorage.getItem('token');
     document.getElementsByName('title')[0].value = this.props.data.title ? this.props.data.title : null;
@@ -33,8 +37,9 @@ class ArticleEntryForm extends Component {
       date: document.getElementsByName('date')[0].value.toString(),
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
-    const { data } = await axios.post(`http://localhost:3396/api/articles/addArticle`, payload, this.config);
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
+
+    const { data } = await axios.post(`${this.REST_URL}/api/articles/addArticle`, payload, this.config);
+    const d =  await axios.get(`${this.REST_URL}/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setArticlesData(d.data);
     data ?  await this.props.setArticleEditState('0') : null;
   }
@@ -47,15 +52,16 @@ class ArticleEntryForm extends Component {
       date: document.getElementsByName('date')[0].value.toString(),
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
-    const { data } = await axios.put(`http://localhost:3396/api/articles/editArticle`, payload, this.config);
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
+
+    const { data } = await axios.put(`${this.REST_URL}/api/articles/editArticle`, payload, this.config);
+    const d =  await axios.get(`${this.REST_URL}/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setArticlesData(d.data);
     data ?  await this.props.setArticleEditState('0') : null;
   }
   
   async onDeleteHandler () {
-    await axios.delete(`http://localhost:3396/api/articles/deleteArticle/${this.props.data.id}`, this.config)
-    const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
+    await axios.delete(`${this.REST_URL}/api/articles/deleteArticle/${this.props.data.id}`, this.config)
+    const d =  await axios.get(`${this.REST_URL}/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     await this.props.setArticlesData(d.data);
     await this.props.setArticleEditState('0');
   }

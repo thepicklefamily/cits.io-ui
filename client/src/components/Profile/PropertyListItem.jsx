@@ -34,6 +34,7 @@ class PropertyListItem extends Component {
 
   componentWillMount() {
     this.config.headers.authorization = localStorage.getItem('token');
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
   }
 
   inputChangeHandler(e) {
@@ -50,11 +51,11 @@ class PropertyListItem extends Component {
       address: this.state.propAddress
     }
 
-    await axios.put('http://localhost:3396/api/properties/editProperty', propertyBody, this.config);
+    await axios.put(`${this.REST_URL}/api/properties/editProperty`, propertyBody, this.config);
 
     // updates secret key if current secret keys match
     if (this.state.password && this.state.secretKey && this.state.confirmKey) {
-      const userData = await axios.get(`http://localhost:3396/api/users/fetch/${localStorage.getItem('id')}`, this.config);
+      const userData = await axios.get(`${this.REST_URL}/api/users/fetch/${localStorage.getItem('id')}`, this.config);
 
       const secretBody = {
         id: this.props.property.id,
@@ -64,7 +65,7 @@ class PropertyListItem extends Component {
       }
 
       this.state.secretKey !== this.state.confirmKey ? alert('Secret was not updated, new secret key entries must match!') :
-      await axios.put('http://localhost:3396/api/properties/editSecret', secretBody, this.config);
+      await axios.put(`${this.REST_URL}/api/properties/editSecret`, secretBody, this.config);
     }
 
     this.props.setPropertyData();
@@ -73,7 +74,7 @@ class PropertyListItem extends Component {
 
   async saveHandler() {
     // add unit to apt_unit table
-    const newUnit = await axios.post('http://localhost:3396/api/aptUnits/create', {
+    const newUnit = await axios.post(`${this.REST_URL}/api/aptUnits/create`, {
       unit: this.state.unit
     }, this.config);
 
@@ -84,7 +85,7 @@ class PropertyListItem extends Component {
       unitID: newUnit.data.id
     }
 
-    await axios.put('http://localhost:3396/api/usersPropertiesAptUnits/editUsersPropertiesAptUnits', newJoinBody, this.config);
+    await axios.put(`${this.REST_URL}/api/usersPropertiesAptUnits/editUsersPropertiesAptUnits`, newJoinBody, this.config);
 
     // query new propertyData for Profile
     this.props.setPropertyData();
@@ -103,7 +104,7 @@ class PropertyListItem extends Component {
     const propID = this.props.property.id;
 
     await axios
-      .delete(`http://localhost:3396/api/usersPropertiesAptUnits/deleteUsersPropertiesAptUnits?userID=${userID}&propertyID=${propID}`, this.config);
+      .delete(`${this.REST_URL}/api/usersPropertiesAptUnits/deleteUsersPropertiesAptUnits?userID=${userID}&propertyID=${propID}`, this.config);
 
     this.props.setPropertyData();
   }
@@ -113,11 +114,11 @@ class PropertyListItem extends Component {
 
     // delete all joint table rows that have the property id
     await axios
-      .delete(`http://localhost:3396/api/usersPropertiesAptUnits/deleteByPropertyId?propertyID=${propID}`, this.config);
+      .delete(`${this.REST_URL}/api/usersPropertiesAptUnits/deleteByPropertyId?propertyID=${propID}`, this.config);
 
     // delete property from db
     await axios
-      .delete(`http://localhost:3396/api/properties/deleteProperty?propertyID=${propID}`, this.config);
+      .delete(`${this.REST_URL}/api/properties/deleteProperty?propertyID=${propID}`, this.config);
 
     // reset the data
     this.props.setPropertyData();

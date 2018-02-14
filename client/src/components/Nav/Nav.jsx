@@ -19,11 +19,13 @@ class Nav extends Component {
   }
 
   async componentWillMount () {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST: process.env.SOCKET_SERVER_LOCAL_HOST;
 
     await this.setPropertyList();
 
     //initiate socket connection for notifications and add to state:
-    const socket = io('http://localhost:4155/chat-notifications');
+    const socket = io(`${this.SOCKET_URL}/chat-notifications`);
     await this.props.setChatNotificationSocket(socket);
     await this.props.chatNotificationSocket.on('connect', (data) => {
       console.log('connected to chat-notifications socket');
@@ -65,7 +67,7 @@ class Nav extends Component {
   //get and set user's properties list onto state
   async setPropertyList() {
     this.config.headers.authorization = localStorage.getItem('token');
-    const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
+    const { data } = await axios.get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
     //sometimes get an error object re token instead of actual property list array - eg if not logged in
     Array.isArray(data) ? this.props.setPropertyData(data) : null;
   }

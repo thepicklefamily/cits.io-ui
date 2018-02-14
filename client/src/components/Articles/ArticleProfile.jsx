@@ -24,8 +24,10 @@ class ArticleProfile extends Component {
   }
 
   async componentWillMount() {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+
     this.config.headers.authorization = await localStorage.getItem('token');
-    const { data } = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config);
+    const { data } = await axios.get(`${this.REST_URL}/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config);
     data ? await this.props.setCurrentArticlePosts(data) : this.props.setCurrentViewArticle('0');
   }
 
@@ -48,10 +50,8 @@ class ArticleProfile extends Component {
       parent_id: null
     }
 
-    console.log(payload)
-
-    const { data } = await axios.post(`http://localhost:3396/api/posts/addPost`, payload, this.config);
-    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config);
+    const { data } = await axios.post(`${this.REST_URL}/api/posts/addPost`, payload, this.config);
+    const d = await axios.get(`${this.REST_URL}/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config);
     this.props.setCurrentArticlePosts(d.data);
     document.getElementsByName('reply').forEach( field => {
       field.value = '';
@@ -68,7 +68,6 @@ class ArticleProfile extends Component {
 
 
   render() {
-    console.log('article profile', this.props);
     return (
       <div>
         ARTICLE PROFILE: 

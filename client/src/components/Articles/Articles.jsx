@@ -10,6 +10,7 @@ import ArticleEntryForm from './ArticleEntryForm';
 import ArticleProfile from './ArticleProfile';
 import axios from "axios";
 
+
 class Articles extends Component {
   constructor(props) {
     super(props);
@@ -21,12 +22,13 @@ class Articles extends Component {
   }
 
   async componentWillMount() {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    
     this.config.headers.authorization = await localStorage.getItem('token');
     this.props.setArticleEditState('0');
-    this.props.setCurrentViewArticle('0')
-    const { data } = await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
+    this.props.setCurrentViewArticle('0');
+    const { data } = await axios.get(`${this.REST_URL}/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     await this.props.setArticlesData(data);
-    
   }
 
   async onAddHandler() {
@@ -40,7 +42,6 @@ class Articles extends Component {
   }
 
   render() {
-    console.log('article props: ', this.props );
     return (
       <div>
         ARTICLE DATA:

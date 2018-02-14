@@ -45,13 +45,14 @@ class Profile extends Component {
 
   componentWillMount() {
     this.config.headers.authorization = localStorage.getItem('token');
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     this.props.setProfileEditState(0);
     this.setPropertyData();
   }
 
   async setPropertyData() {
     const propertyData = await axios
-      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
+      .get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
 
     await this.setState({
       propertyData: propertyData.data
@@ -60,7 +61,7 @@ class Profile extends Component {
 
   async selectProperty(propertyID, secret) {
     if (this.state.userType === '1' && propertyID) {
-      const selectedProperty = await axios.get(`http://localhost:3396/api/properties/fetch/ID?id=${propertyID}`, this.config);
+      const selectedProperty = await axios.get(`${this.REST_URL}/api/properties/fetch/ID?id=${propertyID}`, this.config);
       
       if (selectedProperty.data[0].secret_key === secret) {
         this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) })
@@ -84,7 +85,7 @@ class Profile extends Component {
 
     if (this.state.userType === '0') {
       const newUnit = await axios
-        .post('http://localhost:3396/api/aptUnits/create', { unit: this.state.apt_unit }, this.config);
+        .post(`${this.REST_URL}/api/aptUnits/create`, { unit: this.state.apt_unit }, this.config);
       tempUnit = newUnit;
     }
 
@@ -97,7 +98,7 @@ class Profile extends Component {
       }
 
       const newProperty = await axios
-        .post('http://localhost:3396/api/properties/create', propBody, this.config);
+        .post(`${this.REST_URL}/api/properties/create`, propBody, this.config);
 
       await this.setState({ 
         propertyID: newProperty.data.id 
@@ -121,7 +122,7 @@ class Profile extends Component {
     jointBody.aptUnitID = 1;
 
     await axios
-      .post('http://localhost:3396/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits', jointBody, this.config);
+      .post(`${this.REST_URL}/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits`, jointBody, this.config);
 
     // reset propertyData 
     this.setPropertyData();
@@ -152,7 +153,7 @@ class Profile extends Component {
       phonenumber: this.state.phonenumber
     }
 
-    await axios.put('http://localhost:3396/api/users/editUser', userBody, this.config);
+    await axios.put(`${this.REST_URL}/api/users/editUser`, userBody, this.config);
 
     // updates the users' data on the local storage
     localStorage.setItem('username', this.state.username);
@@ -162,7 +163,7 @@ class Profile extends Component {
 
     // updates password if current password matches
     if (this.state.password && this.state.new_password && this.state.confirm_password) {
-      const userData = await axios.get(`http://localhost:3396/api/users/fetch/${localStorage.getItem('id')}`, this.config);
+      const userData = await axios.get(`${this.REST_URL}/api/users/fetch/${localStorage.getItem('id')}`, this.config);
 
       const passwordBody = {
         user_id: localStorage.getItem('id'),
@@ -172,7 +173,7 @@ class Profile extends Component {
       }
 
       this.state.new_password !== this.state.confirm_password ? alert('Password not updated, new password entries must match!') :
-      await axios.put('http://localhost:3396/api/users/editPassword', passwordBody, this.config);
+      await axios.put(`${this.REST_URL}/api/users/editPassword`, passwordBody, this.config);
     }
 
     // takes user out of edit state

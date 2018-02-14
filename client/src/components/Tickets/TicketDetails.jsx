@@ -20,9 +20,10 @@ class TicketDetails extends Component {
 
   async componentWillMount () {
     this.config.headers.authorization = localStorage.getItem('token');
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     //if manager, need to query for tenant's user info to display on ticket
     if (localStorage.getItem('type') === '1') {
-      const { data } = await axios.get(`http://localhost:3396/api/users/fetch/${this.props.currentTicketEntry.userid}`, this.config);
+      const { data } = await axios.get(`${this.REST_URL}/api/users/fetch/${this.props.currentTicketEntry.userid}`, this.config);
       await this.props.setCurrentTicketTenantData(data);
     }
   }
