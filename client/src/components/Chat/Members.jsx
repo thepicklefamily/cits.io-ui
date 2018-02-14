@@ -41,7 +41,8 @@ class Members extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="membersMain">
+        Members
         <div>
           <ul>
             <li>Steve</li>
