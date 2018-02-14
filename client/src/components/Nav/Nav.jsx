@@ -44,7 +44,7 @@ class Nav extends Component {
       console.log('notifications.whileonline data = ', userId, propId);
       //if the notification is for a msg not from this user, on this users prop list, and not on the notification props list yet
       //then add it to the notification props list and re-render notifications.
-      if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1) {
+      if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1 && this.props.propertyData) {
         for (let i = 0; i < this.props.propertyData.length; i++) {
           if (+propId === this.props.propertyData[i].id) {
             this.props.setNotificationProperties(this.props.notificationProperties.concat(+propId));
