@@ -72,6 +72,10 @@ class PhonebookEntryForm extends Component {
     await this.props.setPhonebookData(d.data);
     await this.props.setPhonebookEditState('0');
   }
+  
+  async onCancelHandler() {
+    await this.props.setPhonebookEditState('0');
+  }
 
   render() {
     return (
@@ -96,6 +100,7 @@ class PhonebookEntryForm extends Component {
           : 
           null
         }
+        <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button>
         <br/><br/>
       </div>
     );

@@ -31,10 +31,6 @@ class Phonebook extends Component {
     await this.props.setPhonebookEditState('1');
   }
 
-  async onCancelHandler() {
-    await this.props.setPhonebookEditState('0');
-  }
-
   render() {
     return (
       <div>
@@ -43,7 +39,6 @@ class Phonebook extends Component {
         {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && localStorage.getItem('type') === '1' ? 
           <div>
             <PhonebookEntryForm/>
-            <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button>
           </div> 
           : 
           this.props.phonebookData ? 
