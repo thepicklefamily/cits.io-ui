@@ -24,7 +24,7 @@ class TicketEntryForm extends Component {
     //this prepopulates the apt number in the ticket submission form:
     const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
     for (let i = 0; i < data.length; i++) {
-      data[i].id.toString() === localStorage.getItem('propertyId') ? document.getElementsByName('apt_num')[0].value = data[i].unit : null;
+      data[i].id.toString() === localStorage.getItem('propertyId') ? document.getElementsByName('apt_num')[0].innerHTML = `Your Apartment #: ${data[i].unit}` : null;
     } 
     const emails = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesManagers?propertyID=${localStorage.getItem('propertyId')}`, this.config);
     await this.setState({
@@ -86,7 +86,7 @@ class TicketEntryForm extends Component {
           <option value="Other">Other</option>
         </select>
         <br/><br/>
-        <input type='text' name='apt_num' placeholder='Apt. Num'></input>
+        <div name='apt_num'></div>
         <br/><br/>
         <input type='text' name='subject' placeholder='Subject'></input>
         <br/><br/>

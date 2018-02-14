@@ -51,15 +51,26 @@ class Login extends Component {
     //   : 
     //   {};
 
-    // d.data ? 
-    //   this.props.history.push('/') 
-    //   : 
-    //   console.log('bad username and/or bad password'); // HANDLE ERROR HERE
+    d.data ? 
+      this.props.history.push('/')
+      : 
+      console.log('bad username and/or bad password'); // HANDLE ERROR HERE
     this.config.headers.authorization = await localStorage.getItem('token')
-    const propertyData = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config)
-    this.props.setPropertyData(propertyData.data);
-    localStorage.setItem('propertyId', propertyData.data[0].id.toString());
-    await this.props.setCurrentProperty(propertyData.data[0]);
+    const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config)
+    this.props.setPropertyData(data);
+    localStorage.setItem('propertyId', data[0].id.toString());
+    this.props.setCurrentProperty(data[0]);
+    data ? 
+      this.sendInfoForInitialNotifications(data)
+      :
+      null;
+  }
+
+  sendInfoForInitialNotifications (data) {
+    this.props.chatNotificationSocket.emit('notifications.ready', { 
+      userId: localStorage.getItem('id'),
+      propsArray: data.map(prop => prop.id)
+    });
   }
 
   render() {
@@ -99,14 +110,16 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    currentProperty: state.currentProperty
+    currentProperty: state.currentProperty,
+    propertyData: state.propertyData,
+    chatNotificationSocket: state.chatNotificationSocket
   }
 };
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    setPropertyData: setPropertyData,
-    setCurrentProperty: setCurrentProperty
+    setPropertyData,
+    setCurrentProperty
   }, dispatch);
 };
 
