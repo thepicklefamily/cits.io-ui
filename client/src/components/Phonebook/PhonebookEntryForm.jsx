@@ -21,7 +21,7 @@ class PhonebookEntryForm extends Component {
   }
 
   componentDidMount() {
-    this.config.headers.authorization = localStorage.getItem('token')
+    this.config.headers.authorization = localStorage.getItem('token');
     document.getElementsByName('company')[0].value = this.props.currentPhonebookEntry.company ? 
       this.props.currentPhonebookEntry.company 
       : 
@@ -56,7 +56,7 @@ class PhonebookEntryForm extends Component {
       await axios.post(`${this.REST_URL}/api/phonebooks/create`, payload, this.config)
       :
       await axios.put(`${this.REST_URL}/api/phonebooks/update`, payload, this.config);
-    const d = await axios.get(`${url}/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
+    const d = await axios.get(`${this.REST_URL}/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setPhonebookData(d.data);
     data ? await this.props.setPhonebookEditState('0') : null;
   }

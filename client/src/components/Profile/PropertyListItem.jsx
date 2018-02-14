@@ -55,7 +55,7 @@ class PropertyListItem extends Component {
 
     // updates secret key if current secret keys match
     if (this.state.password && this.state.secretKey && this.state.confirmKey) {
-      const userData = await axios.get(`${REST_URL}/api/users/fetch/${localStorage.getItem('id')}`, this.config);
+      const userData = await axios.get(`${this.REST_URL}/api/users/fetch/${localStorage.getItem('id')}`, this.config);
 
       const secretBody = {
         id: this.props.property.id,

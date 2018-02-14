@@ -17,6 +17,7 @@ class TenantTicketDetails extends Component {
   }
   
   componentWillMount() {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     this.config.headers.authorization = localStorage.getItem('token');
   }
 
@@ -24,9 +25,9 @@ class TenantTicketDetails extends Component {
     //manager updates status:
     var payload = this.props.currentTicketEntry;
     payload.status = document.getElementsByName('status')[0].value,
-    await axios.put('http://localhost:3396/api/userTickets/edit', payload, this.config);
+    await axios.put(`${this.REST_URL}/api/userTickets/edit`, payload, this.config);
     //getting the new updated list of tickets for the property:
-    const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${localStorage.getItem('propertyId')}`, this.config);
+    const { data } = await axios.get(`${this.REST_URL}/api/propTickets/fetch/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setTicketsData(data);
     //return back to list of entries view:
     this.props.setTicketEditState('list');
@@ -56,7 +57,7 @@ class TenantTicketDetails extends Component {
                 <option value='In-Progress' >In-Progress</option>
                 <option value='Complete' >Complete</option>
             </select>
-             <br/>
+            <br/>
             <button onClick={this.onUpdateStatusHandler.bind(this)}>Save</button>
           </div>
           }
