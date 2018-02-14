@@ -75,6 +75,9 @@ class Nav extends Component {
       document.title = '● CITS')
       :
       null;
+
+    document.getElementById('notification').play();
+
   }
 
   //get and set user's properties list onto state
