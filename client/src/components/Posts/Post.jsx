@@ -45,8 +45,9 @@ class Post extends Component {
       parent_id: this.props.post.id
     }
 
-    const { data } = await axios.post(`http://localhost:3396/api/posts/addPost`, payload, this.config);
-    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
+    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    const { data } = await axios.post(`${url}/api/posts/addPost`, payload, this.config);
+    const d = await axios.get(`${url}/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
     this.props.setCurrentArticlePosts(d.data);
     console.log(document.getElementsByName('reply'));
     document.getElementsByName('reply').forEach( field => {
@@ -58,8 +59,9 @@ class Post extends Component {
   }
   
   async onDeleteHandler () {
-    await axios.delete(`http://localhost:3396/api/posts/deletePost/${this.props.post.id}`, this.config);
-    const d = await axios.get(`http://localhost:3396/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
+    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    await axios.delete(`${url}/api/posts/deletePost/${this.props.post.id}`, this.config);
+    const d = await axios.get(`${url}/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
     await this.props.setCurrentArticlePosts(d.data);
   }
 
