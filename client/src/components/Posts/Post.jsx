@@ -25,6 +25,7 @@ class Post extends Component {
   }
   
   async componentWillMount() {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     this.config.headers.authorization = localStorage.getItem('token');
   }
 
@@ -45,9 +46,8 @@ class Post extends Component {
       parent_id: this.props.post.id
     }
 
-    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
-    const { data } = await axios.post(`${url}/api/posts/addPost`, payload, this.config);
-    const d = await axios.get(`${url}/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
+    const { data } = await axios.post(`${this.REST_URL}/api/posts/addPost`, payload, this.config);
+    const d = await axios.get(`${this.REST_URL}/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
     this.props.setCurrentArticlePosts(d.data);
     console.log(document.getElementsByName('reply'));
     document.getElementsByName('reply').forEach( field => {
@@ -59,9 +59,8 @@ class Post extends Component {
   }
   
   async onDeleteHandler () {
-    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
-    await axios.delete(`${url}/api/posts/deletePost/${this.props.post.id}`, this.config);
-    const d = await axios.get(`${url}/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
+    await axios.delete(`${this.REST_URL}/api/posts/deletePost/${this.props.post.id}`, this.config);
+    const d = await axios.get(`${this.REST_URL}/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
     await this.props.setCurrentArticlePosts(d.data);
   }
 

@@ -25,6 +25,10 @@ class Signup extends Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
+  componentWillMount() {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+  }
+
   handleKeyPress(e) {
     (e.keyCode === 13) ? this.searchClickHandler() : null;
   }
@@ -36,10 +40,8 @@ class Signup extends Component {
   }
 
   async searchClickHandler() {
-
-    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     const searchData = await axios
-      .get(`${url}/api/properties/fetch/name?name=${this.state.searchInput}`, this.config);
+      .get(`${this.REST_URL}/api/properties/fetch/name?name=${this.state.searchInput}`, this.config);
     
     !searchData.data.length ? 
     this.props.setSearchResults(["No Results"])

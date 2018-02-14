@@ -16,6 +16,10 @@ class PhonebookEntryForm extends Component {
     };
   }
 
+  componentWillMount() {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+  }
+
   componentDidMount() {
     this.config.headers.authorization = localStorage.getItem('token')
     document.getElementsByName('company')[0].value = this.props.currentPhonebookEntry.company ? 
@@ -47,11 +51,11 @@ class PhonebookEntryForm extends Component {
         service: document.getElementsByName('service')[0].value.toString(),
         contactInfo: document.getElementsByName('contactinfo')[0].value.toString()
       }
-    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    
     const { data } = this.props.phonebookEditState === '1' ?
-      await axios.post(`{url}/api/phonebooks/create`, payload, this.config)
+      await axios.post(`${this.REST_URL}/api/phonebooks/create`, payload, this.config)
       :
-      await axios.put(`${url}/api/phonebooks/update`, payload, this.config);
+      await axios.put(`${this.REST_URL}/api/phonebooks/update`, payload, this.config);
     const d = await axios.get(`${url}/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setPhonebookData(d.data);
     data ? await this.props.setPhonebookEditState('0') : null;
@@ -59,8 +63,8 @@ class PhonebookEntryForm extends Component {
 
   async onDeleteHandler() {
     const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
-    await axios.delete(`${url}/api/phonebooks/delete/${this.props.currentPhonebookEntry.id}`, this.config);
-    const d = await axios.get(`${url}/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
+    await axios.delete(`${this.REST_URL}/api/phonebooks/delete/${this.props.currentPhonebookEntry.id}`, this.config);
+    const d = await axios.get(`${this.REST_URL}/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
     await this.props.setPhonebookData(d.data);
     await this.props.setPhonebookEditState('0');
   }

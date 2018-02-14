@@ -36,6 +36,10 @@ class Signup extends Component {
     this.selectProperty = this.selectProperty.bind(this);
   }
 
+  componentWillMount() {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+  }
+
   inputChangeHandler(e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -43,7 +47,6 @@ class Signup extends Component {
   }
 
   async selectProperty(propertyID, secret) {
-    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
 
     if (this.state.userType === '1' && propertyID) {
       let config = {
@@ -51,7 +54,7 @@ class Signup extends Component {
           authorization: 'raw'
         }
       };
-      const selectedProperty = await axios.get(`${url}/api/properties/fetch/ID?id=${propertyID}`, this.config);
+      const selectedProperty = await axios.get(`${this.REST_URL}/api/properties/fetch/ID?id=${propertyID}`, this.config);
 
       if (selectedProperty.data[0].secret_key === secret) {
         this.setState({ propertyID }, () => { console.log('Selected Property:', propertyID) })
@@ -69,8 +72,6 @@ class Signup extends Component {
   }
 
   async submitHandler() {
-    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
-
     const userBody = {
       full_name: this.state.full_name,
       email: this.state.email,
@@ -88,13 +89,13 @@ class Signup extends Component {
 
     // Adds user to user table and sets state's userID for queries below
     const newUser = await axios
-      .post(`${url}/api/auth/signup`, userBody);
+      .post(`${this.REST_URL}/api/auth/signup`, userBody);
 
     // if a new property has been entered, adds it to the property's table and sets propertyID
     // in the state for queries below
     if (this.state.propName && this.state.propAddress && this.state.propSecret) {
       const newProp = await axios
-        .post(`${url}/api/properties/create`, propBody, this.config);
+        .post(`${this.REST_URL}/api/properties/create`, propBody, this.config);
 
       this.setState({
         propertyID: newProp.data.id
@@ -106,7 +107,7 @@ class Signup extends Component {
 
     if (this.state.apt_unit) {
       const newAptUnit = await axios
-        .post(`${url}/api/aptUnits/create`, {
+        .post(`${this.REST_URL}/api/aptUnits/create`, {
           unit: this.state.apt_unit
         }, this.config);
       tempUnit = newAptUnit;
@@ -120,11 +121,11 @@ class Signup extends Component {
     this.state.userType === '0' ? jointBody.aptUnitID = tempUnit.data.id : jointBody.aptUnitID = 1;
 
     await axios
-      .post(`${url}/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits`, jointBody, this.config);
+      .post(`${this.REST_URL}/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits`, jointBody, this.config);
 
     // set current property information
     const currentProperty = await axios
-      .get(`${url}/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`, this.config);
+      .get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`, this.config);
 
     // clears searchResults from the redux store
     this.props.setSearchResults([]);

@@ -22,11 +22,12 @@ class Articles extends Component {
   }
 
   async componentWillMount() {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    
     this.config.headers.authorization = await localStorage.getItem('token');
     this.props.setArticleEditState('0');
     this.props.setCurrentViewArticle('0');
-    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
-    const { data } = await axios.get(`${url}/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
+    const { data } = await axios.get(`${this.REST_URL}/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     await this.props.setArticlesData(data);
   }
 
