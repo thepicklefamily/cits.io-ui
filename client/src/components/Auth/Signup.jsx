@@ -86,6 +86,13 @@ class Signup extends Component {
     const newUser = await axios
       .post('http://localhost:3396/api/auth/signup', userBody);
 
+    const emailPayload = {
+      full_name: this.state.full_name,
+      email: this.state.email
+    }
+    console.log('ehrqereqr', this.state);
+    await axios
+      .post('http://localhost:8080/welcomes/sendWelcomeEmail', emailPayload, this.config);
     // if a new property has been entered, adds it to the property's table and sets propertyID
     // in the state for queries below
     if (this.state.propName && this.state.propAddress && this.state.propSecret) {
@@ -117,7 +124,6 @@ class Signup extends Component {
 
     await axios
       .post('http://localhost:3396/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits', jointBody, this.config);
-
     // set current property information
     const currentProperty = await axios
       .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`, this.config);
@@ -167,6 +173,7 @@ class Signup extends Component {
                 placeholder="Enter Full Name"
                 onChange={this.inputChangeHandler}
                 className="signUpInnerInputs"
+                autoComplete="new-password"
               />
             </div>
             <div>
@@ -175,6 +182,7 @@ class Signup extends Component {
                 placeholder="Enter Email"
                 onChange={this.inputChangeHandler}
                 className="signUpInnerInputs"
+                autoComplete="new-password"
               />
             </div>
             <div>

@@ -281,7 +281,7 @@ q:before, q:after {
 .messagesMain {
   font-family: Arial, Helvetica, sans-serif;
   margin: 8vh auto auto auto;
-  height: 750px;
+  height: 550px;
   width: 80%;
 }
 .messagesInner {

@@ -137,7 +137,7 @@ class Messages extends Component {
                     <a
                       onClick={this.goToProfile}
                       name={message.userId}>{message.username}
-                    </a> ({message.type})
+                      </a> ({message.type})
                   </div>
                   <div className="messageContent">
                     {message.message}<span id="moment">{moment(message.date).fromNow()}</span>
