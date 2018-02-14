@@ -139,6 +139,24 @@ class Members extends Component {
               )
             }
           </ul>
+          <ul>
+            {
+              this.state.allUsersInProperty.map(user => 
+                user.username === localStorage.getItem('username') ? null :
+                this.state.activeUsers.hasOwnProperty(user.username) ? null :
+                <li key={user.id}>
+                  Inactive:
+                  <span>{user.username}</span>
+                  {
+                    user.type === '0' ?
+                    <span>(Tenant)</span>
+                    :
+                    <span>(Manager)</span>
+                  }
+                </li>
+              )
+            }
+          </ul>
         </div>
       </div>
     )
