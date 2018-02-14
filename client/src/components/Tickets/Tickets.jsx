@@ -21,14 +21,15 @@ class Tickets extends Component {
 
   async componentWillMount () {
     this.config.headers.authorization = localStorage.getItem('token');
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     //if user is tenant, get tenant's tickets:
       // var tickets;
     if (localStorage.getItem('type') === '0') {
-      const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`, this.config);
+      const { data } = await axios.get(`${this.REST_URL}/api/tenantTickets/fetch/${localStorage.getItem('id')}`, this.config);
       this.props.setTicketsData(data);
     //if user is manager, get property's tickets:
     } else {
-      const { data } = await axios.get(`http://localhost:3396/api/propTickets/fetch/${localStorage.getItem('propertyId')}`, this.config);
+      const { data } = await axios.get(`${this.REST_URL}/api/propTickets/fetch/${localStorage.getItem('propertyId')}`, this.config);
       this.props.setTicketsData(data);
     }
   

@@ -18,6 +18,10 @@ class Login extends Component {
     };
   }
 
+  componentWillMount() {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+  }
+
   handleKeyPress(e) {
     (e.keyCode === 13) ? this.onSubmitHandler() : null;
   }
@@ -29,7 +33,7 @@ class Login extends Component {
     }
     let d = null;
     try {
-      d = await axios.post('http://localhost:3396/api/auth/login', payload) 
+      d = await axios.post(`${this.REST_URL}/api/auth/login`, payload) 
       this.setState({ inputError: false });
       await localStorage.removeItem('randid');
       await localStorage.setItem('token', JSON.parse(d.headers.authorization).accessToken);
@@ -40,7 +44,7 @@ class Login extends Component {
       await localStorage.setItem('email', d.data.email);
       await localStorage.setItem('phonenumber', d.data.phonenumber);
       this.config.headers.authorization = await localStorage.getItem('token')
-      const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config)
+      const { data } = await axios.get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
       this.props.setPropertyData(data);
       localStorage.setItem('propertyId', data[0].id.toString());
       this.props.setCurrentProperty(data[0]);
@@ -54,12 +58,6 @@ class Login extends Component {
       document.getElementsByName('password').forEach( field => field.value = '' );
       this.setState({ inputError: true });
     }
-
-    // const d = payload.username.length && payload.password.length ? 
-    //   await axios.post('http://localhost:3396/api/auth/login', payload)
-    //     try {}
-    //   : 
-    //   {};
 
   }
 

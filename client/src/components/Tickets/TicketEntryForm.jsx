@@ -20,14 +20,19 @@ class TicketEntryForm extends Component {
     };
   }
 
+  componentWillMount() {
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    this.SMTP_URL = (process.env.NODE_ENV === 'production') ? process.env.SMTP_SERVER_AWS_HOST : process.env.SMTP_SERVER_LOCAL_HOST;
+  }
+
   async componentDidMount () {
     this.config.headers.authorization = localStorage.getItem('token');
     //this prepopulates the apt number in the ticket submission form:
-    const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
+    const { data } = await axios.get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
     for (let i = 0; i < data.length; i++) {
       data[i].id.toString() === localStorage.getItem('propertyId') ? document.getElementsByName('apt_num')[0].innerHTML = `Your Apartment #: ${data[i].unit}` : null;
     } 
-    const emails = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesManagers?propertyID=${localStorage.getItem('propertyId')}`, this.config);
+    const emails = await axios.get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesManagers?propertyID=${localStorage.getItem('propertyId')}`, this.config);
     await this.setState({
       managerEmails: emails.data
     })
@@ -49,7 +54,7 @@ class TicketEntryForm extends Component {
       date: moment(new Date()).format('MMMM Do YYYY')
     };
     try {
-      await axios.post('http://localhost:3396/api/tickets/create', payload, this.config);
+      await axios.post(`${this.REST_URL}/api/tickets/create`, payload, this.config);
       
       //getting the new updated list of tickets for the user:
       const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`, this.config);
@@ -67,7 +72,7 @@ class TicketEntryForm extends Component {
         apt_num: payload.apt_num,
         managerEmails: this.state.managerEmails
       }
-      await axios.post('http://localhost:8080/tickets/sendTicketEmail', emailPayload, this.config)
+      await axios.post(`${this.SMTP_URL}/tickets/sendTicketEmail`, emailPayload, this.config)
       this.setState({ ticketError: false });
     }
     catch (err) {
