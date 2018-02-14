@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { setSearchResults } from '../../actions/setSearchResults';
+import { setSecretErrorState } from '../../actions/setSecretErrorState';
 import axios from 'axios';
 
 class Signup extends Component {
@@ -124,6 +125,7 @@ class Signup extends Component {
                           className="signUpInnerInputs"
                         />
                       }
+                      { this.props.secretErrorState ? <div>INVALID SECRET KEY</div> : null }
                     </div>
                     {
                       this.props.propertyID === property.id ? 
@@ -183,7 +185,8 @@ class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
-    searchResults: state.searchResults
+    searchResults: state.searchResults,
+    secretErrorState: state.secretErrorState
   }
 };
 

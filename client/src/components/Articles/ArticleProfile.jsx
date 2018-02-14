@@ -27,7 +27,13 @@ class ArticleProfile extends Component {
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
 
     this.config.headers.authorization = await localStorage.getItem('token');
-    const { data } = await axios.get(`${this.REST_URL}/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config);
+    let data = null;
+    try {
+      data = this.props.currentViewArticle.id ? { data } = await axios.get(`${this.REST_URL}/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config) : null;
+    }
+    catch (err) {
+      console.log('italian fix');
+    }
     data ? await this.props.setCurrentArticlePosts(data) : this.props.setCurrentViewArticle('0');
   }
 
@@ -52,7 +58,7 @@ class ArticleProfile extends Component {
 
     const { data } = await axios.post(`${this.REST_URL}/api/posts/addPost`, payload, this.config);
     const d = await axios.get(`${this.REST_URL}/api/posts/fetchPosts/${this.props.currentViewArticle.id}`, this.config);
-    this.props.setCurrentArticlePosts(d.data);
+    await this.props.setCurrentArticlePosts(d.data);
     document.getElementsByName('reply').forEach( field => {
       field.value = '';
     });
@@ -73,8 +79,9 @@ class ArticleProfile extends Component {
         ARTICLE PROFILE: 
         <br/>
         {/* still need to render article shit */}
-        {JSON.stringify(this.props.currentArticlePosts)}
-        { this.props.currentArticlePosts ? this.props.currentArticlePosts.map(post => {
+        {JSON.stringify(this.props.currentViewArticle)}
+        {this.props.currentArticlePosts && this.props.currentArticlePosts.data ? JSON.stringify(this.props.currentArticlePosts.data) : null}
+        {this.props.currentArticlePosts && this.props.currentArticlePosts.data ? (this.props.currentArticlePosts.data.map(post => {
           return (
           <div key={post.id}> 
             <ul className="">
@@ -86,7 +93,19 @@ class ArticleProfile extends Component {
             </ul>
             </div>
             );
-        }) : null}
+        })) : this.props.currentArticlePosts && this.props.currentArticlePosts.length > 0 ? (this.props.currentArticlePosts.map(post => {
+          return (
+          <div key={post.id}> 
+            <ul className="">
+              <li>
+                <ul>
+                  <Post post={post} />
+                </ul>
+              </li>
+            </ul>
+            </div>
+            );
+        })) : console.log('italian zest') }
         <br/>
         reply: <input onChange={this.onChangeHandler.bind(this)} type='text' name='reply'></input>
         date: <input onChange={this.onChangeHandler.bind(this)} type='text' name='date'></input>

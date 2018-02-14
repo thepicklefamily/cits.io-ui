@@ -9,6 +9,9 @@ import axios from 'axios';
 class PhonebookEntryForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      phonebookError: false
+    }
     this.config = {
       headers: {
         authorization: ''
@@ -51,11 +54,17 @@ class PhonebookEntryForm extends Component {
         service: document.getElementsByName('service')[0].value.toString(),
         contactInfo: document.getElementsByName('contactinfo')[0].value.toString()
       }
-    
-    const { data } = this.props.phonebookEditState === '1' ?
-      await axios.post(`${this.REST_URL}/api/phonebooks/create`, payload, this.config)
-      :
-      await axios.put(`${this.REST_URL}/api/phonebooks/update`, payload, this.config);
+    let data = null;
+    try {
+      data = { data } = this.props.phonebookEditState === '1' ?
+        await axios.post(`${this.REST_URL}/api/phonebooks/create`, payload, this.config)
+        :
+        await axios.put(`${this.REST_URL}/api/phonebooks/update`, payload, this.config);
+      this.setState({ phonebookError: false });
+    }
+    catch (err) {
+      this.setState({ phonebookError: true });
+    }
     const d = await axios.get(`${this.REST_URL}/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setPhonebookData(d.data);
     data ? await this.props.setPhonebookEditState('0') : null;
@@ -68,6 +77,10 @@ class PhonebookEntryForm extends Component {
     await this.props.setPhonebookData(d.data);
     await this.props.setPhonebookEditState('0');
   }
+  
+  async onCancelHandler() {
+    await this.props.setPhonebookEditState('0');
+  }
 
   render() {
     return (
@@ -78,6 +91,7 @@ class PhonebookEntryForm extends Component {
         <br/><br/>
         Contact Info: <input type='text' name='contactinfo'></input>
         <br/><br/>
+        {this.state.phonebookError ? <div className='phonebookError'>Please check your input fields and try again!</div> : null}
         {this.props.phonebookEditState === '1' ? 
           <button onClick={this.onAddHandler.bind(this)}>ADD</button> 
           : 
@@ -91,6 +105,7 @@ class PhonebookEntryForm extends Component {
           : 
           null
         }
+        <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button>
         <br/><br/>
       </div>
     );

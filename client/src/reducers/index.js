@@ -15,6 +15,7 @@ import currentTicketTenantData from './currentTicketTenantData';
 import searchResults from './searchResults';
 import currentViewArticle from './currentViewArticle';
 import currentArticlePosts from './currentArticlePosts';
+import secretErrorState from './secretErrorState';
 import clickedUserData from './clickedUserData';
 import chatNotificationSocket from './chatNotificationSocket';
 import notificationProperties from './notificationProperties';
@@ -36,6 +37,7 @@ const allReducers = combineReducers({
   searchResults,
   currentViewArticle,
   currentArticlePosts,
+  secretErrorState,
   clickedUserData,
   chatNotificationSocket,
   notificationProperties

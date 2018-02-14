@@ -9,6 +9,9 @@ import axios from 'axios';
 class ArticleEntryForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      articleError: false
+    }
     this.config = {
       headers: {
         authorization: ''
@@ -37,8 +40,15 @@ class ArticleEntryForm extends Component {
       date: document.getElementsByName('date')[0].value.toString(),
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
+    let data = null;
+    try {
+      data = { data } = await axios.post(`${this.REST_URL}/api/articles/addArticle`, payload, this.config);
+      this.setState({ articleError: false });
 
-    const { data } = await axios.post(`${this.REST_URL}/api/articles/addArticle`, payload, this.config);
+    }
+    catch (err) {
+      this.setState({ articleError: true });
+    }
     const d =  await axios.get(`${this.REST_URL}/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setArticlesData(d.data);
     data ?  await this.props.setArticleEditState('0') : null;
@@ -52,8 +62,13 @@ class ArticleEntryForm extends Component {
       date: document.getElementsByName('date')[0].value.toString(),
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
-
-    const { data } = await axios.put(`${this.REST_URL}/api/articles/editArticle`, payload, this.config);
+    let data = null;
+    try {
+      data = { data } = await axios.put(`${this.REST_URL}/api/articles/editArticle`, payload, this.config);
+    }
+    catch (err) {
+      this.setState({ articleError: true });
+    }
     const d =  await axios.get(`${this.REST_URL}/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setArticlesData(d.data);
     data ?  await this.props.setArticleEditState('0') : null;
@@ -77,6 +92,7 @@ class ArticleEntryForm extends Component {
       <br/><br/>
       Photo: <input type='text' name='photo'></input>
       <br/><br/>
+      {this.state.articleError ? <div className="articleError">Please check your input fields and try again!</div> : null}
       {this.props.articleEditState === '1' ? <button onClick={this.onAddHandler.bind(this)}>ADD</button> : null}
       {this.props.articleEditState === '2' ? <div>
         <button onClick={this.onUpdateHandler.bind(this)}>UPDATE</button>

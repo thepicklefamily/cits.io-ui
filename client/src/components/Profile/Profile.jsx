@@ -27,6 +27,7 @@ class Profile extends Component {
       propSecret: '',
       propertyID: null,
       apt_unit: '',
+      profileError: false
     };
 
     this.config = {
@@ -152,32 +153,35 @@ class Profile extends Component {
       username: this.state.username,
       phonenumber: this.state.phonenumber
     }
-
-    await axios.put(`${this.REST_URL}/api/users/editUser`, userBody, this.config);
-
-    // updates the users' data on the local storage
-    localStorage.setItem('username', this.state.username);
-    localStorage.setItem('full_name', this.state.full_name);
-    localStorage.setItem('email', this.state.email);
-    localStorage.setItem('phonenumber', this.state.phonenumber);
-
-    // updates password if current password matches
-    if (this.state.password && this.state.new_password && this.state.confirm_password) {
-      const userData = await axios.get(`${this.REST_URL}/api/users/fetch/${localStorage.getItem('id')}`, this.config);
-
-      const passwordBody = {
-        user_id: localStorage.getItem('id'),
-        actualPassword: userData.data[0].password,
-        password: this.state.password,
-        new_password: this.state.new_password
+    try {
+      await axios.put(`${this.REST_URL}/api/users/editUser`, userBody, this.config);
+      // updates the users' data on the local storage
+      localStorage.setItem('username', this.state.username);
+      localStorage.setItem('full_name', this.state.full_name);
+      localStorage.setItem('email', this.state.email);
+      localStorage.setItem('phonenumber', this.state.phonenumber);
+  
+      // updates password if current password matches
+      if (this.state.password && this.state.new_password && this.state.confirm_password) {
+        const userData = await axios.get(`${this.REST_URL}/api/users/fetch/${localStorage.getItem('id')}`, this.config);
+  
+        const passwordBody = {
+          user_id: localStorage.getItem('id'),
+          actualPassword: userData.data[0].password,
+          password: this.state.password,
+          new_password: this.state.new_password
+        }
+  
+        this.state.new_password !== this.state.confirm_password ? alert('Password not updated, new password entries must match!') :
+        await axios.put(`${this.REST_URL}/api/users/editPassword`, passwordBody, this.config);
       }
-
-      this.state.new_password !== this.state.confirm_password ? alert('Password not updated, new password entries must match!') :
-      await axios.put(`${this.REST_URL}/api/users/editPassword`, passwordBody, this.config);
+      this.setState({ profileError: false });
+      // takes user out of edit state
+      await this.props.setProfileEditState(0);
     }
-
-    // takes user out of edit state
-    await this.props.setProfileEditState(0);
+    catch (err) {
+      this.setState({ profileError: true });
+    }
   }
 
   async onEditHandler() {
@@ -293,6 +297,7 @@ class Profile extends Component {
                 </div>
               </div><br/>
 
+              {this.state.profileError ? <div className='profileError'>Please check your input fields and try again!</div> : null}
               <button onClick={this.updateUserHandler}>SAVE CHANGES</button>
               <button onClick={this.onCancelHandler}>CANCEL</button>
             </div>

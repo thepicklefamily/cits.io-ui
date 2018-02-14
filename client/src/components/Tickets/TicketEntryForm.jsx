@@ -10,7 +10,8 @@ class TicketEntryForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      managerEmails: []
+      managerEmails: [],
+      ticketError: false
     }
     this.config = {
       headers: {
@@ -52,30 +53,31 @@ class TicketEntryForm extends Component {
       propertyId: localStorage.getItem('propertyId'),
       date: moment(new Date()).format('MMMM Do YYYY')
     };
-    await axios.post(`${this.REST_URL}/api/tickets/create`, payload, this.config);
-    const emailPayload = {
-      name: localStorage.getItem('full_name'),
-      email: localStorage.getItem('email'),
-      phone: localStorage.getItem('phonenumber'),
-      description: payload.description,
-      subject: payload.subject,
-      date: payload.date,
-      category: payload.category,
-      apt_num: payload.apt_num,
-      managerEmails: this.state.managerEmails
-    }
     try {
-      const data = await axios.post(`${this.SMTP_URL}/tickets/sendTicketEmail`, emailPayload, this.config)
-      console.log(data)
-    } catch (err) {
-      console.log(err);
+      await axios.post(`${this.REST_URL}/api/tickets/create`, payload, this.config);
+      
+      //getting the new updated list of tickets for the user:
+      const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`, this.config);
+      this.props.setTicketsData(data);
+      //return back to list of entries view:
+      this.props.setTicketEditState('list');
+      const emailPayload = {
+        name: localStorage.getItem('full_name'),
+        email: localStorage.getItem('email'),
+        phone: localStorage.getItem('phonenumber'),
+        description: payload.description,
+        subject: payload.subject,
+        date: payload.date,
+        category: payload.category,
+        apt_num: payload.apt_num,
+        managerEmails: this.state.managerEmails
+      }
+      await axios.post(`${this.SMTP_URL}/tickets/sendTicketEmail`, emailPayload, this.config)
+      this.setState({ ticketError: false });
     }
-    
-    //getting the new updated list of tickets for the user:
-    const { data } = await axios.get(`${this.REST_URL}/api/tenantTickets/fetch/${localStorage.getItem('id')}`, this.config);
-    this.props.setTicketsData(data);
-    //return back to list of entries view:
-    this.props.setTicketEditState('list');
+    catch (err) {
+      this.setState({ ticketError: true });
+    }
   }
 
   render() {
@@ -99,6 +101,7 @@ class TicketEntryForm extends Component {
         <br/><br/>
         <textarea rows="2" cols="50" type='text' name='photo_url' placeholder='If you have a photo, provide url here'></textarea>
         <br/><br/>
+        {this.state.ticketError ? <div className="ticketError">Please check your input fields and try again!</div> : null}
         <button onClick={this.submitNewTicket.bind(this)}>SUBMIT</button> 
         <br/><br/>
       </div>

@@ -48,7 +48,7 @@ class Post extends Component {
 
     const { data } = await axios.post(`${this.REST_URL}/api/posts/addPost`, payload, this.config);
     const d = await axios.get(`${this.REST_URL}/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
-    this.props.setCurrentArticlePosts(d.data);
+    await this.props.setCurrentArticlePosts(d.data);
     console.log(document.getElementsByName('reply'));
     document.getElementsByName('reply').forEach( field => {
       field.value = '';
