@@ -23,7 +23,7 @@ class Articles extends Component {
   async componentWillMount() {
     this.config.headers.authorization = await localStorage.getItem('token');
     this.props.setArticleEditState('0');
-    this.props.setCurrentViewArticle('0')
+    this.props.setCurrentViewArticle('0');
     const { data } = await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     await this.props.setArticlesData(data);
     
@@ -40,7 +40,6 @@ class Articles extends Component {
   }
 
   render() {
-    console.log('article props: ', this.props );
     return (
       <div>
         ARTICLE DATA:

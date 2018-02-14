@@ -71,7 +71,7 @@ class Login extends Component {
           <input placeholder="Username" type='text' name='username'/><br/>
           <br/>
           <input placeholder="Password" onKeyUp={this.handleKeyPress.bind(this)} type='password' name='password'/><br/>
-          { this.state.inputError ? <div>INVALID LOGIN</div> : null }
+          { this.state.inputError ? <div className="loginError">Invalid Username/Password. Please try again.</div> : null }
           <button id="loginButton" onClick={this.onSubmitHandler.bind(this)}>Log In</button>
           <a onClick={() => {this.props.history.push('/signUp')}} id="orSignUp">or sign up</a>
         </div>

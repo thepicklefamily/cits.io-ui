@@ -5,11 +5,8 @@ import { bindActionCreators } from 'redux';
 import PropertySearch from './PropertySearch';
 import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
-<<<<<<< HEAD
 import { setSecretErrorState } from '../../actions/setSecretErrorState';
-=======
 import { setSearchResults } from '../../actions/setSearchResults';
->>>>>>> master
 import axios from 'axios';
 
 class Signup extends Component {
@@ -255,7 +252,7 @@ class Signup extends Component {
                   </div>
                   : null
           }
-          { this.state.signupError ? <div>INVALID SIGNUP</div> : null }
+          { this.state.signupError ? <div className="signUpError">INVALID SIGNUP</div> : null }
           {
             !this.state.userType ? null :
               <div>

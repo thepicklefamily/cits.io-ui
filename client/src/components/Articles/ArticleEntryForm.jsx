@@ -9,6 +9,9 @@ import axios from 'axios';
 class ArticleEntryForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      articleError: false
+    }
     this.config = {
       headers: {
         authorization: ''
@@ -33,10 +36,21 @@ class ArticleEntryForm extends Component {
       date: document.getElementsByName('date')[0].value.toString(),
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
-    const { data } = await axios.post(`http://localhost:3396/api/articles/addArticle`, payload, this.config);
+    let data = null;
+    try {
+      data = { data } = await axios.post(`http://localhost:3396/api/articles/addArticle`, payload, this.config);
+      this.setState({ articleError: false });
+      console.log(this.state.articleError);
+
+    }
+    catch (err) {
+      console.log('you dun gooooofed');
+      this.setState({ articleError: true });
+      console.log(this.state.articleError);
+    }
     const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setArticlesData(d.data);
-    data ?  await this.props.setArticleEditState('0') : null;
+    data ?  await this.props.setArticleEditState('0') : console.log('no data foo');
   }
   
   async onUpdateHandler () {
@@ -71,6 +85,7 @@ class ArticleEntryForm extends Component {
       <br/><br/>
       Photo: <input type='text' name='photo'></input>
       <br/><br/>
+      {this.state.articleError ? <div className="articleError">Please check your input fields and try again!</div> : null}
       {this.props.articleEditState === '1' ? <button onClick={this.onAddHandler.bind(this)}>ADD</button> : null}
       {this.props.articleEditState === '2' ? <div>
         <button onClick={this.onUpdateHandler.bind(this)}>UPDATE</button>
