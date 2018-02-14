@@ -31,35 +31,49 @@ class Nav extends Component {
       this.sendInfoForInitialNotifications();
     });
     this.props.chatNotificationSocket.on('initial.notifications', (notifPropsArray) => {
-      console.log('initial.notifications notifPropsArray = ', notifPropsArray);
       //should get an array of prop ids for which to render notifications.
-      this.props.setNotificationProperties(notifPropsArray);
-      if (this.props.notificationProperties) {
-        //if a property on the notifications list array is the current property, render the notification on the chat button:
-        if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId'))) {
-          document.getElementById('chatButton').innerHTML = 'Go to Chat *MSG*';
-          document.title = '● CITS';
-        }
-        //if there is a property on the notifications list array that isn't the current property, render the notification on the property select button:
-        let notifsDisplay = '';
-        for (let i = 0; i < this.props.notificationProperties.length; i++) {
-          if (this.props.notificationProperties[i] !== +localStorage.getItem('propertyId')) {
-            notifsDisplay += ' ' + this.props.notificationProperties[i];
-          }
-        }
-        notifsDisplay !== '' ? 
-          (document.getElementById('propSelectButton').innerHTML = `CastleLogo *MSG* for props ${notifsDisplay}`,
-          document.title = '● CITS')
-          :
-          null;
+      console.log('notifpropsarray', notifPropsArray)
+      if (notifPropsArray) {
+        this.props.setNotificationProperties(notifPropsArray);
+        this.renderNotifications();
       }
     });
-    this.props.chatNotificationSocket.on('notifications.whileonline', (data) => {
-      console.log('notifications.whileonline data = ', data);
-      //should get a propId, one at a time, when any messages are sent.
-      //would want to see if that propId exists on this user (prolly on state)
-        //if so, appropriately render the notification in nav bar
+    this.props.chatNotificationSocket.on('notifications.whileonline', ({userId, propId}) => {
+      console.log('notifications.whileonline data = ', userId, propId);
+      //if the notification is for a msg not from this user, on this users prop list, and not on the notification props list yet
+      //then add it to the notification props list and re-render notifications.
+      if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1) {
+        for (let i = 0; i < this.props.propertyData.length; i++) {
+          if (+propId === this.props.propertyData[i].id) {
+            console.log('notifpropsbefore', this.props.notificationProperties);
+            this.props.setNotificationProperties(this.props.notificationProperties.concat(+propId));
+            console.log('notifpropsafter', this.props.notificationProperties);
+            this.renderNotifications();
+          }
+        }
+      }
     });
+  }
+
+  //anytime get or do something notifications worthy / change the state of the notificationProperties, then run this func to render them all properly:
+  renderNotifications() {
+            //if a property on the notifications list array is the current property, render the notification on the chat button:
+    if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && window.location.href !== "http://localhost:3000/chat") {
+      document.getElementById('chatButton').innerHTML = 'Go to Chat *MSG*';
+      document.title = '● CITS';
+    }
+    //if there is a property on the notifications list array that isn't the current property, render the notification on the property select button:
+    let notifsDisplay = '';
+    for (let i = 0; i < this.props.notificationProperties.length; i++) {
+      if (this.props.notificationProperties[i] !== +localStorage.getItem('propertyId')) {
+        notifsDisplay += ` ${this.props.notificationProperties[i]}`;
+      }
+    }
+    notifsDisplay !== '' ? 
+      (document.getElementById('propSelectButton').innerHTML = `CastleLogo *MSG* for props${notifsDisplay}`,
+      document.title = '● CITS')
+      :
+      null;
   }
 
   //get and set user's properties list onto state

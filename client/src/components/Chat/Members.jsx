@@ -25,17 +25,17 @@ class Members extends Component {
     socket.on('server.initialState', () => {
       this.setState({ socket })
     })
-    socket.on('server.message', async (data) => {
-      try {
-        // const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config) // // this was unneccessary
-        await this.setState({
-          messages: [...this.state.messages, data]
-        })
-      } catch (err) {
-        console.log('error fetching messages');
-      }
+    // socket.on('server.message', async (data) => {
+    //   try {
+    //     // const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config) // // this was unneccessary
+    //     await this.setState({
+    //       messages: [...this.state.messages, data]
+    //     })
+    //   } catch (err) {
+    //     console.log('error fetching messages', err);
+    //   }
 
-    })
+    // })
   }
   render() {
     return (

@@ -69,7 +69,7 @@ class Messages extends Component {
           messages: [...this.state.messages, data]
         })
       } catch (err) {
-        console.log('error fetching messages');
+        console.log('error fetching messages', err);
       }
 
     })
