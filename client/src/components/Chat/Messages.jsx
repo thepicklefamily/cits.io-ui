@@ -33,6 +33,7 @@ class Messages extends Component {
     this.config.headers.authorization = localStorage.getItem('token');
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST: process.env.SOCKET_SERVER_LOCAL_HOST;
+    
     axios.get(`${this.REST_URL}/api/chat/getMessages`, this.config)
       .then((res) => {
         this.setState({
