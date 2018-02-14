@@ -28,7 +28,9 @@ module.exports = {
       'process.env': {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         'REST_SERVER_LOCAL_HOST': JSON.stringify(process.env.REST_SERVER_LOCAL_HOST),
-        'REST_SERVER_AWS_HOST': JSON.stringify(process.env.REST_SERVER_AWS_HOST)
+        'REST_SERVER_AWS_HOST': JSON.stringify(process.env.REST_SERVER_AWS_HOST),
+        'SOCKET_SERVER_LOCAL_HOST': JSON.stringify(process.env.SOCKET_SERVER_LOCAL_HOST),
+        'SOCKET_SERVER_AWS_HOST': JSON.stringifty(process.env.SOCKET_SERVER_AWS_HOST)
       }
     })
   ]

@@ -12,7 +12,9 @@ class Members extends Component {
     }
   }
   componentWillMount() {
-    const socket = io.connect('http://localhost:4155', {
+
+    this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST: process.env.SOCKET_SERVER_LOCAL_HOST;
+    const socket = io.connect(`${this.SOCKET_URL}`, {
       query: {
         roomId: location.pathname.slice(1)
       }
