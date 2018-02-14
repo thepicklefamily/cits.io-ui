@@ -49,33 +49,37 @@ class Messages extends Component {
       socket.emit('client.ready', 'all');
     })
     socket.on('server.initialState', () => {
-      this.setState({ 
+      this.setState({
         socket,
         roomname: location.pathname.slice(1)
       })
     })
     socket.on('server.message', async (data) => {
-      try {
-        // const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config) // // this was unneccessary
-        await this.setState({
-          messages: [...this.state.messages, data]
-        })
-      } catch (err) {
-        console.log('error fetching messages');
+      // const message = await axios.get(`http://localhost:3396/api/chat/getMostRecentMessage`, this.config) // // this was unneccessary
+      await this.setState({
+        messages: [...this.state.messages, data]
+      })
+      function updateScroll() {
+        let element = element.getElementById('messageScroll');
+        element.scrollTop = element.scrollHeight;
       }
-
+      updateScroll();
     })
     let type = '';
     if (localStorage.getItem('type') === '1') {
-      type = 'Manager';
+      type = 'manager';
     } else {
-      type = 'Tenant';
+      type = 'tenant';
     }
     this.setState({
       username: localStorage.getItem('username'),
       userId: localStorage.getItem('id'),
       type,
     })
+  }
+  componentDidMount() {
+    let element = document.getElementById('messageScroll');
+    element.scrollTop = element.scrollHeight;
   }
   handleChange(e) {
     this.setState({
@@ -96,7 +100,7 @@ class Messages extends Component {
       message: this.state.message,
       username: this.state.username,
       userId: this.state.userId,
-      roomname: 'ROOMNAME',
+      roomname: this.state.roomname,
       type: this.state.type
     }
     try {
@@ -122,18 +126,39 @@ class Messages extends Component {
   }
   render() {
     return (
-      <div>
-        <div>
+      <div className="messagesMain">
+        <h2 id="messagesPropertyName">PROPERTY NAME</h2>
+        <div id="messageScroll" className="messagesInner">
           <ul>
             {this.state.messages.map((message, i) => (
-              <div key={i}>
-                <li><a href="!" onClick={this.goToProfile} name={message.userId}>{message.username}</a> ({message.type}): {message.message} <br/>{moment(message.date).fromNow()}</li>
+              <div className="messageHolder" key={i}>
+                <li>
+                  <div className="messageUser">
+                    <a
+                      onClick={this.goToProfile}
+                      name={message.userId}>{message.username}
+                    </a> ({message.type})
+                  </div>
+                  <div className="messageContent">
+                    {message.message}<span id="moment">{moment(message.date).fromNow()}</span>
+                  </div>
+                </li>
               </div>
             ))}
           </ul>
         </div>
-        <input onKeyUp={this.handleKeyPress} id="message" onChange={this.handleChange} type="text" name="message" autoComplete="off"></input>
-        <button onClick={this.handleClick} type="submit">SUBMIT</button>
+        <div className="messagesSubmit">
+          <input 
+            onKeyUp={this.handleKeyPress} 
+            id="message"
+            onChange={this.handleChange} 
+            type="text" name="message" 
+            autoComplete="off"
+            placeholder="Write a message..."
+          >
+          </input>
+          <button onClick={this.handleClick} type="submit">Send</button>
+        </div>
       </div>
     )
   }
