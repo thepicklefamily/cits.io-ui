@@ -24,8 +24,11 @@ class Login extends Component {
       username: document.getElementsByName('username')[0].value,
       password: document.getElementsByName('password')[0].value
     }
+
+    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+
     const d = payload.username.length && payload.password.length ? 
-      await axios.post('http://localhost:3396/api/auth/login', payload) 
+      await axios.post(`${url}/api/auth/login`, payload) 
       : 
       {};
     localStorage.removeItem('randid');
@@ -42,7 +45,7 @@ class Login extends Component {
       : 
       console.log('bad username and/or bad password'); // HANDLE ERROR HERE
     this.config.headers.authorization = await localStorage.getItem('token')
-    const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config)
+    const { data } = await axios.get(`${url}/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config)
     this.props.setPropertyData(data);
     localStorage.setItem('propertyId', data[0].id.toString());
     this.props.setCurrentProperty(data[0]);

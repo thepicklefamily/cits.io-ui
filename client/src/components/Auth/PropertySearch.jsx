@@ -36,8 +36,10 @@ class Signup extends Component {
   }
 
   async searchClickHandler() {
+
+    const url = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     const searchData = await axios
-      .get(`http://localhost:3396/api/properties/fetch/name?name=${this.state.searchInput}`, this.config);
+      .get(`${url}/api/properties/fetch/name?name=${this.state.searchInput}`, this.config);
     
     !searchData.data.length ? 
     this.props.setSearchResults(["No Results"])
