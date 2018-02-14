@@ -9,6 +9,9 @@ import { locale } from 'moment';
 class TenantTicketDetails extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      statusUpdateError: false
+    };
     this.config = {
       headers: {
         authorization: ''
@@ -24,13 +27,18 @@ class TenantTicketDetails extends Component {
   async onUpdateStatusHandler() {
     //manager updates status:
     var payload = this.props.currentTicketEntry;
-    payload.status = document.getElementsByName('status')[0].value,
-    await axios.put(`${this.REST_URL}/api/userTickets/edit`, payload, this.config);
-    //getting the new updated list of tickets for the property:
-    const { data } = await axios.get(`${this.REST_URL}/api/propTickets/fetch/${localStorage.getItem('propertyId')}`, this.config);
-    this.props.setTicketsData(data);
-    //return back to list of entries view:
-    this.props.setTicketEditState('list');
+    try {
+      payload.status = document.getElementsByName('status')[0].value,
+      await axios.put(`${this.REST_URL}/api/userTickets/edit`, payload, this.config);
+      this.setState({statusUpdateError: false});
+      //getting the new updated list of tickets for the property:
+      const { data } = await axios.get(`${this.REST_URL}/api/propTickets/fetch/${localStorage.getItem('propertyId')}`, this.config);
+      this.props.setTicketsData(data);
+      //return back to list of entries view:
+      this.props.setTicketEditState('list');
+    } catch (err) {
+      this.setState({statusUpdateError: true});
+    }
   }
 
   render() {
@@ -57,6 +65,7 @@ class TenantTicketDetails extends Component {
                 <option value='In-Progress' >In-Progress</option>
                 <option value='Complete' >Complete</option>
             </select>
+            { this.state.statusUpdateError ? <div >Error updating status. Please try again!</div> : null }
             <br/>
             <button onClick={this.onUpdateStatusHandler.bind(this)}>Save</button>
           </div>

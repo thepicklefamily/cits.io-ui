@@ -12,6 +12,9 @@ import { locale } from 'moment';
 class Tickets extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      ticketsError: false
+    };
     this.config = {
       headers: {
         authorization: ''
@@ -23,24 +26,19 @@ class Tickets extends Component {
     this.config.headers.authorization = localStorage.getItem('token');
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     //if user is tenant, get tenant's tickets:
-      // var tickets;
-    if (localStorage.getItem('type') === '0') {
-      const { data } = await axios.get(`${this.REST_URL}/api/tenantTickets/fetch/${localStorage.getItem('id')}`, this.config);
-      this.props.setTicketsData(data);
-    //if user is manager, get property's tickets:
-    } else {
-      const { data } = await axios.get(`${this.REST_URL}/api/propTickets/fetch/${localStorage.getItem('propertyId')}`, this.config);
-      this.props.setTicketsData(data);
+    try {
+      if (localStorage.getItem('type') === '0') {
+        const { data } = await axios.get(`${this.REST_URL}/api/tenantTickets/fetch/${localStorage.getItem('id')}`, this.config);
+        this.props.setTicketsData(data);
+      //if user is manager, get property's tickets:
+      } else {
+        const { data } = await axios.get(`${this.REST_URL}/api/propTickets/fetch/${localStorage.getItem('propertyId')}`, this.config);
+        this.props.setTicketsData(data);
+      }
+      this.setState({ticketsError: false});
+    } catch (err) {
+      this.setState({ticketsError: true});
     }
-  
-    //states want:
-    //ticketData: array of retrieved tickets
-    //currentTicketEntry: one looking at for details/update states
-    //ticketEditState: if they click edit or add new entry (on top), should change
-        //'list' (list view)
-        //'details' (details on 1 for tenant / details + update status for mgr
-        // 'create' - tenant only
-
   }
 
   onAddHandler() {
@@ -90,6 +88,7 @@ class Tickets extends Component {
           :
           null
           }
+        {this.state.ticketsError ? <div>Oops! There was an issue with loading your tickets. Please try again!</div> : null}
       </div>
     );
   }

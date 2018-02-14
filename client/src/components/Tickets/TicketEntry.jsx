@@ -10,6 +10,9 @@ import swal from 'sweetalert2';
 class TicketEntry extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      deletionError: false
+    };
     this.config = {
       headers: {
         authorization: ''
@@ -37,24 +40,34 @@ class TicketEntry extends Component {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        this.onDeleteHandler();
-        swal(
-          'Deleted!',
-          'This ticket has been deleted.',
-          'success'
-        )
+        this.onDeleteHandler().then(() => {
+          if (this.state.deletionError) {
+            swal('Error loading tenant details, please try again!');
+          } else {
+            swal(
+              'Deleted!',
+              'This ticket has been deleted.',
+              'success'
+            );
+          }
+        });
       }
-    })
+    });
   }
 
   async onDeleteHandler() {
-    //delete:
-    await axios.delete(`${this.REST_URL}/api/userTickets/delete/${this.props.data.id}`, this.config);
-    //get and set the new updated list of tickets for the property for the property manager:
-    const { data } = await axios.get(`${this.REST_URL}/api/propTickets/fetch/${this.props.data.propertyid}`, this.config);
-    this.props.setTicketsData(data);
-    //return back to list of entries view:
-    this.props.setTicketEditState('list');
+    try {
+      //delete:
+      await axios.delete(`${this.REST_URL}/api/userTickets/delete/${this.props.data.id}`, this.config);
+      this.setState({deletionError: false});
+      //get and set the new updated list of tickets for the property for the property manager:
+      const { data } = await axios.get(`${this.REST_URL}/api/propTickets/fetch/${this.props.data.propertyid}`, this.config);
+      this.props.setTicketsData(data);
+      //return back to list of entries view:
+      this.props.setTicketEditState('list');
+    } catch (err) {
+      this.setState({deletionError: true});
+    }
   }
 
   render() {

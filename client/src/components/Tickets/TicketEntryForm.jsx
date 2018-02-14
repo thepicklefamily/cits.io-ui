@@ -12,7 +12,7 @@ class TicketEntryForm extends Component {
     this.state = {
       managerEmails: [],
       ticketError: false
-    }
+    };
     this.config = {
       headers: {
         authorization: ''
@@ -26,17 +26,21 @@ class TicketEntryForm extends Component {
   }
 
   async componentDidMount () {
-    this.config.headers.authorization = localStorage.getItem('token');
-    //this prepopulates the apt number in the ticket submission form:
-    const { data } = await axios.get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
-    for (let i = 0; i < data.length; i++) {
-      data[i].id.toString() === localStorage.getItem('propertyId') ? document.getElementsByName('apt_num')[0].innerHTML = `Your Apartment #: ${data[i].unit}` : null;
-    } 
-    const emails = await axios.get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesManagers?propertyID=${localStorage.getItem('propertyId')}`, this.config);
-    await this.setState({
-      managerEmails: emails.data
-    })
-    console.log(this.state);
+    try {
+      this.config.headers.authorization = localStorage.getItem('token');
+      //this prepopulates the apt number in the ticket submission form:
+      const { data } = await axios.get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
+      for (let i = 0; i < data.length; i++) {
+        data[i].id.toString() === localStorage.getItem('propertyId') ? document.getElementsByName('apt_num')[0].innerHTML = `Your Apartment #: ${data[i].unit}` : null;
+      } 
+      const emails = await axios.get(`${this.REST_URL}/api/usersPropertiesAptUnits/getUsersPropertiesManagers?propertyID=${localStorage.getItem('propertyId')}`, this.config);
+      await this.setState({
+        managerEmails: emails.data
+      })
+      console.log(this.state);
+    } catch (err) {
+      //
+    }
   }
 
   //change category to a dropdown of a handful of options, including Other
