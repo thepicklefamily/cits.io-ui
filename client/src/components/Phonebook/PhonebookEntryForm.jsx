@@ -54,7 +54,6 @@ class PhonebookEntryForm extends Component {
         service: document.getElementsByName('service')[0].value.toString(),
         contactInfo: document.getElementsByName('contactinfo')[0].value.toString()
       }
-<<<<<<< HEAD
     let data = null;
     try {
       data = { data } = this.props.phonebookEditState === '1' ?
@@ -67,14 +66,6 @@ class PhonebookEntryForm extends Component {
       this.setState({ phonebookError: true });
     }
     const d = await axios.get(`${this.REST_URL}/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
-=======
-    
-    const { data } = this.props.phonebookEditState === '1' ?
-      await axios.post(`${this.REST_URL}/api/phonebooks/create`, payload, this.config)
-      :
-      await axios.put(`${this.REST_URL}/api/phonebooks/update`, payload, this.config);
-    const d = await axios.get(`${this.REST_URL}/api/phonebooks/${localStorage.getItem('propertyId')}`, this.config);
->>>>>>> master
     this.props.setPhonebookData(d.data);
     data ? await this.props.setPhonebookEditState('0') : null;
   }
