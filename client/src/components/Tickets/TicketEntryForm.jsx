@@ -21,6 +21,7 @@ class TicketEntryForm extends Component {
 
   componentWillMount() {
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    this.SMTP_URL = (process.env.NODE_ENV === 'production') ? process.env.SMTP_SERVER_AWS_HOST : process.env.SMTP_SERVER_LOCAL_HOST;
   }
 
   async componentDidMount () {
@@ -64,7 +65,7 @@ class TicketEntryForm extends Component {
       managerEmails: this.state.managerEmails
     }
     try {
-      const data = await axios.post(`http://localhost:8080/tickets/sendTicketEmail`, emailPayload, this.config)
+      const data = await axios.post(`${this.SMTP_URL}/tickets/sendTicketEmail`, emailPayload, this.config)
       console.log(data)
     } catch (err) {
       console.log(err);
