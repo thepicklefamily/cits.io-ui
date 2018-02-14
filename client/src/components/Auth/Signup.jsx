@@ -92,61 +92,61 @@ class Signup extends Component {
       newUser = await axios
         .post('http://localhost:3396/api/auth/signup', userBody);
       this.setState({ signupError: false });
+      // if a new property has been entered, adds it to the property's table and sets propertyID
+      // in the state for queries below
+      if (this.state.propName && this.state.propAddress && this.state.propSecret) {
+        const newProp = await axios
+          .post('http://localhost:3396/api/properties/create', propBody, this.config);
+  
+        this.setState({
+          propertyID: newProp.data.id
+        });
+      }
+  
+      // add apartment unit to the table if it exists
+      let tempUnit = '';
+  
+      if (this.state.apt_unit) {
+        const newAptUnit = await axios
+          .post('http://localhost:3396/api/aptUnits/create', {
+            unit: this.state.apt_unit
+          }, this.config);
+        tempUnit = newAptUnit;
+      }
+  
+      // axios to add user, prop, and apartment unit IDs to joint table
+      const jointBody = {
+        userID: newUser.data.id,
+        propertyID: this.state.propertyID
+      }
+      this.state.userType === '0' ? jointBody.aptUnitID = tempUnit.data.id : jointBody.aptUnitID = 1;
+  
+      await axios
+        .post('http://localhost:3396/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits', jointBody, this.config);
+  
+      // set current property information
+      const currentProperty = await axios
+        .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`, this.config);
+  
+      // clears searchResults from the redux store
+      this.props.setSearchResults([]);
+  
+      this.props.setPropertyData(currentProperty.data);
+      this.props.setCurrentProperty(currentProperty.data[0]);
+      localStorage.removeItem('randid');
+      localStorage.setItem('propertyId', JSON.stringify(currentProperty.data[0].id));
+      localStorage.setItem('token', newUser.data.token.accessToken);
+      localStorage.setItem('id', newUser.data.id);
+      localStorage.setItem('username', newUser.data.username);
+      localStorage.setItem('type', newUser.data.type);
+      localStorage.setItem('full_name', newUser.data.full_name);
+      localStorage.setItem('email', newUser.data.email);
+      localStorage.setItem('phonenumber', newUser.data.phonenumber);
+      this.props.history.push('/');
     }
     catch (err) {
       this.setState({ signupError: true });
     }
-    // if a new property has been entered, adds it to the property's table and sets propertyID
-    // in the state for queries below
-    if (this.state.propName && this.state.propAddress && this.state.propSecret) {
-      const newProp = await axios
-        .post('http://localhost:3396/api/properties/create', propBody, this.config);
-
-      this.setState({
-        propertyID: newProp.data.id
-      });
-    }
-
-    // add apartment unit to the table if it exists
-    let tempUnit = '';
-
-    if (this.state.apt_unit) {
-      const newAptUnit = await axios
-        .post('http://localhost:3396/api/aptUnits/create', {
-          unit: this.state.apt_unit
-        }, this.config);
-      tempUnit = newAptUnit;
-    }
-
-    // axios to add user, prop, and apartment unit IDs to joint table
-    const jointBody = {
-      userID: newUser.data.id,
-      propertyID: this.state.propertyID
-    }
-    this.state.userType === '0' ? jointBody.aptUnitID = tempUnit.data.id : jointBody.aptUnitID = 1;
-
-    await axios
-      .post('http://localhost:3396/api/usersPropertiesAptUnits/addUsersPropertiesAptUnits', jointBody, this.config);
-
-    // set current property information
-    const currentProperty = await axios
-      .get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${newUser.data.id}`, this.config);
-
-    // clears searchResults from the redux store
-    this.props.setSearchResults([]);
-
-    this.props.setPropertyData(currentProperty.data);
-    this.props.setCurrentProperty(currentProperty.data[0]);
-    localStorage.removeItem('randid');
-    localStorage.setItem('propertyId', JSON.stringify(currentProperty.data[0].id));
-    localStorage.setItem('token', newUser.data.token.accessToken);
-    localStorage.setItem('id', newUser.data.id);
-    localStorage.setItem('username', newUser.data.username);
-    localStorage.setItem('type', newUser.data.type);
-    localStorage.setItem('full_name', newUser.data.full_name);
-    localStorage.setItem('email', newUser.data.email);
-    localStorage.setItem('phonenumber', newUser.data.phonenumber);
-    this.props.history.push('/');
   }
 
   render() {

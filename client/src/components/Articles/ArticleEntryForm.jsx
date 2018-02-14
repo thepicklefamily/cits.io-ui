@@ -40,17 +40,14 @@ class ArticleEntryForm extends Component {
     try {
       data = { data } = await axios.post(`http://localhost:3396/api/articles/addArticle`, payload, this.config);
       this.setState({ articleError: false });
-      console.log(this.state.articleError);
 
     }
     catch (err) {
-      console.log('you dun gooooofed');
       this.setState({ articleError: true });
-      console.log(this.state.articleError);
     }
     const d =  await axios.get(`http://localhost:3396/api/articles/fetchAllArticles/${localStorage.getItem('propertyId')}`, this.config);
     this.props.setArticlesData(d.data);
-    data ?  await this.props.setArticleEditState('0') : console.log('no data foo');
+    data ?  await this.props.setArticleEditState('0') : null;
   }
   
   async onUpdateHandler () {

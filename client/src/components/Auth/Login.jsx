@@ -39,6 +39,15 @@ class Login extends Component {
       await localStorage.setItem('full_name', d.data.full_name);
       await localStorage.setItem('email', d.data.email);
       await localStorage.setItem('phonenumber', d.data.phonenumber);
+      this.config.headers.authorization = await localStorage.getItem('token')
+      const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config)
+      this.props.setPropertyData(data);
+      localStorage.setItem('propertyId', data[0].id.toString());
+      this.props.setCurrentProperty(data[0]);
+      d && data ? 
+        this.sendInfoForInitialNotifications(data)
+        :
+        null;
       this.props.history.push('/');
     }
     catch (err) {
@@ -52,19 +61,6 @@ class Login extends Component {
     //   : 
     //   {};
 
-    d && d.data ? 
-      this.props.history.push('/')
-      : 
-      console.log('bad username and/or bad password'); // HANDLE ERROR HERE
-    this.config.headers.authorization = await localStorage.getItem('token')
-    const { data } = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config)
-    this.props.setPropertyData(data);
-    localStorage.setItem('propertyId', data[0].id.toString());
-    this.props.setCurrentProperty(data[0]);
-    data ? 
-      this.sendInfoForInitialNotifications(data)
-      :
-      null;
   }
 
   sendInfoForInitialNotifications (data) {
