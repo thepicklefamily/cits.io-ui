@@ -31,7 +31,12 @@ class Mein extends Component {
               <div>
                 <h2>CITS</h2>
                 <h4>Renting Made Easy</h4>
-                <button className="signup">Sign Up!</button>
+                <button 
+                  className="signup"
+                  onClick={() => {this.props.history.push('/signup')}}
+                >
+                  Sign Up Now!
+                </button>
               </div>
               :
               <div>
@@ -39,8 +44,43 @@ class Mein extends Component {
                 <h4>{localStorage.getItem('full_name')}</h4>
               </div>
             }
-
           </div>
+        </div>
+        <div className="container">
+          {
+            !localStorage.getItem('token') ? null :
+            <div className="row">
+              <div 
+                className="col-lg-4 col-md-4 col-sm-12 col-xs-12 sec"
+                onClick={() => this.props.history.push('/chat')}
+              >
+                <div>
+                  <img src="assets/images/chat-icon-lg.png" alt="chat-icon"/><br/><br/>
+                  <h5>CHAT</h5>
+                </div>
+              </div>
+
+              <div 
+                className="col-lg-4 col-md-4 col-sm-12 col-xs-12 sec"
+                onClick={() => this.props.history.push('/tickets')}
+              >
+                <div>
+                  <img src="assets/images/tickets-icon-lg.png" alt="tickets-icon"/><br/><br/>
+                  <h5>SUBMIT A TICKET</h5>
+                </div>
+              </div>
+
+              <div 
+                className="col-lg-4 col-md-4 col-sm-12 col-xs-12 sec"
+                onClick={() => this.props.history.push('/phonebook')}
+              >
+                <div>
+                  <img src="assets/images/phonebook-icon-lg.png" alt="phonebook-icon"/><br/><br/>
+                  <h5>MAINTENANCE DIRECTORY</h5>
+                </div>
+              </div>
+            </div>
+          }
         </div>
 
         <Switch>

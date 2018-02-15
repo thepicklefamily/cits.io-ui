@@ -12,6 +12,8 @@
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: cover;
+
+  margin-bottom: 50px;
 }
 
 .banner-content {
@@ -34,11 +36,19 @@
 h2 {
   font-size: 60px;
   font-weight: bold;
+  color: #48822D;
 }
 
 h4 {
   font-size: 40px;
   margin-bottom: 15px;
+  color: #616161;
+}
+
+h5 {
+  font-size: 22px;
+  text-transform: uppercase;
+  color: #616161;
 }
 
 .signup {
@@ -53,4 +63,22 @@ h4 {
 
 .signup:hover {
   background-color: rgb(26, 83, 26);
+}
+
+.sec {
+  transition: box-shadow 0.5s ease;
+  transition: background-color 0.5s ease;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  height: 250px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 50px;
+}
+
+.sec:hover {
+  background-color: rgb(247, 247, 247);
+  box-shadow: 0 2px 20px #ccc;
 }
