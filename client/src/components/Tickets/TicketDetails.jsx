@@ -7,7 +7,7 @@ import { setTicketsData } from '../../actions/setTicketsData';
 import { setCurrentTicketTenantData } from '../../actions/setCurrentTicketTenantData';
 import TenantTicketDetails from './TenantTicketDetails.jsx';
 import axios from 'axios';
-import ticketstyles from './ticketstyles.css';
+import './ticketstyles.css';
 
 class TicketDetails extends Component {
   constructor(props) {

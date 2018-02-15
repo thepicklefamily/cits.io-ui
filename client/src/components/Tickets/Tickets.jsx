@@ -8,7 +8,7 @@ import TicketEntryForm from './TicketEntryForm.jsx';
 import TicketDetails from './TicketDetails.jsx';
 import axios from 'axios';
 import { locale } from 'moment';
-import ticketstyles from './ticketstyles.css';
+import './ticketstyles.css';
 
 class Tickets extends Component {
   constructor(props) {
@@ -54,7 +54,7 @@ class Tickets extends Component {
     return (
       <div className='ticketsMain'>
         <div>{localStorage.getItem('type') === '0' && this.props.ticketEditState === 'list' ? 
-          <button onClick={this.onAddHandler.bind(this)}>SUBMIT NEW TICKET</button> 
+          <button onClick={this.onAddHandler.bind(this)} className='ticketsHeader'>SUBMIT NEW TICKET</button> 
           : 
           null
           }
@@ -76,10 +76,10 @@ class Tickets extends Component {
 
 
         {this.props.ticketEditState === 'list' ? 
-          <div>SUBMITTED TICKETS:
+          <div className='ticketsHeader'>SUBMITTED TICKETS:
           <br/><br/>
-          <div>
-            {this.props.ticketsData ? 
+          <div className='entriesContainer'>
+            {this.props.ticketsData && this.props.ticketsData.length ? 
               this.props.ticketsData.map(ticket => <TicketEntry key={ticket.id} data={ticket}/>)
               :
               'There are no tickets.'

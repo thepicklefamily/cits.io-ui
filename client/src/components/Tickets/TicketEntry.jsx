@@ -6,7 +6,7 @@ import { setTicketEditState } from '../../actions/setTicketEditState';
 import { setTicketsData } from '../../actions/setTicketsData';
 import axios from 'axios';
 import swal from 'sweetalert2';
-import ticketstyles from './ticketstyles.css';
+import './ticketstyles.css';
 
 class TicketEntry extends Component {
   constructor(props) {
@@ -59,6 +59,8 @@ class TicketEntry extends Component {
   async onDeleteHandler() {
     try {
       //delete:
+      this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+      console.log('rqurl', this.REST_URL);
       await axios.delete(`${this.REST_URL}/api/userTickets/delete/${this.props.data.id}`, this.config);
       this.setState({deletionError: false});
       //get and set the new updated list of tickets for the property for the property manager:
@@ -73,20 +75,23 @@ class TicketEntry extends Component {
 
   render() {
     return (
-      <div>
-        Ticket Entry: <br/>
-        subject: {`${this.props.data.subject}`}
-        category: {`${this.props.data.category}`}
-        apt_num: {this.props.data.apt_num} <br/>
-        description: {this.props.data.description} <br/>
-        status: {this.props.data.status} <br/>
-        {<button onClick={this.onDetailsHandler.bind(this)}>DETAILS</button>}
+      <div className='entryContainer'>
+        <div className='left'>
+          Ticket Entry: <br/>
+          subject: {`${this.props.data.subject}`}
+          category: {`${this.props.data.category}`}
+          apt_num: {this.props.data.apt_num} <br/>
+          description: {this.props.data.description} <br/>
+          status: {this.props.data.status} <br/>
+        </div>
+        <div className='right'>
+        {<div className='details'><button onClick={this.onDetailsHandler.bind(this)}>DETAILS</button></div>}
         {localStorage.getItem('type') === '1' ? 
-          <button onClick={this.deleteModalHandler.bind(this)}>DELETE</button> 
+          <div className='delete'><button onClick={this.deleteModalHandler.bind(this)}>DELETE</button></div>
           : 
           null
         }
-        <br/><br/>
+        </div>
       </div>
     );
   }

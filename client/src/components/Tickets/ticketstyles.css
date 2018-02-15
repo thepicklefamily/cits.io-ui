@@ -1,5 +1,51 @@
 
-.loginMain {
+.ticketsMain {
   font-family: Arial, Helvetica, sans-serif;
-  margin: 5vh auto auto auto;
+  margin: 5vh auto 6vh auto;
+  background-color: #F1F1F1;
+  color: 7878787;
+  width: 50%;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  padding: 40px;
+}
+
+.ticketsHeader {
+  text-align: center;
+}
+
+.entryContainer {
+  display: grid;
+  grid-gap: 20px;
+  /* grid-template-columns: minmax(100px, max-content); */
+  grid-template-columns: 50%, 50%;
+}
+
+.left {
+  grid-column: 1 / 2;
+}
+
+.right {
+  grid-column: 2 / 3;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-rows: 20px;
+}
+
+.details {
+  grid-row: 1 / 2;
+}
+
+.delete {
+  grid-row: 2 / 3;
+}
+
+
+.entriesContainer {
+  display: grid;
+  grid-gap: 20px;
+  /* grid-template-columns: minmax(100px, max-content); */
+  grid-template-columns: 300px;
+  text-align: center;
+  margin: auto;
 }
