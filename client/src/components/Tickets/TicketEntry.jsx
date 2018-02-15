@@ -74,13 +74,16 @@ class TicketEntry extends Component {
   }
 
   render() {
+    console.log('apt num', this.props.data.apt_num)
     return (
       <div className='entryContainer'>
         <div className='left'>
-          Ticket Entry: <br/>
-          subject: {`${this.props.data.subject}`}
-          category: {`${this.props.data.category}`}
-          apt_num: {this.props.data.apt_num} <br/>
+          {<div>
+            <div className='subject'>{this.props.data.subject}</div>
+            <div className='category'>{this.props.data.category}</div>
+            <div className='aptnum'>{this.props.data.apt_num}</div>
+            </div>}
+            <br/>
           description: {this.props.data.description} <br/>
           status: {this.props.data.status} <br/>
         </div>
