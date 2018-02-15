@@ -30,6 +30,7 @@ class PropertyListItem extends Component {
     this.propertyUpdateHandler = this.propertyUpdateHandler.bind(this);
     this.removeHandler = this.removeHandler.bind(this);
     this.deletePropertyHandler = this.deletePropertyHandler.bind(this);
+    this.setCurrentProperty = this.setCurrentProperty.bind(this);
   }
 
   componentWillMount() {
@@ -128,6 +129,11 @@ class PropertyListItem extends Component {
     this.setState({ edit: 0 });
   }
 
+  setCurrentProperty() {
+    localStorage.setItem('propertyId', this.props.property.id);
+    this.props.setPropertyData();
+  }
+
   render() {
     return (
       <li>
@@ -160,6 +166,10 @@ class PropertyListItem extends Component {
                 <button onClick={this.saveHandler}>SAVE</button>
                 <button onClick={this.cancelHandler}>CANCEL</button>
               </div>
+            }
+            {
+              localStorage.getItem('propertyId') === this.props.property.id.toString() ? null :
+              <button onClick={this.setCurrentProperty}>Set as Current Property</button>
             }
           </div>
           :
@@ -242,6 +252,10 @@ class PropertyListItem extends Component {
                 <button onClick={this.propertyUpdateHandler}>SAVE CHANGES</button>
                 <button onClick={this.cancelHandler}>CANCEL</button>
               </div>
+            }
+            {
+              localStorage.getItem('propertyId') === this.props.property.id.toString() ? null :
+              <button onClick={this.setCurrentProperty}>Set as Current Property</button>
             }
           </div>
         }
