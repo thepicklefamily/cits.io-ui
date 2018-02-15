@@ -1,0 +1,56 @@
+.title {
+  text-align: center;
+}
+
+#news {
+  margin-bottom: 25px;
+}
+
+.main-image {
+  height: 100%;
+  margin-bottom: 35px;
+}
+
+.sub-image {
+  padding: 0px;
+  margin-bottom: 10px;
+}
+
+h3, h6, .content {
+  color: #616161;
+}
+
+h6 {
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.small-title, .date {
+  text-overflow: ellipsis;
+}
+
+.date {
+  color: #aeaeae;  
+}
+
+.see-through {
+  transition: background-color 0.5s ease;
+  margin-top: 15px;
+  margin-bottom: 50px;
+  transition: color 0.5s ease;
+  background-color: white;
+  border-width: 2px;
+  border-color: #48822D;
+  padding: 10px 30px;
+  color: #48822D;
+  cursor: pointer;
+}
+
+.see-through:hover {
+  color: white;
+  background-color: #48822D;
+}
+
+.small-articles {
+  margin-bottom: 15px;
+}
