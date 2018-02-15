@@ -224,20 +224,37 @@ class Messages extends Component {
   render() {
     return (
       <div className="messagesMain">
-        <div className="messagesInner">
-          <div>
-            <ul>
-              {this.state.messages.map((message, i) => (
-                <div key={i}>
-                  <li><a href="!" onClick={this.goToProfile} name={message.userId}>{message.username}</a> ({message.type}): {message.message} <br />{moment(message.date).fromNow()}</li>
-                </div>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <input onKeyUp={this.handleKeyPress} id="message" onChange={this.handleChange} type="text" name="message" autoComplete="off"></input>
-            <button onClick={this.handleClick} type="submit">SUBMIT</button>
-          </div>
+        <h2 id="messagesPropertyName">PROPERTY NAME</h2>
+        <div id="messageScroll" className="messagesInner">
+          <ul>
+            {this.state.messages.map((message, i) => (
+              <div className="messageHolder" key={i}>
+                <li>
+                  <div className="messageUser">
+                    <a
+                      onClick={this.goToProfile}
+                      name={message.userId}>{message.username}
+                      </a> ({message.type})
+                  </div>
+                  <div className="messageContent">
+                    {message.message}<span id="moment">{moment(message.date).fromNow()}</span>
+                  </div>
+                </li>
+              </div>
+            ))}
+          </ul>
+        </div>
+        <div className="messagesSubmit">
+          <input 
+            onKeyUp={this.handleKeyPress} 
+            id="message"
+            onChange={this.handleChange} 
+            type="text" name="message" 
+            autoComplete="off"
+            placeholder="Write a message..."
+          >
+          </input>
+          <button onClick={this.handleClick} type="submit">Send</button>
         </div>
       </div>
     )
