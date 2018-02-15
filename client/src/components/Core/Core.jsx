@@ -24,7 +24,7 @@ class Core extends Component {
         <LoggedIn 
           goToPage = {this.goToPage}
         /> 
-        : 
+        :
         <LoggedOut />}
       </div>
     );
