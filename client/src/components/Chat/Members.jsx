@@ -24,11 +24,12 @@ class Members extends Component {
   }
       
   async componentWillMount() {
+    this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST: process.env.SOCKET_SERVER_LOCAL_HOST;
     this.config.headers.authorization = localStorage.getItem('token');
     this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST : process.env.SOCKET_SERVER_LOCAL_HOST;
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
 
-    // const socket = io.connect('http://localhost:4155', {
+    // const socket = io.connect(`${this.SOCKET_URL}`, {
     //   query: {
     //     roomId: location.pathname.slice(1)
     //   }
@@ -126,7 +127,7 @@ class Members extends Component {
               this.state.allUsersInProperty.map(user =>
                 user.username === localStorage.getItem('username') ? null :
                 !this.state.activeUsers.hasOwnProperty(user.username) ? null :
-                <li key={user.id}>
+                <li className="activeUsers" key={user.id}>
                   Active:
                   <span>{user.username}</span>
                   {
@@ -144,7 +145,7 @@ class Members extends Component {
               this.state.allUsersInProperty.map(user => 
                 user.username === localStorage.getItem('username') ? null :
                 this.state.activeUsers.hasOwnProperty(user.username) ? null :
-                <li key={user.id}>
+                <li className="inactiveUsers" key={user.id}>
                   Inactive:
                   <span>{user.username}</span>
                   {
