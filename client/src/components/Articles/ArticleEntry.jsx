@@ -23,21 +23,23 @@ class ArticleEntry extends Component {
 
   render () {
     return (
-      <div>
-        Article Entry: <br/>
-          {JSON.stringify(this.props.article)}
-            {/* <div className="">
-            <p className="">{this.props.article.title}</p>
-            <p className="">{this.props.article.date}</p> 
-            </div> */}
-        <img src={this.props.article.photo_url}/>
-        <br/><br/>
-        <button onClick={this.onViewHandler.bind(this)}>More Info</button> 
-        <div className="">
-        {localStorage.getItem('type') === '1' ? <button onClick={this.onEditHandler.bind(this)}>EDIT</button> : null}
-        <br/><br/>
-        </div>  
+      <div className="col-md-3">
+      <div className="card mb-3 box-shadow">
+        <img className="card-img-top" src="https://i.imgur.com/2KoKbtz.gif"/>
+        <div className="card-body">
+          <h5 className="card-title">{this.props.article.title}</h5>
+          <p className="card-text">{this.props.article.content}</p>
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="btn-group">
+              <button type="button" className="btn btn-sm btn-outline-secondary" onClick={this.onViewHandler.bind(this)}>View</button>
+              {localStorage.getItem('type') === '1' ? <button type="button" className="btn btn-sm btn-outline-secondary" onClick={this.onEditHandler.bind(this)}>Edit</button> 
+              : null}
+            </div>
+            <small className="text-muted">9 mins</small>
+          </div>
+        </div>
       </div>
+    </div>
     )
   }
 }
@@ -57,3 +59,4 @@ const matchDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, matchDispatchToProps)(ArticleEntry);
+

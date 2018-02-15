@@ -20,7 +20,7 @@ class Mein extends Component {
   }
 
   render() {
-    console.log(process.env.NODE_ENV)
+
     return (
       <div>
         <div className="banner">

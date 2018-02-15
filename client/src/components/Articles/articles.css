@@ -1,0 +1,36 @@
+/* @media (min-width: 576px) {
+  .card-columns {
+      column-count: 2;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-columns {
+      column-count: 3;
+  }
+} */
+
+/* @media (min-width: 400px) { */
+  /* .card-columns {
+    /* -webkit-column-count: ; */
+     /* column-count: 4;
+  } */
+
+/* 
+@media (min-width: 1200px) {
+  .card-columns {
+      column-count: 5;
+  }
+} */
+
+.card {
+  overflow: hidden;
+  border-radius: 0 !important;
+  border: 0 none;
+  width: 200px !important;
+}
+/* 
+.card-img-top {
+  width: 100%;
+  border-radius: 0 !important;
+} */
