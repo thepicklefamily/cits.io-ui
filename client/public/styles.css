@@ -263,9 +263,36 @@ table {
   display: grid;
   grid-template-columns: 200px 1fr;
 }
+/* --
+  MEMBERS
+-- */
 .membersMain {
+  width: 80%;
+  height: 750px;
   font-family: Arial, Helvetica, sans-serif;
-  margin: 10vh auto auto auto;
+  margin: 8vh auto auto auto;
+}
+.membersInner {
+  overflow: scroll;
+  background-color: #FFF;
+  color: rgb(77, 77, 77);
+  margin: 3vh auto 0 auto;
+  padding: 15px;
+  height: 80%;
+  width: 70%;
+  text-align: left;
+  background: linear-gradient(#e0e0e0 70%, #fff);
+  font-size: large;
+}
+.membersInner > ul > li {
+  margin: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #b0b0b0;
+}
+#membersWord {
+  font-size: xx-large;
+  width: 70%;
+  margin: 0 auto 0 auto;
 }
 /* --
   MESSAGES
