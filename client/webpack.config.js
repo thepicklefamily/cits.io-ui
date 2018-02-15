@@ -1,6 +1,8 @@
-const path = require('path');
-const webpack = require('webpack');
 require('dotenv').config();
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: path.resolve('./src/index.js'),
@@ -17,6 +19,35 @@ module.exports = {
         options: {
           presets: ['env', 'react']
         }
+      },
+      {
+        test: /\.(scss|css)$/,
+        loaders: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
+      },
+      {
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        use: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 65
+              },
+              optipng: {
+                optimizationLevel: 7,
+              },
+              pngquant: {
+                quality: 65,
+              },
+              svggo: {},
+              webp: {
+                quality: 65
+              }
+            }
+          },
+        ],
       }
     ]
   },
