@@ -8,6 +8,7 @@ import { setCurrentPhonebookEntry } from '../../actions/setCurrentPhonebookEntry
 // import { withRouter } from 'react-router';
 import { setPhonebookData } from '../../actions/setPhonebookData';
 import axios from 'axios';
+import './Phonebook.css'
 
 class Phonebook extends Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class Phonebook extends Component {
             null
           }
           <br/><br/>
-          <div id='phonebookContainer' class='hiddenscrollbars'>
+          <div id='phonebookContainer' className='hiddenscrollbars'>
           {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && localStorage.getItem('type') === '1' ? 
             <div>
               <PhonebookEntryForm/>
