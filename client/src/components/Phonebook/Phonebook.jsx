@@ -34,26 +34,31 @@ class Phonebook extends Component {
 
   render() {
     return (
-      <div>
-        PHONEBOOK DATA:
-        <br/><br/>
-        {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && localStorage.getItem('type') === '1' ? 
-          <div>
-            <PhonebookEntryForm/>
-          </div> 
-          : 
-          this.props.phonebookData ? 
-            this.props.phonebookData.map( entry => <PhonebookEntry key={entry.id} data={entry}/> ) 
+      <div className='phonebookMain'>
+        <h2 id='phonebookWord'>PHONEBOOK INDEX</h2>
+        <div className='phonebookInner'>
+          {this.props.phonebookEditState === '0' && localStorage.getItem('type') === '1' ? 
+              <button className='phonebookAddButtons' onClick={this.onAddHandler.bind(this)}>CREATE A NEW ENTRY</button> 
             : 
-            'No DATA'
-          )
-        }
-        {this.props.phonebookEditState === '0' && localStorage.getItem('type') === '1' ? 
-          <button onClick={this.onAddHandler.bind(this)}>ADD NEW ENTRY</button> 
-          : 
-          null
-        }
-      </div>
+            null
+          }
+          <br/><br/>
+          <div id='phonebookContainer' class='hiddenscrollbars'>
+          {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && localStorage.getItem('type') === '1' ? 
+            <div>
+              <PhonebookEntryForm/>
+            </div> 
+            :
+            this.props.phonebookData ? 
+              
+              this.props.phonebookData.map( entry => <div className='phonebookMapEntry' key={entry.id}><PhonebookEntry data={entry}/><br/><br/></div> ) 
+              : 
+              'No DATA'
+            )
+          }
+          </div>
+        </div>
+    </div>
     );
   }
 }

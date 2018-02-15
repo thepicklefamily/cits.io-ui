@@ -64,7 +64,6 @@ class TicketEntryForm extends Component {
       const { data } = await axios.get(`http://localhost:3396/api/tenantTickets/fetch/${localStorage.getItem('id')}`, this.config);
       this.props.setTicketsData(data);
       //return back to list of entries view:
-      this.props.setTicketEditState('list');
       const emailPayload = {
         name: localStorage.getItem('full_name'),
         email: localStorage.getItem('email'),
@@ -78,6 +77,7 @@ class TicketEntryForm extends Component {
       }
       await axios.post(`${this.SMTP_URL}/tickets/sendTicketEmail`, emailPayload, this.config)
       this.setState({ ticketError: false });
+      this.props.setTicketEditState('list');
     }
     catch (err) {
       this.setState({ ticketError: true });

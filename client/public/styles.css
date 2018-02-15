@@ -402,6 +402,108 @@ table {
 /* --
   PHONEBOOK
 -- */
+.phonebookMain {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 5vh auto auto auto;
+  height: 100%;
+}
+.phonebookInner {
+  /* background-image: url(http://kfda.images.worldnow.com/images/19413523_BG1.jpg?auto=webp&disable=upscale&width=800); */
+  background-color: #F1F1F1;
+  color: #F1F1F1;
+  margin: 3vh auto 2vh auto;
+  width: 30%;
+  height: 70%;
+  overflow: hidden;
+  text-align: center;
+  /* border: 1px solid black; */
+  padding: 20px 0 40px 0;
+}
+.phonebookMapEntry {
+  margin: 0 auto 0 auto;
+  padding: 10px 0 10px 0;
+  border-width: 0 1px 1px 1px;
+  background-color: white;
+  border-color: #e0e0e0;
+  border-style: solid;
+  width: 70%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.phonebookInnerRight {
+  height: 35px;
+  width: 77%;
+  float: right;
+}
+#phonebookContainer {
+  height: 550px;
+  width: 100%;
+  overflow: scroll;
+}
+.hiddenscrollbars::-webkit-scrollbar { 
+  display: none; 
+}
+.phonebookInnerEntry {
+  /* border: 1px solid black; */
+  width: 85%;
+  margin: 10px;
+  text-align: center;
+  color: #616161;
+  font-size: small;
+  float: left;
+}
+.phonebookEntryRows {
+  padding: 0 10px 0 10px;
+  font-size: small;
+}
+.phonebookEntryRowCompany {
+  /* background-color: white; */
+  padding: 0 10px 0 10px;
+  font-size: small;
+  /* border: 1px solid black; */
+}
+.phonebookEntryRowService {
+  padding: 0 10px 0 10px;
+  font-size: xx-small;
+  /* border: 1px solid black; */
+}
+.phonebookEntryRowNumber {
+  padding: 0 10px 0 10px;
+  font-size: smaller;
+  /* border: 1px solid black; */
+}
+.phonebookButtons {
+  color: #fff;
+  font-size: xx-small;
+  background-color: #48832B;
+  padding: 1px 3px;
+  border: 1px solid black;
+  margin: 0 0 0 225px;
+}
+.phonebookAddButtons {
+  color: #fff;
+  font-size: small;
+  border: none;
+  background-color: #48832B;
+  padding: 0 30px;
+  margin: -50px 0 0 0;
+  /* top right bottom left */
+}
+.phonebookEditButton {
+  color: #fff;
+  font-size: small;
+  border: none;
+  padding: 0 30px;
+  margin: -28px 0 0 40px;
+  /* top right bottom left */
+}
+#phonebookWord {
+  text-align: center;
+  font-size: 1.75em;
+  color: #787878;
+}
 .phonebookError {
   color: red;
   font-size: 14px;
