@@ -51,7 +51,7 @@ class LoggedIn extends Component {
               <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                 <h3>{this.state.articles[0].title}</h3>
                 <p className="date">{this.state.articles[0].date}</p>
-                <p className="content">{this.state.articles[0].content}</p>
+                <p className="content">{`${this.state.articles[0].content.substring(0, 100)}...`}</p>
                 <button 
                   className="see-through"
                 >
@@ -69,9 +69,9 @@ class LoggedIn extends Component {
                       src={article.photo_url}
                     />
 
-                    <h6 className="small-title">{article.title}</h6>
+                    <h6 className="small-title">{`${article.title.substring(0, 20)}...`}</h6>
                     <p className="date">{article.date}</p>
-                    <p className="content">{article.content}</p>
+                    <p className="content">{`${article.content.substring(0, 60)}...`}</p>
                   </div>
                 )
               }
