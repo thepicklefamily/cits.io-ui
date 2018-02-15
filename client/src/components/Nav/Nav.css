@@ -1,0 +1,24 @@
+.navMain {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.navLeft {
+  grid-column: 1 / 2;
+  display: flex;
+  justify-content: center;
+}
+.navLeft > img {
+  margin-top: 2px;
+  height: 80%;
+}
+.navRight {
+  grid-column-start: 2 / 3;
+  display: flex;
+  justify-content: center;
+}
+.navRight > img {
+  height: 80%;
+}
+.navRight > button {
+  height: 80%;
+}
