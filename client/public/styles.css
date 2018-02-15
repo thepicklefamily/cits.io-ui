@@ -267,21 +267,84 @@ table {
   font-family: Arial, Helvetica, sans-serif;
   margin: 10vh auto auto auto;
 }
+/* --
+  MESSAGES
+-- */
 .messagesMain {
-  overflow-y: scroll;
   font-family: Arial, Helvetica, sans-serif;
   margin: 8vh auto auto auto;
+  height: 550px;
   width: 80%;
 }
 .messagesInner {
-  background-color: #F1F1F1;
-  color: #000;
-  margin: 3vh auto 2vh auto;
-  width: 80%;
+  overflow: scroll;
+  background-color: #FFF;
+  color: rgb(77, 77, 77);
+  margin: 3vh auto 0 auto;
+  height: 80%;
+  width: 70%;
   text-align: left;
   border: 1px solid #e0e0e0;
-  padding: 40px;
-  overflow: scroll;
+}
+.messagesSubmit {
+  margin: 0 auto 0 auto;
+  padding: 10px 0;
+  border-width: 0 1px 1px 1px;
+  border-color: #e0e0e0;
+  border-style: solid;
+  width: 70%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.messagesSubmit > input {
+  width: 80%;
+  height: 67%;
+  margin-top: 1px;
+  padding-left: 20px;
+  font-size: small;
+  border: none;
+  border-radius: 20px 0 0 20px;
+  background-color: #e0e0e0;
+}
+.messagesSubmit > button {
+  width: 10%;
+  height: 70%;
+  color: #fff;
+  font-size: small;
+  border: none;
+  border-radius: 0 20px 20px 0;
+  background-color: #48832B;
+}
+.messageHolder {
+  list-style-type: none;
+  padding: 5px 15px 3px 15px;
+}
+.messageUser {
+  padding: 2px;
+  margin-bottom: 3px;
+}
+.messageUser:hover {
+  cursor: pointer;
+  color: #48832B;
+}
+.messageContent {
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  height: 2em;
+  padding: 4px 10px;
+}
+#messagesPropertyName {
+  font-size: xx-large;
+  width: 70%;
+  margin: 0 auto 0 auto;
+}
+#moment {
+  font-size: x-small;
+  padding-left: 10px;
 }
 /* --
   CHAT
