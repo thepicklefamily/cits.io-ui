@@ -331,6 +331,7 @@ class Profile extends Component {
               />
               {
                 !this.state.propertyID ? null :
+                localStorage.getItem('type') === '1' ? null :
                 <div>
                   Apartment Number/Unit:
                   <input 
