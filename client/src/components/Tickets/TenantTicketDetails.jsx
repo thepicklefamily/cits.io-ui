@@ -5,6 +5,7 @@ import { setTicketEditState } from '../../actions/setTicketEditState';
 import { setTicketsData } from '../../actions/setTicketsData';
 import axios from 'axios';
 import { locale } from 'moment';
+import ticketstyles from './ticketstyles.css';
 
 class TenantTicketDetails extends Component {
   constructor(props) {

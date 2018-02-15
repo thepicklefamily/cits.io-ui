@@ -6,6 +6,7 @@ import { setTicketEditState } from '../../actions/setTicketEditState';
 import { setTicketsData } from '../../actions/setTicketsData';
 import axios from 'axios';
 import swal from 'sweetalert2';
+import ticketstyles from './ticketstyles.css';
 
 class TicketEntry extends Component {
   constructor(props) {

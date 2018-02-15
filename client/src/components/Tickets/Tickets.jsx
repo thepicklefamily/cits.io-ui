@@ -8,6 +8,7 @@ import TicketEntryForm from './TicketEntryForm.jsx';
 import TicketDetails from './TicketDetails.jsx';
 import axios from 'axios';
 import { locale } from 'moment';
+import ticketstyles from './ticketstyles.css';
 
 class Tickets extends Component {
   constructor(props) {
@@ -51,7 +52,7 @@ class Tickets extends Component {
 
   render() {
     return (
-      <div>
+      <div className='ticketsMain'>
         <div>{localStorage.getItem('type') === '0' && this.props.ticketEditState === 'list' ? 
           <button onClick={this.onAddHandler.bind(this)}>SUBMIT NEW TICKET</button> 
           : 

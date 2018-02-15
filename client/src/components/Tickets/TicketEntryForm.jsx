@@ -5,6 +5,7 @@ import { setTicketEditState } from '../../actions/setTicketEditState';
 import { setTicketsData } from '../../actions/setTicketsData';
 import axios from 'axios';
 import moment from 'moment';
+import ticketstyles from './ticketstyles.css';
 
 class TicketEntryForm extends Component {
   constructor(props) {
