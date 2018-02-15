@@ -18,6 +18,8 @@ class Nav extends Component {
         authorization: ''
       }
     };
+    this.handleMouseOver = this.handleMouseOver.bind(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
   }
 
   async componentWillMount() {
@@ -105,9 +107,16 @@ class Nav extends Component {
       });
     }
   }
-
-  // use conditionals to render different navs
-  // change chat to instead push the name of the users property that they belong to
+  handleMouseOver(e) {
+    let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
+    console.log(changeImg.src);
+    changeImg.src = `assets/icons/${e.target.id}-icon-sm-green.png`;
+  }
+  handleMouseOut(e) {
+    let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
+    console.log(changeImg.src);
+    changeImg.src = `assets/icons/${e.target.id}-icon-sm-gray.png`;
+  }
 
   render() {
     return (
@@ -119,26 +128,62 @@ class Nav extends Component {
               <img src='assets/icons/cits-logo.png' id='propSelectButton' onClick={() => console.log('o hai, I am propSelectButton')} />
             </div>
             <div className="navRight">
-              <div className="test">
-                <img src='assets/icons/account-icon-sm-gray.png' onClick={() => this.props.history.push('/profile')} />
+              <div
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseOut}
+                onClick={() => this.props.history.push('/profile')}
+                className="test"
+                id="account"
+              >
+                <img src='assets/icons/account-icon-sm-gray.png'/>
               </div>
-              <div className="test">
-                <img src='assets/icons/chat-icon-sm-gray.png' id='chatButton' onClick={() => this.props.history.push('/chat')} />
+              <div 
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseOut}
+                onClick={() => this.props.history.push('/chat')}
+                className="test" 
+                id="chat"
+              >
+                <img src='assets/icons/chat-icon-sm-gray.png'/>
               </div>
-              <div className="test">
-                <img alt='articles' onClick={() => this.props.history.push('/articles')} />
+              <div 
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseOut}
+                onClick={() => this.props.history.push('/articles')}
+                className="test" 
+                id="articles"
+              >
+                <img src="assets/icons/articles-icon-sm-gray.png"/>
               </div>
-              <div className="test">
-                <img src='assets/icons/tickets-icon-sm-gray.png' onClick={() => this.props.history.push('/tickets')} />
+              <div 
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseOut}
+                onClick={() => this.props.history.push('/tickets')}
+                className="test" 
+                id="tickets"
+              >
+                <img src='assets/icons/tickets-icon-sm-gray.png' />
               </div>
-              <div className="test">
-                <img src='assets/icons/phonebook-icon-sm-gray.png' onClick={() => this.props.history.push('/phonebook')} />
+              <div 
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseOut}
+                onClick={() => this.props.history.push('/phonebook')}
+                className="test" 
+                id="phonebook"
+              >
+                <img src='assets/icons/phonebook-icon-sm-gray.png'  />
               </div>
-              <div className="test">
-                <img src='assets/icons/castle-icon-sm-green.png' onClick={() => this.props.history.push('/')} />
+              <div
+                onClick={() => this.props.history.push('/')} 
+                className="test" 
+                id="castlePNG"
+              >
+                <img src='assets/icons/castle-icon-sm-green.png' />
               </div>
-              <div className="test">
-                <button onClick={() => {
+              <div 
+                className="test" 
+                id="logout"
+                onClick={() => {
                   (
                     this.props.setPropertyData(null),
                     this.props.setCurrentProperty(null),
@@ -152,8 +197,9 @@ class Nav extends Component {
                     localStorage.removeItem('phonenumber'),
                     document.title = 'CITS',
                     this.props.history.push('/')
-                  )
-                }}>LOGOUT</button>
+                  )}}
+                >
+                LOGOUT
               </div>
             </div>
           </div>
