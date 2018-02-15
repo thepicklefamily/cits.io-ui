@@ -29,38 +29,33 @@ class Messages extends Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.goToProfile = this.goToProfile.bind(this);
   }
-  componentWillMount() {
-    this.config.headers.authorization = localStorage.getItem('token');
-    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
-    this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST: process.env.SOCKET_SERVER_LOCAL_HOST;
-    
-    axios.get(`${this.REST_URL}/api/chat/getMessages`, this.config)
-      .then((res) => {
-        this.setState({
-          messages: res.data
-        })
-      })
-      .catch(() => {
-        console.log('error fetching messages.  WHOOPS!');
-      })
+
+  componentDidMount() {
     const socket = io(`${this.SOCKET_URL}`, {
       query: {
         roomId: location.pathname.slice(1) //this will change to the room of the property that I put into the URL
       }
     })
-    console.log('messages', socket)
+    this.setState({socket})
     socket.on('connect', () => {
+      console.log('emit 1 FUUUUUUUUUUUUUUUUUUUUUUUUCK');
       socket.emit('client.ready', 'all');
     })
+    
     socket.on('server.initialState', () => {
+      console.log('this is the fucking socket', socket);
       this.setState({
         socket,
         roomname: location.pathname.slice(1)
+      }, ()=> {
+        console.log('messages', socket)
       })
     })
+    
     socket.on('server.message', async (data) => {
       try {
         //sending confirmation back to server that saw message (for chat notifications):
+        console.log('emit 2');
         this.props.chatNotificationSocket.emit('message.received', { 
           userId: localStorage.getItem('id'),
           propId: data.propId,
@@ -76,6 +71,63 @@ class Messages extends Component {
       }
 
     })
+  }
+  componentWillMount() {
+    
+    this.config.headers.authorization = localStorage.getItem('token');
+    this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST: process.env.SOCKET_SERVER_LOCAL_HOST;
+
+    axios.get(`${this.REST_URL}/api/chat/getMessages`, this.config)
+      .then((res) => {
+        this.setState({
+          messages: res.data
+        })
+      })
+      .catch(() => {
+        console.log('error fetching messages.  WHOOPS!');
+      })
+
+    const socket = io(`${this.SOCKET_URL}`, {
+      query: {
+        roomId: location.pathname.slice(1) //this will change to the room of the property that I put into the URL
+      }
+    })
+    this.setState({socket})
+    socket.on('connect', () => {
+      console.log('emit 1 FUUUUUUUUUUUUUUUUUUUUUUUUCK');
+      socket.emit('client.ready', 'all');
+    })
+    
+    socket.on('server.initialState', () => {
+      console.log('this is the fucking socket', socket);
+      this.setState({
+        socket,
+        roomname: location.pathname.slice(1)
+      }, ()=> {
+        console.log('messages', socket)
+      })
+    })
+    
+    // socket.on('server.message', async (data) => {
+    //   try {
+    //     //sending confirmation back to server that saw message (for chat notifications):
+    //     console.log('emit 2');
+    //     this.props.chatNotificationSocket.emit('message.received', { 
+    //       userId: localStorage.getItem('id'),
+    //       propId: data.propId,
+    //       timeStamp: data.timeStamp
+    //     });
+    //     //other chat logic:
+    //     const message = await axios.get(`${this.REST_URL}/api/chat/getMostRecentMessage`, this.config)
+    //     await this.setState({
+    //       messages: [...this.state.messages, data]
+    //     })
+    //   } catch (err) {
+    //     console.log('error fetching messages', err);
+    //   }
+
+    // })
     let type = '';
     if (localStorage.getItem('type') === '1') {
       type = 'Manager';
@@ -111,6 +163,7 @@ class Messages extends Component {
   
   confirmMessagesSeen () {
     //send confirmation back to server that saw messages in this chat room up to this point (for chat notifications):
+    console.log('emit 3');
     this.props.chatNotificationSocket.emit('message.received', { 
       userId: +localStorage.getItem('id'),
       propId: +localStorage.getItem('propertyId'),
@@ -146,6 +199,7 @@ class Messages extends Component {
       data.data ? 
         (data.data.propId = localStorage.getItem('propertyId'),
         data.data.timeStamp = timeStamp,
+        console.log('emit 4', this.state.socket),
         this.state.socket.emit('client.message', (data.data)))
         :
         console.log('error retrieving data');
