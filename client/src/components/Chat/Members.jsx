@@ -121,7 +121,7 @@ class Members extends Component {
     return (
       <div className="membersMain">
         Members
-        <div>
+        <div className="membersInner">
           <ul>
             {
               this.state.allUsersInProperty.map(user =>
