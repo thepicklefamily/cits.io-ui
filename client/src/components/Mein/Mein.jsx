@@ -31,7 +31,12 @@ class Mein extends Component {
               <div>
                 <h2>CITS</h2>
                 <h4>Renting Made Easy</h4>
-                <button className="signup">Sign Up!</button>
+                <button 
+                  className="signup"
+                  onClick={() => {this.props.history.push('/signup')}}
+                >
+                  Sign Up Now!
+                </button>
               </div>
               :
               <div>
