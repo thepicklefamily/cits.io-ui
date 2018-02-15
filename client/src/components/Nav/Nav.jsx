@@ -119,28 +119,42 @@ class Nav extends Component {
               <img src='assets/icons/cits-logo.png' id='propSelectButton' onClick={() => console.log('o hai, I am propSelectButton')} />
             </div>
             <div className="navRight">
-              <img src='assets/icons/account-icon-sm-gray.png' onClick={() => this.props.history.push('/profile')} />
-              <img src='assets/icons/chat-icon-sm-gray.png' id='chatButton' onClick={() => this.props.history.push('/chat')} />
-              <button onClick={() => this.props.history.push('/articles')}>Go to Articles</button>
-              <img src='assets/icons/tickets-icon-sm-gray.png' onClick={() => this.props.history.push('/tickets')} />
-              <img src='assets/icons/phonebook-icon-sm-gray.png' onClick={() => this.props.history.push('/phonebook')} />
-              <img src='assets/icons/castle-icon-sm-green.png' onClick={() => this.props.history.push('/')} />
-              <button onClick={() => {
-                (
-                  this.props.setPropertyData(null),
-                  this.props.setCurrentProperty(null),
-                  localStorage.removeItem('token'),
-                  localStorage.removeItem('propertyId'),
-                  localStorage.removeItem('id'),
-                  localStorage.removeItem('type'),
-                  localStorage.removeItem('username'),
-                  localStorage.removeItem('email'),
-                  localStorage.removeItem('full_name'),
-                  localStorage.removeItem('phonenumber'),
-                  document.title = 'CITS',
-                  this.props.history.push('/')
-                )
-              }}>LOGOUT</button>
+              <div className="test">
+                <img src='assets/icons/account-icon-sm-gray.png' onClick={() => this.props.history.push('/profile')} />
+              </div>
+              <div className="test">
+                <img src='assets/icons/chat-icon-sm-gray.png' id='chatButton' onClick={() => this.props.history.push('/chat')} />
+              </div>
+              <div className="test">
+                <img alt='articles' onClick={() => this.props.history.push('/articles')} />
+              </div>
+              <div className="test">
+                <img src='assets/icons/tickets-icon-sm-gray.png' onClick={() => this.props.history.push('/tickets')} />
+              </div>
+              <div className="test">
+                <img src='assets/icons/phonebook-icon-sm-gray.png' onClick={() => this.props.history.push('/phonebook')} />
+              </div>
+              <div className="test">
+                <img src='assets/icons/castle-icon-sm-green.png' onClick={() => this.props.history.push('/')} />
+              </div>
+              <div className="test">
+                <button onClick={() => {
+                  (
+                    this.props.setPropertyData(null),
+                    this.props.setCurrentProperty(null),
+                    localStorage.removeItem('token'),
+                    localStorage.removeItem('propertyId'),
+                    localStorage.removeItem('id'),
+                    localStorage.removeItem('type'),
+                    localStorage.removeItem('username'),
+                    localStorage.removeItem('email'),
+                    localStorage.removeItem('full_name'),
+                    localStorage.removeItem('phonenumber'),
+                    document.title = 'CITS',
+                    this.props.history.push('/')
+                  )
+                }}>LOGOUT</button>
+              </div>
             </div>
           </div>
           :
