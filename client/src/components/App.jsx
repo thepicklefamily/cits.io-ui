@@ -29,7 +29,7 @@ class App extends Component {
     return (
       <Provider store={this.props.store}>
         <BrowserRouter>
-          <div className="container">
+          <div className="davidContainer">
             <Switch>
               <Route path='/' component={Nav} />
             </Switch>
