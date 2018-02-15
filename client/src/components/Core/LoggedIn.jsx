@@ -79,7 +79,7 @@ class LoggedIn extends Component {
 
             <center>
               <button 
-                onClick={() => {this.props.history.push('/articles')}}
+                onClick={() => this.props.goToPage('/articles')}
                 className="see-through view-all"
               >
                 See All Articles
