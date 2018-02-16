@@ -5,8 +5,10 @@ import { setPropertyData } from '../../actions/setPropertyData';
 import { setCurrentProperty } from '../../actions/setCurrentProperty';
 import { setChatNotificationSocket } from '../../actions/setChatNotificationSocket';
 import { setNotificationProperties } from '../../actions/setNotificationProperties';
+import mainLogo from '../../../public/assets/icons/cits-logo.png';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
+import './Nav.css';
 
 class Nav extends Component {
   constructor(props) {
@@ -16,14 +18,16 @@ class Nav extends Component {
         authorization: ''
       }
     };
+    this.handleMouseOver = this.handleMouseOver.bind(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
   }
 
-  async componentWillMount () {
+  async componentWillMount() {
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
-    this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST: process.env.SOCKET_SERVER_LOCAL_HOST;
+    this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST : process.env.SOCKET_SERVER_LOCAL_HOST;
     try {
       await this.setPropertyList();
-  
+
       //initiate socket connection for notifications and add to state:
       const socket = io(`${this.SOCKET_URL}/chat-notifications`);
       await this.props.setChatNotificationSocket(socket);
@@ -40,7 +44,7 @@ class Nav extends Component {
           this.renderNotifications();
         }
       });
-      this.props.chatNotificationSocket.on('notifications.whileonline', ({userId, propId}) => {
+      this.props.chatNotificationSocket.on('notifications.whileonline', ({ userId, propId }) => {
         console.log('notifications.whileonline data = ', userId, propId);
         //if the notification is for a msg not from this user, on this users prop list, and not on the notification props list yet
         //then add it to the notification props list and re-render notifications.
@@ -60,8 +64,8 @@ class Nav extends Component {
 
   //anytime get or do something notifications worthy / change the state of the notificationProperties, then run this func to render them all properly:
   renderNotifications() {
-            //if a property on the notifications list array is the current property, render the notification on the chat button, unless the user is looking at the chat page:
-    if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && window.location.href !== "http://localhost:3000/chat" || 
+    //if a property on the notifications list array is the current property, render the notification on the chat button, unless the user is looking at the chat page:
+    if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && window.location.href !== "http://localhost:3000/chat" ||
       this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !document.hasFocus()) {
       document.getElementById('chatButton').innerHTML = 'Go to Chat *MSG*';
       document.title = '● CITS';
@@ -73,9 +77,9 @@ class Nav extends Component {
         notifsDisplay += ` ${this.props.notificationProperties[i]}`;
       }
     }
-    notifsDisplay !== '' ? 
+    notifsDisplay !== '' ?
       (document.getElementById('propSelectButton').innerHTML = `CastleLogo *MSG* for props${notifsDisplay}`,
-      document.title = '● CITS')
+        document.title = '● CITS')
       :
       null;
 
@@ -95,54 +99,118 @@ class Nav extends Component {
     }
   }
 
-  sendInfoForInitialNotifications () {
+  sendInfoForInitialNotifications() {
     if (this.props.propertyData) {
-      this.props.chatNotificationSocket.emit('notifications.ready', { 
+      this.props.chatNotificationSocket.emit('notifications.ready', {
         userId: localStorage.getItem('id'),
         propsArray: this.props.propertyData.map(prop => prop.id)
       });
     }
   }
-
-  // use conditionals to render different navs
-  // change chat to instead push the name of the users property that they belong to
+  handleMouseOver(e) {
+    let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
+    console.log(changeImg.src);
+    changeImg.src = `assets/icons/${e.target.id}-icon-sm-green.png`;
+  }
+  handleMouseOut(e) {
+    let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
+    console.log(changeImg.src);
+    changeImg.src = `assets/icons/${e.target.id}-icon-sm-gray.png`;
+  }
 
   render() {
     return (
       <div className="header">
-        { localStorage.getItem('token') ? 
+        {localStorage.getItem('token') ?
           // LOGGED IN
-          <div>
-            <button onClick={() => this.props.history.push('/')}>Go to Home</button>
-            <button onClick={() => this.props.history.push('/profile')}>Go to Profile</button>
-            <button onClick={() => this.props.history.push('/phonebook')}>Go to Phonebook</button>
-            <button id='chatButton' onClick={() => this.props.history.push('/chat')}>Go to Chat</button>
-            <button onClick={() => this.props.history.push('/tickets')}>Go to Tickets</button>
-            <button onClick={() => this.props.history.push('/articles')}>Go to Articles</button>
-            <button id='propSelectButton' onClick={() => console.log('o hai, I am propSelectButton')}>CastleLogo</button>
-            <button onClick={() => {(
-              this.props.setPropertyData(null),
-              this.props.setCurrentProperty(null),
-              localStorage.removeItem('token'),
-              localStorage.removeItem('propertyId'),
-              localStorage.removeItem('id'),
-              localStorage.removeItem('type'),
-              localStorage.removeItem('username'),
-              localStorage.removeItem('email'),
-              localStorage.removeItem('full_name'),
-              localStorage.removeItem('phonenumber'),
-              document.title = 'CITS',
-              this.props.history.push('/')
-            )}}>LOGOUT</button>
-          </div> 
-          : 
+          <div className="navMain">
+            <div className="navLeft">
+              <img src='assets/icons/cits-logo.png' id='propSelectButton' onClick={() => console.log('o hai, I am propSelectButton')} />
+            </div>
+            <div className="navRight">
+              <div
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseOut}
+                onClick={() => this.props.history.push('/profile')}
+                className="test"
+                id="account"
+              >
+                <img src='assets/icons/account-icon-sm-gray.png'/>
+              </div>
+              <div 
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseOut}
+                onClick={() => this.props.history.push('/chat')}
+                className="test" 
+                id="chat"
+              >
+                <img src='assets/icons/chat-icon-sm-gray.png'/>
+              </div>
+              <div 
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseOut}
+                onClick={() => this.props.history.push('/articles')}
+                className="test" 
+                id="articles"
+              >
+                <img src="assets/icons/articles-icon-sm-gray.png"/>
+              </div>
+              <div 
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseOut}
+                onClick={() => this.props.history.push('/tickets')}
+                className="test" 
+                id="tickets"
+              >
+                <img src='assets/icons/tickets-icon-sm-gray.png' />
+              </div>
+              <div 
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseOut}
+                onClick={() => this.props.history.push('/phonebook')}
+                className="test" 
+                id="phonebook"
+              >
+                <img src='assets/icons/phonebook-icon-sm-gray.png'  />
+              </div>
+              <div
+                onClick={() => this.props.history.push('/')} 
+                className="test" 
+                id="castlePNG"
+              >
+                <img src='assets/icons/castle-icon-sm-green.png' />
+              </div>
+              <div 
+                className="test" 
+                id="logout"
+                onClick={() => {
+                  (
+                    this.props.setPropertyData(null),
+                    this.props.setCurrentProperty(null),
+                    localStorage.removeItem('token'),
+                    localStorage.removeItem('propertyId'),
+                    localStorage.removeItem('id'),
+                    localStorage.removeItem('type'),
+                    localStorage.removeItem('username'),
+                    localStorage.removeItem('email'),
+                    localStorage.removeItem('full_name'),
+                    localStorage.removeItem('phonenumber'),
+                    document.title = 'CITS',
+                    this.props.history.push('/')
+                  )}}
+                >
+                LOGOUT
+              </div>
+            </div>
+          </div>
+          :
           // LOGGED OUT
           <div>
             <button onClick={() => this.props.history.push('/')}>Go to Home</button>
             <button onClick={() => this.props.history.push('/login')}>Go to Login</button>
             <button onClick={() => this.props.history.push('/signup')}>Go to Signup</button>
           </div>
-        }  
+        }
       </div>
     );
   }
