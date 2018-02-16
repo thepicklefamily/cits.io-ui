@@ -71,16 +71,22 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="loginMain">
+      <div className="container">
         <h3 className="title">LOGIN</h3>
-        <div className="loginInner">
-          <br/>
-          <input placeholder="Username" type='text' name='username'/><br/>
-          <br/>
-          <input placeholder="Password" onKeyUp={this.handleKeyPress.bind(this)} type='password' name='password'/><br/>
-          { this.state.inputError ? <div className="loginError">Please check your input fields and try again!</div> : null }
-          <button id="loginButton" onClick={this.onSubmitHandler.bind(this)}>Log In</button>
-          <a onClick={() => {this.props.history.push('/signUp')}} id="orSignUp">or sign up</a>
+        <div className="row">
+          <div className="col-lg-6 col-md-10 col-sm-12 col-xs-12 loginInner">
+            <input placeholder="Username" type='text' name='username'/>
+            <input placeholder="Password" onKeyUp={this.handleKeyPress.bind(this)} type='password' name='password'/><br/>
+
+            { 
+              this.state.inputError ? 
+              <div className="loginError">Please check your input fields and try again!</div> 
+              : null 
+            }
+
+            <button id="loginButton" onClick={this.onSubmitHandler.bind(this)}>Log In</button>
+            <a onClick={() => {this.props.history.push('/signUp')}} id="orSignUp">or Sign Up</a>
+          </div>
         </div>
       </div>
     );

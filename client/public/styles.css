@@ -83,6 +83,7 @@ textarea:hover, input:hover, textarea:active, input:active, textarea:focus, inpu
     "content"
     "footer"
 }
+
 .header {
   z-index: 1000;
   grid-area: header;
@@ -92,10 +93,12 @@ textarea:hover, input:hover, textarea:active, input:active, textarea:focus, inpu
   background-color: #FFF;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.168);
 }
+
 .main {
   grid-area: content;
   overflow: hidden;
 }
+
 .footer {
   height: 75px;
   position: static;
@@ -114,81 +117,76 @@ textarea:hover, input:hover, textarea:active, input:active, textarea:focus, inpu
   LOGIN
 -- */
 
-.loginMain {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 5vh auto auto auto;
-}
 .loginInner {
   background-color: #F1F1F1;
   color: #F1F1F1;
-  margin: 3vh auto auto auto;
+  margin: 0 auto;
   width: 30%;
   text-align: center;
   border: 1px solid #e0e0e0;
   padding: 40px;
 }
+
 .loginInner > input {
   border: none; 
-  width: 80%;
-  height: 35px;
+  width: 87%;
+  height: 50px;
   padding-left: 15px;
   color: #616161;
   font-size: small;
 }
-.loginInner > input:focus {
-  outline: none;
-}
+
 .loginInner > input::-webkit-input-placeholder { /* WebKit browsers */
-  
   color: #aeaeae;
   font-size: small;
 }
+
 .loginInner > input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  
   color: #aeaeae;
   font-size: small;
 }
+
 .loginInner > input::-moz-placeholder { /* Mozilla Firefox 19+ */
-  
   color: #aeaeae;
   font-size: small;
 }
+
 .loginInner > input:-ms-input-placeholder { /* Internet Explorer 10+ */
-  
   color: #aeaeae;
   font-size: small;
 }
-#loginWord {
-  text-align: center;
-  font-size: 1.75em;
-  color: #787878;
-}
+
 #loginButton {
+  transition: background-color 0.5s ease;
   color: #fff;
   font-size: medium;
   border: none;
   background-color: #48832B;
   padding: 10px 30px;
   margin: 25px 10px 0 0;
-}
-#loginButton:hover {
   cursor: pointer;  
 }
-#loginButton:focus {
-  outline: none;
+
+#loginButton:hover {
+  background-color: rgb(26, 83, 26);
 }
 
 .loginError {
   color: red;
   font-size: 14px;
 }
+
 #orSignUp {
+  transition: color 0.5s ease;  
   text-decoration: none;
   color: #48832B;
-}
-#orSignUp:hover {
   cursor: pointer;
 }
+
+#orSignUp:hover {
+  color: rgb(26, 83, 26);
+}
+
 /* --
   LOGIN
 -- */
@@ -197,75 +195,114 @@ textarea:hover, input:hover, textarea:active, input:active, textarea:focus, inpu
   SIGNUP
 -- */
 .propertySearch {
-  color: #787878;
+  color: #616161;
 }
-.signUpMain {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 5vh auto auto auto;
-}
+
 .signUpInner {
   background-color: #F1F1F1;
   color: #F1F1F1;
-  margin: 3vh auto 2vh auto;
-  width: 30%;
+  margin: 0 auto;
   text-align: center;
   border: 1px solid #e0e0e0;
   padding: 40px;
+  padding-bottom: 50px;
+  margin-bottom: 75px;
 }
+
+.signUpInnerSelect {
+  border: none; 
+  width: 87%;
+  height: 50px;
+  margin-top: -20px;
+  margin-bottom: -50px;
+  padding-left: 15px;
+  color: #616161;
+}
+
 .signUpInnerInputs {
   border: none; 
-  width: 80%;
-  height: 35px;
+  width: 87%;
+  height: 50px;
   padding-left: 15px;
   margin: 5px;
   color: #616161;
   font-size: small;
 }
+
 .signUpButtons {
+  transition: background-color 0.5s ease;
   color: #fff;
   font-size: medium;
   border: none;
   background-color: #48832B;
   padding: 10px 30px;
-  margin: 15px 10px 0 0;
-}
-.signUpButtons:hover {
+  margin: 25px 10px 0 0;
   cursor: pointer;  
 }
-.signUpButtons:focus {
-  outline: none;
+
+.signUpButtons:hover {
+  background-color: rgb(26, 83, 26);
 }
-.signUpInner > input:focus {
-  outline: none;
+
+.signUpButtons-clear {
+  transition: background-color 0.5s ease;
+  color: #48832B;
+  font-size: medium;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #48822D;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 10px 30px;
+  margin: 25px 10px 0 0;
+  cursor: pointer;  
 }
+
+.signUpButtons-clear:hover {
+  color: white;
+  background-color: #48822D;
+}
+
 .signUpInner > input::-webkit-input-placeholder { /* WebKit browsers */
-  
   color: #aeaeae;
   font-size: small;
 }
+
 .signUpInner > input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  
   color: #aeaeae;
   font-size: small;
 }
+
 .signUpInner > input::-moz-placeholder { /* Mozilla Firefox 19+ */
-  
   color: #aeaeae;
   font-size: small;
 }
+
 .signUpInner > input:-ms-input-placeholder { /* Internet Explorer 10+ */
-  
   color: #aeaeae;
   font-size: small;
 }
-#signUpWord {
-  text-align: center;
-  font-size: 1.75em;
-  color: #787878;
-}
+
 .signUpError {
   color: red;
   font-size: 14px;
+}
+
+.only-login {
+  margin-top: 25px;
+  font-size: 20px;
+}
+
+.side-note {
+  color: #aeaeae;
+  font-size: 14px;
+}
+
+hr {
+  width: 87%;
+}
+
+.prop-field {
+  margin-bottom: 15px;
 }
 
 /* --
