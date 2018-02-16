@@ -86,50 +86,74 @@ class PropertySearch extends Component {
             {
               !this.props.searchResults.length ? null :
               this.props.userType === "0" ?
-                <div>
+                <div><br/><hr/>
                   {
                     this.props.searchResults[0] === "No Results" ? 
                     <div>
-                      No results, please try again.
+                      <span className="info">
+                        No results, please try again.
+                      </span>
                     </div>
                     : 
                     this.props.searchResults.map(property => 
-                      <div key={property.id}>
-                        <div>
+                      <div key={property.id}><br/>
+                        <div className="description">
                           {property.name}
                         </div>
-                        <div>
+                        <div className="info">
                           {property.address}
                         </div>
                         {
                           this.props.propertyID === property.id ? 
-                          <button className="signUpButtons" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
+                          <button className="selected-btn" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
                           :
-                          <button className="signUpButtons" onClick={() => { this.props.selectProperty(property.id) }}>Select Property</button>
+                          <button className="select-btn" onClick={() => { this.props.selectProperty(property.id) }}>Select Property</button>
                         }
+                        {
+                          !this.props.propertyID ? null :
+                          localStorage.getItem('type') === '1' ? null :
+                          property.id !== this.props.propertyID ? null :
+                          <div className="unit">
+                            <div className="description">
+                              Apartment Number/Unit:
+                            </div>
+                            <input 
+                              name="apt_unit"
+                              placeholder="Enter Unit Number"
+                              onChange={this.props.inputChangeHandler}
+                              className="unit-input"
+                            />
+                          </div>
+                        }
+                        <br/><br/><hr/>
                       </div>
                     )
                   }
                 </div>
               :
               this.props.userType === "1" ?
-                <div>
+                <div><br/><hr/>
                   {
                     this.props.searchResults[0] === "No Results" ? 
-                    <div>
+                    <span className="info">
                       No results, please try again.
-                    </div>
+                    </span>
                     : 
                     this.props.searchResults.map(property => 
-                      <div key={property.id}>
-                        <div>
+                      <div key={property.id}><br/>
+                        <div className="description">
                           {property.name}
                         </div>
-                        <div>
+                        <div className="info">
                           {property.address}
                         </div>
-                        <div>
-                          Property Secret:
+                        <div><br/>
+                          {
+                            this.props.propertyID === property.id ? null :
+                            <span className="description">
+                              Property Secret:
+                            </span>
+                          }
                           {
                             this.props.propertyID === property.id ? null :
                             <input 
@@ -138,17 +162,17 @@ class PropertySearch extends Component {
                               name="secret" 
                               placeholder="Enter Secret Key"
                               onChange={this.inputChangeHandler}
-                              className="signUpInnerInputs"
                             />
                           }
                           { this.props.secretErrorState ? <div>INVALID SECRET KEY</div> : null }
                         </div>
                         {
                           this.props.propertyID === property.id ? 
-                          <button className="signUpButtons" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
+                          <button className="selected-btn" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
                           :
-                          <button className="signUpButtons" onClick={() => { this.props.selectProperty(property.id, this.state.secret)}}>Select Property</button>
+                          <button className="select-btn" onClick={() => { this.props.selectProperty(property.id, this.state.secret)}}>Select Property</button>
                         }
+                        <br/><br/><hr/>
                       </div>
                     )
                   }

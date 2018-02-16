@@ -381,24 +381,14 @@ class Profile extends Component {
             // search properties
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <h3 className="title">Add Property to Account</h3>
-              <PropertySearch 
-                propertyID={this.state.propertyID}
-                selectProperty={this.selectProperty}
-                inputChangeHandler={this.inputChangeHandler}
-                userType={localStorage.getItem('type')}
-              />
-              {
-                !this.state.propertyID ? null :
-                localStorage.getItem('type') === '1' ? null :
-                <div>
-                  Apartment Number/Unit:
-                  <input 
-                    name="apt_unit"
-                    placeholder="Enter Unit Number"
-                    onChange={this.inputChangeHandler}
-                  />
-                </div>
-              }
+              <center>
+                <PropertySearch 
+                  propertyID={this.state.propertyID}
+                  selectProperty={this.selectProperty}
+                  inputChangeHandler={this.inputChangeHandler}
+                  userType={localStorage.getItem('type')}
+                />
+              </center>
               <center>
                 <button 
                   onClick={this.addPropertyHandler}

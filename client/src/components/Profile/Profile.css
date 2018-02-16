@@ -87,7 +87,7 @@ h3 {
   background-color: rgb(125, 0, 0);
 }
 
-.current-btn, .add-prop-btn {
+.current-btn, .add-prop-btn, .select-btn, .selected-btn {
   margin-top: 15px;
   transition: background-color 0.5s ease;
   color: #48822D;
@@ -103,9 +103,26 @@ h3 {
   width: 100%;
 }
 
-.current-btn:hover, .add-prop-btn:hover {
+.current-btn:hover, .add-prop-btn:hover, .select-btn:hover {
   color: white;
   background-color: #48822D;
+}
+
+.select-btn, .selected-btn {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.selected-btn {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #48822D;
+  color: white;
+  border: none;
+}
+
+.selected-btn:hover {
+  background-color: rgb(26, 83, 26);
 }
 
 .add-prop-btn {
@@ -121,4 +138,13 @@ h3 {
 
 .add-prop-input {
   background-color: #f1f1f1;
+}
+
+.unit {
+  margin-top: 20px;
+}
+
+.unit-input {
+  width: 300px;
+  margin-bottom: -15px;
 }
