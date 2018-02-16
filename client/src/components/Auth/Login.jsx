@@ -53,13 +53,13 @@ class Login extends Component {
         :
         null;
       this.props.history.push('/');
+      location.reload();
     }
     catch (err) {
       document.getElementsByName('password').forEach( field => field.value = '' );
       this.setState({ inputError: true });
     }
 
-    location.reload();
   }
 
   sendInfoForInitialNotifications (data) {

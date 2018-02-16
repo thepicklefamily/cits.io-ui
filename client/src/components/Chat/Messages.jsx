@@ -32,12 +32,12 @@ class Messages extends Component {
 
   updateScroll() {
     var element = document.getElementById("chat-box");
-    element.scrollTop = element.scrollHeight;
+    if (element && element.scrollHeight) element.scrollTop = element.scrollHeight;
   }
 
   componentDidMount() {
-    setInterval(this.updateScroll);
-
+    // setInterval(this.updateScroll);
+    // setTimeout(this.updateScroll, 200);
     const socket = io(`${this.SOCKET_URL}`, {
       query: {
         roomId: location.pathname.slice(1) //this will change to the room of the property that I put into the URL
@@ -78,7 +78,7 @@ class Messages extends Component {
         const message = await axios.get(`${this.REST_URL}/api/chat/getMostRecentMessage`, this.config)
         await this.setState({
           messages: [...this.state.messages, data]
-        })
+        }, this.updateScroll.bind(this))
       } catch (err) {
         console.log('error fetching messages', err);
       }
@@ -191,9 +191,10 @@ class Messages extends Component {
   }
 
   handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    // this.setState({
+    //   [e.target.name]: e.target.value
+    // })
+    this.state[e.target.name] = e.target.value;
   }
 
   handleKeyPress(e) {
@@ -250,6 +251,7 @@ class Messages extends Component {
   }
 
   render() {
+    this.updateScroll();
     return (
       <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
         <h5>Messages</h5>
@@ -287,6 +289,7 @@ class Messages extends Component {
           </input>
           <button onClick={this.handleClick} type="submit">Send</button>
         </div>
+        {/* {this.updateScroll()} */}
       </div>
     )
   }
