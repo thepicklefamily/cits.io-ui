@@ -12,6 +12,7 @@ import Phonebook from './Phonebook/Phonebook.jsx';
 import Profile from './Profile/Profile.jsx';
 import Chat from './Chat/Chat.jsx';
 import Articles from './Articles/Articles.jsx';
+import ArticlesProfile from './Articles/ArticleProfile.jsx';
 import Tickets from './Tickets/Tickets.jsx';
 import UserProfile from './Profile/UserProfile';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
@@ -43,6 +44,7 @@ class App extends Component {
                 <Route path='/userProfile' component={UserProfile} />
                 <Route path='/tickets' component={Tickets} />
                 <Route path='/articles' component={Articles} />
+                <Route path='/:articles' component={ArticlesProfile} />
                 <Route path='/' component={Mein} />
               </Switch>
             </div>

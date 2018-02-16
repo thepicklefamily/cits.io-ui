@@ -67,10 +67,8 @@ class Articles extends Component {
                     </div>
                   ) : (
                     <div>
-                      <Switch>
                       <Route path='/' component={ArticleProfile}/>
-                        {/* <ArticleProfile/> */}
-                      </Switch>
+                      {/* <ArticleProfile/> */}
                     </div>
                   )
                 ) : this.props.articlesData && this.props.currentViewArticle === '0'? (
@@ -79,10 +77,8 @@ class Articles extends Component {
                   })
                 ) : (
                   <div>
-                    <Switch>
-                      <Route path='/' component={ArticleProfile}/>
-                        {/* <ArticleProfile/> */}
-                    </Switch>
+                    <Route path='/' component={ArticleProfile}/>
+                      {/* <ArticleProfile/> */}
                   </div>
                 )}
           </div>

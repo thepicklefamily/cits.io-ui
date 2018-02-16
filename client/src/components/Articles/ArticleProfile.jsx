@@ -100,6 +100,7 @@ class ArticleProfile extends Component {
   async onCancelHandler() {
     this.props.setCurrentViewArticle("0");
     this.props.setCurrentArticlePosts([]);
+    this.props.history.push('/articles')
   }
 
   findChildren(nodes) {
@@ -131,7 +132,6 @@ class ArticleProfile extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         {this.props.currentViewArticle !== null ? (
@@ -229,7 +229,7 @@ class ArticleProfile extends Component {
                     : console.log("italian zest")}
                 <br />
                 <button onClick={this.onCancelHandler.bind(this)}>
-                  CANCEL
+                  View all articles
                 </button>
               </div>
             </div>

@@ -85,15 +85,7 @@ class Post extends Component {
   render() {
     return (
       <div>
-        {/* <li>
-          <h2 className="">{this.props.post.id}</h2>
-          <div className="username">{ this.props.post.username }</div>
-          <div className="text">{ this.props.post.text }</div>
-          <div className="date">{ this.props.post.date }</div> 
-          
-          <br/><br/> */}
         <div className="media">
-            
             <a className="media-left" href="#">
               <img src="http://lorempixel.com/40/40/people/2/"/>
             </a>
@@ -103,16 +95,22 @@ class Post extends Component {
               <p className="pull-right"><small>{moment(this.props.post.date).fromNow()}</small></p>
               <div className="row">
               { localStorage.getItem('type') === '1' ? (
-                <span onClick={this.onDeleteHandler.bind(this)} className="col-md-1">delete</span>
+                <button onClick={this.onDeleteHandler.bind(this)} className="col-md-1">delete</button>
               ) : null}
-                <span onClick={this.onShow.bind(this)} className="col-md-1">view</span>
-                <span onClick={this.onClickHander.bind(this)} className="col-md-1">reply</span>
+                <button onClick={this.onShow.bind(this)} className="col-md-1">view</button>
+                <button onClick={this.onClickHander.bind(this)} className="col-md-1">reply</button>
               
                 { this.state.replyClicked ? (
                   <div>
                     <form onSubmit={this.onAddHandler.bind(this)}>
-                    <input onChange={this.onChangeHandler.bind(this)} type='text' name='reply'></input>
-                    <button onClick={this.onAddHandler.bind(this)}>Reply</button>
+
+                      <div className="">
+                        <label htmlFor="reply" className="col-sm-2 col-form-label">Reply</label>
+                          <div className="col-sm-10">
+                            <input type="text" onChange={this.onChangeHandler.bind(this)} className="form-control" name="reply" placeholder="Write a reply!"/>
+                            <button onClick={this.onAddHandler.bind(this)}>Reply</button>
+                          </div>
+                      </div>
                     </form>
                   </div>
                 ) : null}
@@ -129,8 +127,6 @@ class Post extends Component {
                 ) :
                   null
                   }
-          
-        {/* </li> */}
         </div>
       </div>
     </div>

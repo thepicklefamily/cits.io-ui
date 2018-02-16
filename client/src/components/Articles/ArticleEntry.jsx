@@ -18,9 +18,7 @@ class ArticleEntry extends Component {
     await this.props.setCurrentArticleEntry(this.props.article);
     await this.props.setArticleEditState('2'); // on submit edit form, revert to false
   }
-
   
-
   async onViewHandler() {
     await this.props.setCurrentViewArticle(this.props.article);
   }
