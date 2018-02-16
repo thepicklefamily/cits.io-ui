@@ -1,6 +1,7 @@
 .navMain {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  height: 70px;
 }
 .navLeft {
   grid-column: 1 / 2;
@@ -9,7 +10,7 @@
 }
 .navLeft > img {
   margin: 2px 0 0 10px;
-  height: 80%;
+  height: 65px;
 }
 .navRight {
   grid-column-start: 2 / 3;
@@ -24,8 +25,18 @@
   margin: auto 7px;
   height: 30%;
 }
+.navRightLoggedOut {
+  margin: auto 0 auto auto;
+  text-align: right;
+  grid-column-start: 2 / 3;
+}
+#goToLogin {
+  height: 70px;
+  border: none;
+  color: #FFF;
+  background-color: #48822D;
+}
 .test {
-  height: 86%;
   padding: 17px 10px;
 }
 .test:hover {

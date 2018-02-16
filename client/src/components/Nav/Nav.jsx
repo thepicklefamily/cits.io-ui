@@ -135,53 +135,53 @@ class Nav extends Component {
                 className="test"
                 id="account"
               >
-                <img src='assets/icons/account-icon-sm-gray.png'/>
+                <img src='assets/icons/account-icon-sm-gray.png' />
               </div>
-              <div 
+              <div
                 onMouseOver={this.handleMouseOver}
                 onMouseLeave={this.handleMouseOut}
                 onClick={() => this.props.history.push('/chat')}
-                className="test" 
+                className="test"
                 id="chat"
               >
-                <img src='assets/icons/chat-icon-sm-gray.png'/>
+                <img src='assets/icons/chat-icon-sm-gray.png' />
               </div>
-              <div 
+              <div
                 onMouseOver={this.handleMouseOver}
                 onMouseLeave={this.handleMouseOut}
                 onClick={() => this.props.history.push('/articles')}
-                className="test" 
+                className="test"
                 id="articles"
               >
-                <img src="assets/icons/articles-icon-sm-gray.png"/>
+                <img src="assets/icons/articles-icon-sm-gray.png" />
               </div>
-              <div 
+              <div
                 onMouseOver={this.handleMouseOver}
                 onMouseLeave={this.handleMouseOut}
                 onClick={() => this.props.history.push('/tickets')}
-                className="test" 
+                className="test"
                 id="tickets"
               >
                 <img src='assets/icons/tickets-icon-sm-gray.png' />
               </div>
-              <div 
+              <div
                 onMouseOver={this.handleMouseOver}
                 onMouseLeave={this.handleMouseOut}
                 onClick={() => this.props.history.push('/phonebook')}
-                className="test" 
+                className="test"
                 id="phonebook"
               >
-                <img src='assets/icons/phonebook-icon-sm-gray.png'  />
+                <img src='assets/icons/phonebook-icon-sm-gray.png' />
               </div>
               <div
-                onClick={() => this.props.history.push('/')} 
-                className="test" 
+                onClick={() => this.props.history.push('/')}
+                className="test"
                 id="castlePNG"
               >
                 <img src='assets/icons/castle-icon-sm-green.png' />
               </div>
-              <div 
-                className="test" 
+              <div
+                className="test"
                 id="logout"
                 onClick={() => {
                   (
@@ -197,18 +197,25 @@ class Nav extends Component {
                     localStorage.removeItem('phonenumber'),
                     document.title = 'CITS',
                     this.props.history.push('/')
-                  )}}
-                >
+                  )
+                }}
+              >
                 LOGOUT
               </div>
             </div>
           </div>
           :
           // LOGGED OUT
-          <div>
-            <button onClick={() => this.props.history.push('/')}>Go to Home</button>
-            <button onClick={() => this.props.history.push('/login')}>Go to Login</button>
-            <button onClick={() => this.props.history.push('/signup')}>Go to Signup</button>
+          <div className="navMain">
+            <div className="navLeft">
+              <img src='assets/icons/cits-logo.png' onClick={() => this.props.history.push('/')} />
+            </div>
+            <div 
+              className="navRightLoggedOut"
+              onClick={() => this.props.history.push('/login')}
+            >
+              <button className="navRight test" id="goToLogin">Login</button>
+            </div>
           </div>
         }
       </div>
