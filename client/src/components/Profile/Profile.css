@@ -1,0 +1,59 @@
+.title {
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.info-box {
+  padding: 40px 40px 50px 40px;;
+  background-color: #f1f1f1;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #dadada;
+  margin-bottom: 5px;
+}
+
+ul {
+  padding: 0;
+}
+
+input { 
+  margin-top: 5px;
+  margin-bottom: 15px;
+  padding-left: 15px;
+  width: 100%;
+  height: 50px;
+  border: none;
+  color: #616161;
+}
+
+input::placeholder {
+  color: #aeaeae;
+}
+
+.description, .info {
+  color: #616161;
+}
+
+.description {
+  font-weight: bold;
+}
+
+h3 {
+  margin-bottom: 15px;
+}
+
+.profile-btn {
+  transition: background-color 0.5s ease;
+  margin-top: 25px;
+  margin-right: 15px;
+  padding: 10px 30px;
+  border: none;
+  background-color: #48822D;
+  color: white;
+  cursor: pointer;
+}
+
+.profile-btn:hover {
+  background-color: rgb(26, 83, 26);
+}

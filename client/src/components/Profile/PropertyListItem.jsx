@@ -136,7 +136,7 @@ class PropertyListItem extends Component {
 
   render() {
     return (
-      <li>
+      <li className="info-box">
         {
           localStorage.getItem('type') === '0' ?
           <div>

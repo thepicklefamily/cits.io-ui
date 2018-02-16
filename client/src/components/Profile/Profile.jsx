@@ -8,6 +8,8 @@ import axios from 'axios';
 import PropertyListItem from './PropertyListItem';
 import PropertySearch from '../Auth/PropertySearch';
 
+import './Profile.css';
+
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -194,135 +196,191 @@ class Profile extends Component {
 
   render() {
     return (
-      <div>
-        <h3>PROFILE</h3><br/>
-        <div>
-          {this.props.profileEditState === 0 ? 
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 title">
+            <h3>MY ACCOUNT</h3>
+          </div>
+
+          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div>
-              <h3>Profile Info</h3>
-
-              FULL NAME:
-              <div>{localStorage.getItem('full_name')}</div><br/>
-
-              EMAIL:
-              <div>{localStorage.getItem('email')}</div><br/>
-              
-              USERNAME:
-              <div>{localStorage.getItem('username')}</div><br/>
-
-              PHONE NUMBER:
-              <div>{localStorage.getItem('phonenumber')}</div><br/>
-
-              <button onClick={this.onEditHandler.bind(this)}>EDIT</button>
-            </div> 
-            : 
-            <div>
-              <h3>Edit Profile Info</h3>
-              FULL NAME: 
-              <div>
-                <input 
-                  type='text' 
-                  name='full_name' 
-                  onChange={this.inputChangeHandler} 
-                  defaultValue={localStorage.getItem('full_name')}
-                />
-              </div><br/>
-
-              EMAIL: 
-              <div>
-                <input 
-                  type='text' 
-                  name='email' 
-                  onChange={this.inputChangeHandler} 
-                  defaultValue={localStorage.getItem('email')}
-                />
-              </div><br/>
-
-              USERNAME: 
-              <div>
-                <input 
-                  type='text' 
-                  name='username' 
-                  onChange={this.inputChangeHandler} 
-                  defaultValue={localStorage.getItem('username')}
-                />
-              </div><br/>
-
-              PHONE NUMBER: 
-              <div>
-                <input 
-                  type='text' 
-                  name='phonenumber' 
-                  onChange={this.inputChangeHandler} 
-                  defaultValue={localStorage.getItem('phonenumber')}
-                />
-              </div><br/>
-
-              PASSWORD: 
-              <div>
+              {this.props.profileEditState === 0 ? 
                 <div>
-                  Current password:
-                  <div>
-                    <input 
-                      type='password' 
-                      name='password' 
-                      onChange={this.inputChangeHandler} 
-                      placeholder='Enter your current password'
-                    />
+                  <h3>Profile Info</h3>
+                  <div className="info-box">
+                    <span className="description">
+                      Full Name:
+                    </span>
+                    <div className="info">{localStorage.getItem('full_name')}</div><hr/>
+
+                    <span className="description">
+                      Email:
+                    </span>
+                    <div className="info">{localStorage.getItem('email')}</div><hr/>
+                    
+                    <span className="description">
+                    Username:
+                    </span>
+                    <div className="info">{localStorage.getItem('username')}</div><hr/>
+
+                    <span className="description">
+                    Phone Number:
+                    </span>
+                    <div className="info">{localStorage.getItem('phonenumber')}</div>
+
+                    <button 
+                      className="profile-btn"
+                      onClick={this.onEditHandler.bind(this)}
+                    >
+                      Edit
+                    </button>
                   </div>
-                </div><br/>
-
+                </div> 
+                : 
                 <div>
-                  New password:
-                  <div>
-                    <input 
-                      type='password' 
-                      name='new_password' 
-                      onChange={this.inputChangeHandler} 
-                      placeholder='Enter your new password'
-                    />
-                  </div>
-                </div><br/>
+                  <h3>Edit Profile Info</h3>
+                  <div className="info-box">
+                    <span className="description">
+                      Full Name: 
+                    </span>
+                    <div>
+                      <input 
+                        type='text' 
+                        name='full_name' 
+                        onChange={this.inputChangeHandler} 
+                        placeholder='Enter your full name'
+                        defaultValue={localStorage.getItem('full_name')}
+                      />
+                    </div>
 
-                <div>
-                  Confirm new password:
-                  <div>
-                    <input 
-                      type='password' 
-                      name='confirm_password' 
-                      onChange={this.inputChangeHandler} 
-                      placeholder='Confirm new password'
-                    />
+                    <span className="description">
+                      Email: 
+                    </span>
+                    <div>
+                      <input 
+                        type='text' 
+                        name='email' 
+                        onChange={this.inputChangeHandler} 
+                        placeholder='Enter your email'
+                        defaultValue={localStorage.getItem('email')}
+                      />
+                    </div>
+
+                    <span className="description">
+                      Username: 
+                    </span>
+                    <div>
+                      <input 
+                        type='text' 
+                        name='username' 
+                        onChange={this.inputChangeHandler} 
+                        placeholder='Enter your username'
+                        defaultValue={localStorage.getItem('username')}
+                      />
+                    </div>
+
+                    <span className="description">
+                      Phone Number:
+                    </span>
+                    <div>
+                      <input 
+                        type='text' 
+                        name='phonenumber' 
+                        onChange={this.inputChangeHandler} 
+                        placeholder='Enter your phone number'
+                        defaultValue={localStorage.getItem('phonenumber')}
+                      />
+                    </div><hr/><br/>
+
+                    <h5>UPDATE PASSWORD:</h5><br/>
+                    <div>
+                      <div>
+                        <span className="description">
+                          Current password:
+                        </span>
+                        <div>
+                          <input 
+                            type='password' 
+                            name='password' 
+                            onChange={this.inputChangeHandler} 
+                            placeholder='Enter your current password'
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="description">
+                          New password:
+                        </span>
+                        <div>
+                          <input 
+                            type='password' 
+                            name='new_password' 
+                            onChange={this.inputChangeHandler} 
+                            placeholder='Enter your new password'
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="description">
+                          Confirm new password:
+                        </span>
+                        <div>
+                          <input 
+                            type='password' 
+                            name='confirm_password' 
+                            onChange={this.inputChangeHandler} 
+                            placeholder='Confirm new password'
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {this.state.profileError ? <div className='profileError'>Please check your input fields and try again!</div> : null}
+                    <button
+                      className="profile-btn" 
+                      onClick={this.updateUserHandler}
+                    >
+                      Save Changes
+                    </button>
+                    <button
+                      className="profile-btn" 
+                      onClick={this.onCancelHandler}
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </div>
-              </div><br/>
-
-              {this.state.profileError ? <div className='profileError'>Please check your input fields and try again!</div> : null}
-              <button onClick={this.updateUserHandler}>SAVE CHANGES</button>
-              <button onClick={this.onCancelHandler}>CANCEL</button>
+              }
             </div>
-          }
+          </div>
+
+
+          
           {
             // your properties
-            <div>
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <h3>Properties Info</h3>
-              <ul>
-                {
-                  this.state.propertyData.map(property => 
-                    <PropertyListItem 
-                      key={property.id} // if someone has multiple units at the same property, this will throw an error in the console.
-                      property={property}
-                      setPropertyData={this.setPropertyData}
-                    />
-                  )
-                }
-              </ul>
+              <div>
+                <ul>
+                  {
+                    this.state.propertyData.map(property => 
+                      <PropertyListItem 
+                        key={property.id} // if someone has multiple units at the same property, this will throw an error in the console.
+                        property={property}
+                        setPropertyData={this.setPropertyData}
+                      />
+                    )
+                  }
+                </ul>
+              </div>
             </div>
           }
           {
             // search properties
-            <div>
-              <h3>Add Property</h3>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <h3 className="title">Add Property</h3>
               <PropertySearch 
                 propertyID={this.state.propertyID}
                 selectProperty={this.selectProperty}
