@@ -6,7 +6,7 @@ import { setSearchResults } from '../../actions/setSearchResults';
 // import { withRouter } from 'react-router';
 import axios from 'axios';
 import PropertyListItem from './PropertyListItem';
-import PropertySearch from '../Auth/PropertySearch';
+import PropertySearch from './PropertySearch';
 
 import './Profile.css';
 
