@@ -5,6 +5,7 @@ import { setTicketEditState } from '../../actions/setTicketEditState';
 import { setTicketsData } from '../../actions/setTicketsData';
 import axios from 'axios';
 import moment from 'moment';
+import './ticketstyles.css';
 
 class TicketEntryForm extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class TicketEntryForm extends Component {
     const payload = {
       category: document.getElementsByName('category')[0].value,
       //once we have apt_num in table working properly, we could/should pre-populate it for the tenant
-      apt_num: document.getElementsByName('apt_num')[0].value,
+      apt_num: (document.getElementsByName('apt_num')[0].innerHTML).substring(18),
       subject: document.getElementsByName('subject')[0].value,
       description: document.getElementsByName('description')[0].value,
       photo_url: document.getElementsByName('photo_url')[0].value,
@@ -86,7 +87,7 @@ class TicketEntryForm extends Component {
 
   render() {
     return (
-      <div>
+      <div className='ticketSubmit'>
         <br/><br/>
         TICKET INFORMATION <br/><br/>
         <select name='category'>
