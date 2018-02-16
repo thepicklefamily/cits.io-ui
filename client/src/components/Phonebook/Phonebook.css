@@ -31,8 +31,8 @@
   background-size: cover;
   color: #48832B;
   /* background: linear-gradient(#48832B, rgba(6, 241, 14, 0.1)); */
-  margin: 50px auto 2vh auto;
-  width: 80%;
+  margin: auto auto auto auto;
+  width: 45%;
   height: 100%;
   background-repeat: no-repeat;
   overflow: hidden;
@@ -75,6 +75,30 @@
   height: 470px;
   width: 100%;
   overflow: scroll;
+}
+.phonebookFormInput {
+  font-size: small;
+  text-align: left;
+  height: 20px;
+  width: 60%;
+}
+.phonebookFormInputOne {
+  font-size: small;
+  text-align: left;
+  height: 20px;
+  width: 15%;
+}
+.phonebookFormInputTwo {
+  font-size: small;
+  text-align: left;
+  height: 20px;
+  width: 15%;
+}
+.phonebookFormInputThree {
+  font-size: small;
+  text-align: left;
+  height: 20px;
+  width: 15%;
 }
 .hiddenscrollbars::-webkit-scrollbar { 
   display: none; 
@@ -139,7 +163,7 @@
   border: 1px transparent;
   /* padding: 10px 30px; */
   float: right;
-  margin: 15px -40px 0 0;
+  margin: 15px -60px 0 0;
 }
 .phonebookAddButtons {
   color: #fff;
@@ -165,10 +189,11 @@
   color: #787878;
 }
 .phonebookFormRow {
-  color: #787878;
-  /* text-align: right; */
+  color: #48832B;
+  text-align: center;
+  font-size: medium;
   display: block;
-  /* margin: 0 33% 0 0 ; */
+  margin: 0 0 0 0 ;
 }
 .phonebookFormButtons {
   color: #fff;
@@ -176,10 +201,10 @@
   /* display: block; */
   /* font-size: small; */
   height: 25px;
-  width: 45px;
+  width: 65px;
   /* height: 20px; */
   text-align: center;
-  font-size: xx-small;
+  font-size: small;
   border: 1px transparent;
   /* padding: 10px 30px; */
   /* float: right; */

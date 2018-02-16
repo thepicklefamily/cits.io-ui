@@ -33,8 +33,16 @@ class PhonebookEntryForm extends Component {
       this.props.currentPhonebookEntry.service 
       : 
       null;
-    document.getElementsByName('contactinfo')[0].value = this.props.currentPhonebookEntry.contactinfo ? 
-      this.props.currentPhonebookEntry.contactinfo 
+    document.getElementsByName('contactinfoone')[0].value = this.props.currentPhonebookEntry.contactinfo ? 
+      this.props.currentPhonebookEntry.contactinfo.slice(0, 3) 
+      : 
+      null;
+    document.getElementsByName('contactinfotwo')[0].value = this.props.currentPhonebookEntry.contactinfo ? 
+      this.props.currentPhonebookEntry.contactinfo.slice(3, 6) 
+      : 
+      null;
+    document.getElementsByName('contactinfothree')[0].value = this.props.currentPhonebookEntry.contactinfo ? 
+      this.props.currentPhonebookEntry.contactinfo.slice(6, 10) 
       : 
       null;
   }
@@ -45,14 +53,14 @@ class PhonebookEntryForm extends Component {
         propertyId: localStorage.getItem('propertyId'),
         company: document.getElementsByName('company')[0].value.toString(),
         service: document.getElementsByName('service')[0].value.toString(),
-        contactInfo: document.getElementsByName('contactinfo')[0].value.toString()
+        contactInfo: parseInt(document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString()) > 100 ? document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString() : ''
       }
       :
       {
         id: this.props.currentPhonebookEntry.id.toString(),
         company: document.getElementsByName('company')[0].value.toString(),
         service: document.getElementsByName('service')[0].value.toString(),
-        contactInfo: document.getElementsByName('contactinfo')[0].value.toString()
+        contactInfo: parseInt(document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString()) > 100 ? document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString() : ''
       }
     let data = null;
     try {
@@ -87,23 +95,21 @@ class PhonebookEntryForm extends Component {
       <div className='phonebookFormContainer'>
         <br/>
         {this.props.phonebookEditState !== '2' ? <div id='phonebookFormWord'>Please fill out the following fields to create a new phonebook entry!</div> : <div id='phonebookFormWord'>Please edit the following fields to update an existing phonebook entry!</div>}
-        <br/>
+        <br/><br/>
         <div className='phonebookFormRow'>
-          Company: <input type='text' name='company'></input>
+          Company:<br/><input className='phonebookFormInput' type='text' name='company'></input>
         </div>
-        <br/>
         <div className='phonebookFormRow'>
-          Service: <input type='text' name='service'></input>
+          Service:<br/><input className='phonebookFormInput' type='text' name='service'></input>
         </div>
-        <br/>
         <div className='phonebookFormRow'>
-          Contact Info: <input type='text' name='contactinfo'></input>
+          Phone Number:<br/><input className='phonebookFormInputOne' type='text' name='contactinfoone' maxLength='3' min='100' max='999'/> <input className='phonebookFormInputTwo' type='text' name='contactinfotwo' maxLength='3' min='100' max='999'/> <input className='phonebookFormInputThree' type='text' name='contactinfothree' maxLength='4' min='1000' max='9999'/>
         </div>
         <br/><br/>
         {this.state.phonebookError ? <div className='phonebookError'>Please check your input fields and try again!</div> : null}
         {this.props.phonebookEditState === '1' ? 
           <div>
-          <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>Add</button> 
+          <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>Add</button><br/>
           <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button>
           </div>
           : 
@@ -111,9 +117,9 @@ class PhonebookEntryForm extends Component {
         }
         {this.props.phonebookEditState === '2' ? 
           <div>
-            <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>UPDATE</button>
-            <button className='phonebookFormButtons' onClick={this.onDeleteHandler.bind(this)}>DELETE</button>
-            <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button>
+            <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>Update</button> {''} 
+            <button className='phonebookFormButtons' onClick={this.onDeleteHandler.bind(this)}>Delete</button><br/>
+            <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button><br/>
           </div> 
           : 
           null
