@@ -114,7 +114,8 @@ class Nav extends Component {
       :
       null;
 
-      window.location.href.includes('/chat') ? null : document.getElementById('notification').play();
+      //disabled sound for now.
+      // document.getElementById('notification').play();
   }
 
   //get and set user's properties list onto state
