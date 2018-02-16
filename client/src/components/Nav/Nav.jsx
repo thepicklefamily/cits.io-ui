@@ -92,26 +92,26 @@ class Nav extends Component {
     //if a property on the notifications list array is the current property, render the notification on the chat button, unless the user is looking at the chat page:
     if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && window.location.href !== "http://localhost:3000/chat" ||
       this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !document.hasFocus()) {
-      // document.getElementById('chatButton').innerHTML = 'Go to Chat *MSG*';
       document.querySelectorAll(`#chat img`)[0].src = 'assets/icons/chat-icon-notif-gray.png';
-
       document.title = '● CITS';
     }
 
     //NOTIFICATIONS FOR YOUR OTHER PROPERTIES - FIX THESE NEXT - DROPDOWN- CAN MAKE CROWN WITH DOT FOR NOW, or show in acct page or come up with something else:
 
     //if there is a property on the notifications list array that isn't the current property, render the notification on the property select button:
-    // let notifsDisplay = '';
-    // for (let i = 0; i < this.props.notificationProperties.length; i++) {
-    //   if (this.props.notificationProperties[i] !== +localStorage.getItem('propertyId')) {
-    //     notifsDisplay += ` ${this.props.notificationProperties[i]}`;
-    //   }
-    // }
-    // notifsDisplay !== '' ?
-    //   (document.getElementById('propSelectButton').innerHTML = `CastleLogo *MSG* for props${notifsDisplay}`,
-    //     document.title = '● CITS')
-    //   :
-    //   null;
+    let notifsDisplay = '';
+    for (let i = 0; i < this.props.notificationProperties.length; i++) {
+      if (this.props.notificationProperties[i] !== +localStorage.getItem('propertyId')) {
+        notifsDisplay += ` ${this.props.notificationProperties[i]}`;
+      }
+    }
+    notifsDisplay !== '' ?
+
+      //replace this line with crown...
+      (document.getElementById('propSelectButton').innerHTML = `CastleLogo *MSG* for props${notifsDisplay}`,
+        document.title = '● CITS')
+      :
+      null;
 
     document.getElementById('notification').play();
   }
