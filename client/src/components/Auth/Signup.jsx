@@ -164,7 +164,7 @@ class Signup extends Component {
   render() {
     return (
       <div className="signUpMain">
-        <h2 id="signUpWord">SIGN UP</h2>
+        <h3 className="title">SIGN UP</h3>
         {/* Standard form displayed on page load */}
         <div className="signUpInner">
           <form action="/api/auth/signup" method="post">

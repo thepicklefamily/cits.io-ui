@@ -206,7 +206,7 @@ class Profile extends Component {
             <div>
               {this.props.profileEditState === 0 ? 
                 <div>
-                  <h3>Profile Info</h3>
+                  <h5>Profile Info</h5>
                   <div className="info-box">
                     <span className="description">
                       Full Name:
@@ -238,7 +238,7 @@ class Profile extends Component {
                 </div> 
                 : 
                 <div>
-                  <h3>Edit Profile Info</h3>
+                  <h5>Edit Profile Info</h5>
                   <div className="info-box">
                     <span className="description">
                       Full Name: 
@@ -361,7 +361,7 @@ class Profile extends Component {
           {
             // your properties
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <h3>Properties Info</h3>
+              <h5>Properties Info</h5>
               <div>
                 <ul>
                   {

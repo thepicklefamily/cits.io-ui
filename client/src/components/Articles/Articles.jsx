@@ -46,7 +46,7 @@ class Articles extends Component {
     return (
       <div>
         {this.props.currentViewArticle === '0' ? 
-          <h2 className="news-header" align="center">NEWS</h2> 
+          <h3 className="title" align="center">NEWS</h3> 
           : 
             null
           }

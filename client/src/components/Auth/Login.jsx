@@ -72,7 +72,7 @@ class Login extends Component {
   render() {
     return (
       <div className="loginMain">
-        <h2 id="loginWord">LOGIN</h2>
+        <h3 className="title">LOGIN</h3>
         <div className="loginInner">
           <br/>
           <input placeholder="Username" type='text' name='username'/><br/>
