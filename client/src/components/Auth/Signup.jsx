@@ -108,11 +108,13 @@ class Signup extends Component {
           propertyID: newProp.data.id
         });
       }
-      const emailPayload = {
-        full_name: this.state.full_name,
-        email: this.state.email
+      if (newUser) {
+        const emailPayload = {
+          full_name: this.state.full_name,
+          email: this.state.email
+        }
+        axios.post(`${this.SMTP_URL}/welcomes/sendWelcomeEmail`, emailPayload, this.config); // change this URL!
       }
-      axios.post(`${this.SMTP_URL}/welcomes/sendWelcomeEmail`, emailPayload, this.config); // change this URL!
       // add apartment unit to the table if it exists
       let tempUnit = '';
   
