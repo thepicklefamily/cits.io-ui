@@ -73,7 +73,8 @@ h6 {
 }
 
 .secondary-banner, .third-banner {
-  background-image: url('http://static6.businessinsider.com/image/564363abdd0895c9188b4902-5612-3741/the%20interlace%20by%20buro%20ole%20scheeren_2.jpg');
+  /* background-image: url('http://static6.businessinsider.com/image/564363abdd0895c9188b4902-5612-3741/the%20interlace%20by%20buro%20ole%20scheeren_2.jpg'); */
+  background-image: url('http://thethingsilearnedfrom.com/wp-content/uploads/2015/09/education-world-wide.....jpg');
   height: 300px; 
 
   background-attachment: fixed;
@@ -114,7 +115,7 @@ h6 {
 }
 
 .third-banner {
-  background-image: url('http://thethingsilearnedfrom.com/wp-content/uploads/2015/09/education-world-wide.....jpg');
+  background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/max_3840/90581a57905841.59e8397c908a0.jpg');
   height: 500px;
   margin-bottom: 0;
 }

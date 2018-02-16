@@ -7,6 +7,8 @@ import { setArticlesData } from '../../actions/setArticlesData';
 import moment from 'moment';
 import axios from 'axios';
 
+import './articles.css';
+
 class ArticleEntryForm extends Component {
   constructor(props) {
     super(props);
@@ -84,21 +86,40 @@ class ArticleEntryForm extends Component {
   render () {
 
     return (
+      <div className="container">
+
+      {this.props.articleEditState === '1' ? 
       <div>
-      title: <input type='text' name='title'></input>
-      <br/><br/>
-      content: <textarea type='text' name='content'></textarea>
-      <br/><br/>
-      Photo: <input type='text' name='photo'></input>
-      <br/><br/>
-      {this.state.articleError ? <div className="articleError">Please check your input fields and try again!</div> : null}
-      {this.props.articleEditState === '1' ? <button onClick={this.onAddHandler.bind(this)}>ADD</button> : null}
-      {this.props.articleEditState === '2' ? <div>
-        <button onClick={this.onUpdateHandler.bind(this)}>UPDATE</button>
-        <button onClick={this.onDeleteHandler.bind(this)}>DELETE</button>
-        </div> : null}
-      <br/><br/>
-    </div>
+        <h3 className="article-entry-spacing" align="center">CREATE AN ARTICLE</h3>
+      </div> :
+      <h3 className="article-entry-spacing" align="center">UPDATE ARTICLE</h3>
+      }
+
+        <div className="row AEFrow" align="center">
+          <div className="col-md-12 AEFcol">
+            <div className="article-entry-spacing">
+              <h5>ARTICLE CONTENT</h5>
+              <input placeholder="Title" className="AEFInnerInputs" type='text' name='title'></input>
+              <input placeholder="Photo Url" className="AEFInnerInputs" type='text' name='photo'></input>
+              <textarea placeholder="Content" className="textarea" type='text' name='content'></textarea>
+          
+        
+              {this.state.articleError ? <div className="articleError">Please check your input fields and try again!</div> : null}
+              {this.props.articleEditState === '1' ? 
+              <div>
+                <button className="btn-cits" onClick={this.onAddHandler.bind(this)}>CREATE</button> 
+              </div>
+                : null}
+              {this.props.articleEditState === '2' ? <div>
+                <button className="btn-cits" onClick={this.onUpdateHandler.bind(this)}>UPDATE</button>
+                <button className="btn-cits" onClick={this.onDeleteHandler.bind(this)}>DELETE</button>
+                </div> : null}
+              <br/><br/>
+            </div>
+          </div>
+        </div>
+      </div>
+    
     )
   }
 

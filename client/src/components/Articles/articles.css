@@ -52,6 +52,7 @@
 .article-profile-img {
   padding-right: 10px;
   width: 100%;
+  height: 100%;
 }
 
 .photo-size {
@@ -67,6 +68,9 @@
   padding: 0;
 }
 
+.comments-sizing {
+  padding: 0;
+}
 .article-row {
   padding: 2em 2em 0 2em;
 }
@@ -77,15 +81,91 @@
 }
 
 .art {
-
-  width: 90%;
+  color: #48822D;
+  /* width: 90%; */
 }
 /* .post-comments {
   padding-bottom: 9px;
   margin: 5px 0 5px;
 } */
 
-/* .col-md-3 {
-  padding: 0;
-} */
+.container-comments {
+  padding: 2% 0 0 0;
+} 
 
+.btn-cits {
+  transition: background-color 0.5s ease;
+  background-color: #48822D;
+  color: white;
+  padding: 10px 20px;
+  margin: 2px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-cits:hover {
+  background-color: rgb(26, 83, 26);
+}
+
+
+/* Article Entry Form */
+
+.AEFMain {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 5vh auto auto auto;
+  width: 20%;
+}
+
+.AEFrow {
+  padding: 0 20%;
+}
+
+.AEFcol {
+  background-color: #F1F1F1;
+  color: #F1F1F1;
+  padding-left: 0 20%;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  padding: 0;
+}
+
+.AEFInnerInputs {
+  border: none; 
+  width: 80%;
+  height: 50px;
+  padding-left: 15px;
+  margin: 5px;
+  color: #616161;
+  font-size: small;
+}
+
+.article-entry-spacing {
+  padding: 5% 0 0 0;
+}
+
+.textarea {
+  margin-top: 5px;
+  padding-left: 10px;
+  padding-top: 10px;
+  width: 80%;
+  height: 300px;
+  border: none;
+  margin-bottom: 15px;
+}
+
+.reply-form {
+  padding: 0 2% 2% 2%;
+}
+
+.posts-comments-posts {
+  padding: 2% 0 0 0;
+}
+
+input::placeholder {
+  color: #aeaeae;
+}
+
+.bottom {
+  margin-bottom: 75px;
+}

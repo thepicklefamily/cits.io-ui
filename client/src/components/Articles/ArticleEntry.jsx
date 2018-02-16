@@ -38,10 +38,10 @@ class ArticleEntry extends Component {
             <div className="d-flex justify-content-between align-items-center">
               <div className="row art">
                 <div className="col-md-6">
-                  <button type="button" className="btn btn-light art" onClick={this.onViewHandler.bind(this)}>View</button>
+                  <button type="button" className="btn-cits" onClick={this.onViewHandler.bind(this)}>View</button>
                 </div>
                 <div className="col-md-6">
-                  {localStorage.getItem('type') === '1' ? <button type="button" className="btn btn-light art" onClick={this.onEditHandler.bind(this)}>Edit</button> 
+                  {localStorage.getItem('type') === '1' ? <button type="button" className="btn-cits" onClick={this.onEditHandler.bind(this)}>Edit</button> 
                   : null}
                 </div>
               </div>
