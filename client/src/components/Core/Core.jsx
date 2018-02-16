@@ -19,13 +19,17 @@ class Core extends Component {
 
   render() {
     return (
-      <div className="container">
-        {localStorage.getItem('token') ? 
-        <LoggedIn 
-          goToPage = {this.goToPage}
-        /> 
-        :
-        <LoggedOut />}
+      <div>
+        {
+          localStorage.getItem('token') ? 
+          <LoggedIn 
+            goToPage={this.goToPage}
+          /> 
+          :
+          <LoggedOut 
+            goToPage={this.goToPage}
+          />
+        }
       </div>
     );
   }

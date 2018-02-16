@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { setCurrentArticleEntry }from '../../actions/setCurrentArticleEntry';
 import { setArticleEditState } from "../../actions/setArticleEditState";
 import { setArticlesData } from '../../actions/setArticlesData';
+import moment from 'moment';
 import axios from 'axios';
 
 class ArticleEntryForm extends Component {
@@ -26,7 +27,6 @@ class ArticleEntryForm extends Component {
   componentDidMount() {
     this.config.headers.authorization = localStorage.getItem('token');
     document.getElementsByName('title')[0].value = this.props.data.title ? this.props.data.title : null;
-    document.getElementsByName('date')[0].value = this.props.data.date ? this.props.data.date : null;
     document.getElementsByName('content')[0].value = this.props.data.content ? this.props.data.content : null;
     document.getElementsByName('photo')[0].value = this.props.data.photo_url ? this.props.data.photo_url : null;
   }
@@ -37,7 +37,7 @@ class ArticleEntryForm extends Component {
       user_id: localStorage.getItem('id'), 
       title: document.getElementsByName('title')[0].value.toString(),
       content: document.getElementsByName('content')[0].value.toString(),
-      date: document.getElementsByName('date')[0].value.toString(),
+      date: new Date(),
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
     let data = null;
@@ -59,7 +59,7 @@ class ArticleEntryForm extends Component {
       article_id: this.props.data.id,
       title: document.getElementsByName('title')[0].value.toString(),
       content: document.getElementsByName('content')[0].value.toString(),
-      date: document.getElementsByName('date')[0].value.toString(),
+      date: new Date(),
       photo_url: document.getElementsByName('photo')[0].value.toString()
     }
     let data = null;
@@ -82,13 +82,12 @@ class ArticleEntryForm extends Component {
   }
 
   render () {
+
     return (
       <div>
       title: <input type='text' name='title'></input>
       <br/><br/>
-      date: <input type='text' name='date'></input>
-      <br/><br/>
-      content: <input type='text' name='content'></input>
+      content: <textarea type='text' name='content'></textarea>
       <br/><br/>
       Photo: <input type='text' name='photo'></input>
       <br/><br/>

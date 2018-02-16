@@ -20,7 +20,7 @@ class Mein extends Component {
   }
 
   render() {
-    console.log(process.env.NODE_ENV)
+
     return (
       <div>
         <div className="banner">
@@ -66,7 +66,12 @@ class Mein extends Component {
               >
                 <div>
                   <img src="assets/images/tickets-icon-lg.png" alt="tickets-icon"/><br/><br/>
-                  <h5>SUBMIT A TICKET</h5>
+                  {
+                    localStorage.getItem('type') === '0' ?
+                    <h5>SUBMIT A TICKET</h5>
+                    :
+                    <h5>SUBMITTED TICKETS</h5>
+                  }
                 </div>
               </div>
 

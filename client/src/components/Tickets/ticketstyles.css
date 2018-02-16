@@ -1,0 +1,134 @@
+
+.ticketsMain {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 5vh auto 6vh auto;
+  background-color: #F1F1F1;
+  color: 7878787;
+  width: 50%;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  padding: 40px;
+  display: flex;
+  color: #616161;
+  font-size: 80%;
+}
+
+.ticketsHeader {
+  text-align: center;
+  margin: auto;
+  font-size: 110%;
+  font-weight: bold;
+}
+
+.entryContainer {
+  display: grid;
+  grid-gap: 10px;
+  /* grid-template-columns: minmax(100px, max-content); */
+  grid-template-columns: repeat(4, 1fr);
+  /* grid-template-columns: auto, auto, auto, auto; */
+  /* background-color: white; */
+}
+
+.left {
+  grid-column: 1 / 4;
+  text-align: left;
+  background-color: white;
+}
+
+.right {
+  grid-column: 4 / 5;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-rows: 20px;
+  background-color: transparent;
+}
+
+.details {
+  grid-row: 1 / 2;
+  text-align: right;
+}
+
+.delete {
+  grid-row: 2 / 3;
+  text-align: right;
+}
+
+.detailsbtn {
+  background-color: transparent;
+  border-color: green;
+}
+
+.deletebtn {
+  background-color: green;
+  border-color: green;
+}
+
+
+.entriesContainer {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 100%;
+  text-align: center;
+  margin: auto;
+  width: 90%;
+}
+
+.category {
+  color: #AEAEAE;
+}
+
+.aptnum {
+  color: #48822D;
+}
+
+.description {
+  color: #AEAEAE;
+}
+
+.pending {
+  color: #48822D;
+  font-weight: bold;
+}
+
+.inprogress {
+  color: goldenrod;
+  font-weight: bold;
+}
+
+.complete {
+  color: red;
+  font-weight: bold;
+}
+
+.detailsContainer {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 25%, 25%, 25%, 25%;
+  background-color: white;
+  padding: 2%;
+  width: 90%;
+}
+
+.detailsLeft {
+  grid-column: 1 / 4;
+  text-align: left;
+}
+
+.detailsRight {
+  grid-column: 4 / 5;
+  text-align: left;
+}
+
+.photo {
+  max-height: 320px;
+  max-width: 320px;
+}
+
+.centerContainer {
+  margin: auto;
+  text-align: center;
+}
+
+.ticketSubmit {
+  /* display: flex; */
+}

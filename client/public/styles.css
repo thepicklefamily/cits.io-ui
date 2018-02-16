@@ -97,6 +97,7 @@ textarea:hover, input:hover, textarea:active, input:active, textarea:focus, inpu
   overflow: hidden;
 }
 .footer {
+  height: 75px;
   position: static;
   grid-area: footer;
   display: flex;
@@ -104,7 +105,7 @@ textarea:hover, input:hover, textarea:active, input:active, textarea:focus, inpu
   align-items: center;
   color: #FFF;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: x-small;
+  font-size: 14px;
   font-weight: 200;
   background-color: #48822D;
 }

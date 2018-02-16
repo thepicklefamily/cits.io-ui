@@ -1,0 +1,9 @@
+.user_name{
+  font-size:14px;
+  font-weight: bold;
+}
+.post-comments {
+  border-left: 1px dotted white;
+  border-bottom: 1px dotted white;
+}
+
