@@ -416,17 +416,6 @@ textarea:hover, input:hover, textarea:active, input:active, textarea:focus, inpu
 -- */
 
 /* --
-  PHONEBOOK
--- */
-.phonebookError {
-  color: red;
-  font-size: 14px;
-}
-/* --
-  PHONEBOOK
--- */
-
-/* --
   PROFILE
 -- */
 .profileError {
