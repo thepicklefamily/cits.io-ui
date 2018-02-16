@@ -91,32 +91,24 @@ class Nav extends Component {
     }
   }
 
-  componentDidMount () {
-    // if (window.location.href.includes('/chat')) {
-    //   this.clearNotificationPropAfterReload();
-    // }
-  }
-
   //anytime get or do something notifications worthy / change the state of the notificationProperties, then run this func to render them all properly:
   renderNotifications() {
     //if a property on the notifications list array is the current property, render the notification on the chat button, unless the user is looking at the chat page:
     // if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !window.location.href.includes('/chat') ||
     //   this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !document.hasFocus()) {
-      console.log('notif render')
         if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !window.location.href.includes('/chat')) {
       document.querySelectorAll(`#chat img`)[0].src = 'assets/icons/chat-icon-notif-gray.png';
       document.title = '● CITS';
     }
-
-    //NOTIFICATIONS FOR YOUR OTHER PROPERTIES - ADD TO THESE NEXT - DROPDOWN- CAN MAKE CROWN WITH DOT FOR NOW, or show in acct page or come up with something else:
-    //if there is a property on the notifications list array that isn't the current property, render the notification on the property select button:
-    let notifsDisplay = '';
+    //notifications for other props than current prop:
+    let notifsDisplay = false;
     for (let i = 0; i < this.props.notificationProperties.length; i++) {
       if (this.props.notificationProperties[i] !== +localStorage.getItem('propertyId')) {
-        notifsDisplay += ` ${this.props.notificationProperties[i]}`;
+        notifsDisplay = true;
+        document.getElementById(`${this.props.notificationProperties[i]}`).innerHTML = document.getElementById(`${this.props.notificationProperties[i]}`).innerHTML + "<span class='circle'></span>";
       }
     }
-    notifsDisplay !== '' ?
+    notifsDisplay ?
         (document.querySelectorAll(`#castlePNG img`)[0].src = 'assets/icons/castle-icon-notif-green.png',
         document.title = '● CITS')
       :
@@ -286,7 +278,7 @@ class Nav extends Component {
                         this.state.userProps.map(prop => 
                           <p 
                             onClick={() => this.propDropdownHandler(prop.id)}
-                            key={prop.id}
+                            id={prop.id} key={prop.id}
                           >
                             {prop.name}
                           </p>

@@ -88,3 +88,10 @@
   background-color: #48822D;
   color: white;
 }
+
+.circle:before {
+  content: ' \25CF';
+  /* font-size: 20px; */
+  font-size: 120%;
+  color: red
+}
