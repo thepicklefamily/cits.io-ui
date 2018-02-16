@@ -35,30 +35,40 @@ class Phonebook extends Component {
 
   render() {
     return (
-      <div className='phonebookMain'>
-        {this.props.phonebookEditState === '0' ? <h3 className="title phone-title">PHONEBOOK INDEX</h3> : <h3 className="title phone-title">PHONEBOOK ENTRY FORM</h3>}
+      <div className='container'>
+        <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 phonebookMain">
+        {
+          this.props.phonebookEditState === '0' ?
+          <h3 className="title phone-title">PHONEBOOK</h3> 
+          : 
+          <h3 className="title phone-title">PHONEBOOK ENTRY FORM</h3>
+        }
+
         <div className='phonebookInner'>
-          {this.props.phonebookEditState === '0' && localStorage.getItem('type') === '1' ? 
-              <button className='phonebookAddButtons' onClick={this.onAddHandler.bind(this)}>Add New Entry</button> 
-            : 
-            null
+          {
+            this.props.phonebookEditState === '0' && localStorage.getItem('type') === '1' ? 
+            <button className='phonebookAddButtons' onClick={this.onAddHandler.bind(this)}>Add New Entry</button> 
+            : null
           }
-          <br/>
+          
           <div id='phonebookContainer' className='hiddenscrollbars'>
-          {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && localStorage.getItem('type') === '1' ? 
+          {
+            this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && localStorage.getItem('type') === '1' ? 
             <div className='phonebookInnerForm'>
               <PhonebookEntryForm/>
             </div> 
             :
             this.props.phonebookData ? 
-              
-              this.props.phonebookData.map( entry => <div className='phonebookMapEntry' key={entry.id}><PhonebookEntry data={entry}/><br/><br/></div> ) 
-              : 
-              'No DATA'
-            )
+            this.props.phonebookData.map(entry => 
+              <div className='phonebookMapEntry' key={entry.id}><PhonebookEntry data={entry}/><br/><br/></div>
+            ) 
+            : 
+            'No DATA'
+            
           }
           </div>
         </div>
+      </div>
     </div>
     );
   }

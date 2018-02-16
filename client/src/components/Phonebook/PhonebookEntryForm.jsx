@@ -92,25 +92,32 @@ class PhonebookEntryForm extends Component {
 
   render() {
     return (
-      <div className='phonebookFormContainer'>
+      <div className=''>
         <br/>
-        {this.props.phonebookEditState !== '2' ? <div id='phonebookFormWord'>Please fill out the following fields to create a new phonebook entry!</div> : <div id='phonebookFormWord'>Please edit the following fields to update an existing phonebook entry!</div>}
+        {this.props.phonebookEditState !== '2' ? <div>Please fill out the following fields to create a new phonebook entry!</div> : <div id='phonebookFormWord'>Please edit the following fields to update an existing phonebook entry!</div>}
         <br/><br/>
         <div className='phonebookFormRow'>
-          Company:<br/><input className='phonebookFormInput' type='text' name='company'></input>
+          Company:
+          <input placeholder="Enter company name" className='phonebookFormInput' type='text' name='company'></input>
         </div>
         <div className='phonebookFormRow'>
-          Service:<br/><input className='phonebookFormInput' type='text' name='service' maxLength='28'></input>
+          Service:
+          <input placeholder="Enter service" className='phonebookFormInput' type='text' name='service' maxLength='28'></input>
         </div>
         <div className='phonebookFormRow'>
-          Phone Number:<br/><input className='phonebookFormInputOne' type='text' name='contactinfoone' maxLength='3' min='200' max='999'/> <input className='phonebookFormInputTwo' type='text' name='contactinfotwo' maxLength='3' min='000' max='999'/> <input className='phonebookFormInputThree' type='text' name='contactinfothree' maxLength='4' min='0000' max='9999'/>
+          Phone Number:
+          <div>
+            <input placeholder="(555)" className='phonebookFormInputOne' type='text' name='contactinfoone' maxLength='3' min='200' max='999'/>&nbsp;
+            <input placeholder="555" className='phonebookFormInputTwo' type='text' name='contactinfotwo' maxLength='3' min='000' max='999'/>&nbsp;
+            <input placeholder="5555" className='phonebookFormInputThree' type='text' name='contactinfothree' maxLength='4' min='0000' max='9999'/> 
+          </div>
         </div>
         <br/><br/>
         {this.state.phonebookError ? <div className='phonebookError'>Please check your input fields and try again!</div> : null}
         {this.props.phonebookEditState === '1' ? 
           <div>
-          <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>Add</button><br/>
-          <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button>
+            <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>Add</button>
+            <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button>
           </div>
           : 
           null
@@ -118,8 +125,8 @@ class PhonebookEntryForm extends Component {
         {this.props.phonebookEditState === '2' ? 
           <div>
             <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>Update</button> {''} 
-            <button className='phonebookFormButtons' onClick={this.onDeleteHandler.bind(this)}>Delete</button><br/>
-            <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button><br/>
+            <button className='phonebookFormButtons' onClick={this.onDeleteHandler.bind(this)}>Delete</button>
+            <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button>
           </div> 
           : 
           null
