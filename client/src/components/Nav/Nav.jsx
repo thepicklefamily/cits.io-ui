@@ -35,19 +35,6 @@ class Nav extends Component {
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST : process.env.SOCKET_SERVER_LOCAL_HOST;
 
-    // get all user properties
-    try {
-      if (localStorage.getItem('id')) {
-        const userProps = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
-  
-        await this.setState({
-          userProps: userProps.data
-        });
-      }
-    } catch (err) {
-      //
-    }
-
     try {
       await this.setPropertyList();
 
@@ -65,6 +52,7 @@ class Nav extends Component {
         console.log('init.notifpropsarray', notifPropsArray);
         if (notifPropsArray.length) {
           this.props.setNotificationProperties(notifPropsArray);
+          this.clearNotificationPropAfterReload();
           this.renderNotifications();
         }
       });
@@ -73,11 +61,14 @@ class Nav extends Component {
         console.log('notifications.whileonline data = ', userId, propId);
         //if the notification is for a msg not from this user, on this users prop list, and not on the notification props list yet
         //then add it to the notification props list and re-render notifications.
-        if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1 && this.props.propertyData) {
-          for (let i = 0; i < this.props.propertyData.length; i++) {
-            if (+propId === this.props.propertyData[i].id) {
-              this.props.setNotificationProperties(this.props.notificationProperties.concat(+propId));
-              this.renderNotifications();
+        // if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1 && this.props.propertyData) {
+          if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1 && this.props.propertyData) {
+            if (!window.location.href.includes('/chat') || propId !== localStorage.getItem('propertyId')) {
+              for (let i = 0; i < this.props.propertyData.length; i++) {
+                if (+propId === this.props.propertyData[i].id) {
+                  this.props.setNotificationProperties(this.props.notificationProperties.concat(+propId));
+                  this.renderNotifications();
+                }
             }
           }
         }
@@ -87,30 +78,46 @@ class Nav extends Component {
     }
   }
 
+  async componentDidMount() {
+    // get all user properties
+    try {
+      if (localStorage.getItem('id')) {
+        const userProps = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
+  
+        this.setState({
+          userProps: userProps.data
+        }, () => {console.log('thisdataaa', this.state.userProps)});
+      }
+    } catch (err) {
+      console.error(err);
+    }    
+  }
+
   //anytime get or do something notifications worthy / change the state of the notificationProperties, then run this func to render them all properly:
   renderNotifications() {
     //if a property on the notifications list array is the current property, render the notification on the chat button, unless the user is looking at the chat page:
-    if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && window.location.href !== "http://localhost:3000/chat" ||
-      this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !document.hasFocus()) {
-      document.getElementById('chatButton').innerHTML = 'Go to Chat *MSG*';
+    // if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !window.location.href.includes('/chat') ||
+    //   this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !document.hasFocus()) {
+        if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !window.location.href.includes('/chat')) {
+      document.querySelectorAll(`#chat img`)[0].src = 'assets/icons/chat-icon-notif-gray.png';
       document.title = '● CITS';
     }
-
-    //if there is a property on the notifications list array that isn't the current property, render the notification on the property select button:
-    let notifsDisplay = '';
+    //notifications for other props than current prop:
+    let notifsDisplay = false;
     for (let i = 0; i < this.props.notificationProperties.length; i++) {
       if (this.props.notificationProperties[i] !== +localStorage.getItem('propertyId')) {
-        notifsDisplay += ` ${this.props.notificationProperties[i]}`;
+        notifsDisplay = true;
+        document.getElementById(`${this.props.notificationProperties[i]}`).innerHTML = document.getElementById(`${this.props.notificationProperties[i]}`).innerHTML + "<span class='circle'></span>";
       }
     }
-
-    notifsDisplay !== '' ?
-      (document.getElementById('propSelectButton').innerHTML = `CastleLogo *MSG* for props${notifsDisplay}`,
+    notifsDisplay ?
+        (document.querySelectorAll(`#castlePNG img`)[0].src = 'assets/icons/castle-icon-notif-green.png',
         document.title = '● CITS')
       :
       null;
 
-    document.getElementById('notification').play();
+      //disabled sound for now.
+      // document.getElementById('notification').play();
   }
 
   //get and set user's properties list onto state
@@ -125,6 +132,22 @@ class Nav extends Component {
     }
   }
 
+  clearNotificationPropAfterReload () { //similar to clearNotifications() and confirmMessagesSeen(), but cant invoke it there due to async/render order issues
+    const currentProperty = +localStorage.getItem('propertyId')
+    if (this.props.notificationProperties.includes(currentProperty) && window.location.href.includes('/chat')) {
+      document.querySelectorAll(`#chat img`)[0].src = 'assets/icons/chat-icon-sm-gray.png';
+      document.title = 'CITS';
+      const properties = this.props.notificationProperties.filter(prop => prop !== currentProperty);
+      this.props.setNotificationProperties(properties);
+      //tell server have seen messages up this point:
+      this.props.chatNotificationSocket.emit('message.received', { 
+        userId: +localStorage.getItem('id'),
+        propId: +localStorage.getItem('propertyId'),
+        timeStamp: Date.now()
+      });
+    }
+  }
+
   sendInfoForInitialNotifications() {
     if (this.props.propertyData) {
       this.props.chatNotificationSocket.emit('notifications.ready', {
@@ -136,12 +159,20 @@ class Nav extends Component {
 
   handleMouseOver(e) {
     let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
-    changeImg.src = `assets/icons/${e.target.id}-icon-sm-green.png`;
+    if (changeImg.src.includes('chat-icon-notif')) {
+      changeImg.src = 'assets/icons/chat-icon-notif-green.png';
+    } else {
+      changeImg.src = `assets/icons/${e.target.id}-icon-sm-green.png`;
+    }
   }
 
   handleMouseOut(e) {
     let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
-    changeImg.src = `assets/icons/${e.target.id}-icon-sm-gray.png`;
+    if (changeImg.src.includes('chat-icon-notif')) {
+      changeImg.src = 'assets/icons/chat-icon-notif-gray.png';
+    } else {
+      changeImg.src = `assets/icons/${e.target.id}-icon-sm-gray.png`;
+    }
   }
 
   propDropdownHandler(id) {
@@ -250,7 +281,7 @@ class Nav extends Component {
                         this.state.userProps.map(prop => 
                           <p 
                             onClick={() => this.propDropdownHandler(prop.id)}
-                            key={prop.id}
+                            id={prop.id} key={prop.id}
                           >
                             {prop.name}
                           </p>
