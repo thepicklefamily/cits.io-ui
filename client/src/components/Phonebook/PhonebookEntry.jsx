@@ -31,7 +31,7 @@ class PhonebookEntry extends Component {
             null
           }
           <div className='phonebookEntryRowNumber'>
-            : {this.props.data.contactinfo} <br/>
+            : 1({this.props.data.contactinfo.slice(0, 3)}) {this.props.data.contactinfo.slice(3, 6)}-{this.props.data.contactinfo.slice(6, 10)} <br/>
           </div>
           <div className='phonebookCallIcon'/>
         </div>
