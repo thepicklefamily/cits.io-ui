@@ -18,6 +18,7 @@ class PhonebookEntry extends Component {
     return (
       <div className='phonebookInnerEntry'>
         <div className='phonebookEntryRows'>
+          <hr/>
           <div className='phonebookEntryRowCompany'>
             {this.props.data.company} <br/>
             <div className='phonebookEntryRowService'>

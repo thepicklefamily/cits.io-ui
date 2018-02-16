@@ -87,23 +87,21 @@ class PhonebookEntryForm extends Component {
       <div className='phonebookFormContainer'>
         <br/>
         {this.props.phonebookEditState !== '2' ? <div id='phonebookFormWord'>Please fill out the following fields to create a new phonebook entry!</div> : <div id='phonebookFormWord'>Please edit the following fields to update an existing phonebook entry!</div>}
-        <br/>
+        <br/><br/>
         <div className='phonebookFormRow'>
-          Company: <input type='text' name='company'></input>
+          Company: <input className='phonebookFormInput' type='text' name='company'></input>
         </div>
-        <br/>
         <div className='phonebookFormRow'>
-          Service: <input type='text' name='service'></input>
+          Service: <input className='phonebookFormInput' type='text' name='service'></input>
         </div>
-        <br/>
         <div className='phonebookFormRow'>
-          Contact Info: <input type='text' name='contactinfo'></input>
+          Phone Number: <input className='phonebookFormInput' type='text' name='contactinfo'></input>
         </div>
         <br/><br/>
         {this.state.phonebookError ? <div className='phonebookError'>Please check your input fields and try again!</div> : null}
         {this.props.phonebookEditState === '1' ? 
           <div>
-          <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>Add</button> 
+          <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>Add</button><br/>
           <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button>
           </div>
           : 
@@ -111,9 +109,9 @@ class PhonebookEntryForm extends Component {
         }
         {this.props.phonebookEditState === '2' ? 
           <div>
-            <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>UPDATE</button>
-            <button className='phonebookFormButtons' onClick={this.onDeleteHandler.bind(this)}>DELETE</button>
-            <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button>
+            <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>Update</button> {''} 
+            <button className='phonebookFormButtons' onClick={this.onDeleteHandler.bind(this)}>Delete</button><br/>
+            <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button><br/>
           </div> 
           : 
           null
