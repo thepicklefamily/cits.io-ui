@@ -1,18 +1,24 @@
 /* --
   PHONEBOOK
 -- */
+.main {
+}
 .phonebookMain {
+  /* background-image: url(https://images5.alphacoders.com/882/882927.jpg); */
+  background-size: cover;
+  opacity: 70%;
   font-family: Arial, Helvetica, sans-serif;
-  margin: 5vh auto auto auto;
+  margin: auto auto auto auto;
   height: 100%;
 }
 .phonebookInner {
-  background-image: url(http://worldartsme.com/images/paper-spiral-notebook-clipart-1.jpg);
+  /* background-image: url(http://worldartsme.com/images/paper-spiral-notebook-clipart-1.jpg); */
   background-color: #F1F1F1;
   background-size: cover;
   color: #F1F1F1;
+  /* background: linear-gradient(#48832B, rgba(6, 241, 14, 0.1)); */
   margin: 3vh auto 2vh auto;
-  width: 30%;
+  width: 80%;
   height: 70%;
   background-repeat: no-repeat;
   overflow: hidden;
@@ -20,15 +26,38 @@
   /* border: 1px solid black; */
   padding: 20px 0 60px 0;
 }
+.phonebookInnerForm {
+  /* background-image: url(http://worldartsme.com/images/paper-spiral-notebook-clipart-1.jpg); */
+  background-color: white;
+  background-size: cover;
+  color: #48832B;
+  /* background: linear-gradient(#48832B, rgba(6, 241, 14, 0.1)); */
+  margin: 50px auto 2vh auto;
+  width: 40%;
+  height: 70%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  text-align: center;
+  /* border: 1px solid black; */
+  padding: 20px 0 60px 0;
+}
+/* .phonebookInner:hover {
+  background: linear-gradient(#48832B, rgba(31, 114, 34, 0.1));
+} */
 .phonebookMapEntry {
   margin: 0 auto 0 auto;
-  padding: 10px 0 10px 0;
+  padding: 10px 0 15px 0;
   border-width: 0 1px 1px 1px;
-  /* background-color: white; */
+  border-top: 1px solid #48832B;
+  border-bottom: 1px solid #48832B;
+  border-left: 2px solid #48832B;
+  border-right: 2px solid #48832B;
+  background-color: white;
   /* border-color: #e0e0e0; */
+  /* opacity: 1.0 !important; */
   border-style: solid;
-  width: 70%;
-  height: 50px;
+  width: 80%;
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,39 +78,61 @@
 .phonebookInnerEntry {
   /* border: 1px solid black; */
   width: 85%;
-  margin: 10px;
+  height: 90%;
   text-align: center;
   color: #616161;
   font-size: small;
   float: left;
 }
 .phonebookEntryRows {
-  padding: 0 10px 0 10px;
+  /* border-top: 5px solid #48832B; */
+  padding: -50px;
   font-size: small;
 }
 .phonebookEntryRowCompany {
-  /* background-color: white; */
-  padding: 0 10px 0 10px;
-  font-size: small;
+  /* background-color: #48832B; */
+  padding: 10px 10px 0 5px;
+  font-style: bold;
+  font-size: large;
+  float: left;
   /* border: 1px solid black; */
 }
 .phonebookEntryRowService {
-  padding: 0 10px 0 10px;
+  padding: 0 0 0 0;
+  float: left;
+  font-style: italic;
   font-size: xx-small;
   /* border: 1px solid black; */
+}
+.phonebookCallIcon {
+  background-image: url(http://iconshow.me/media/images/social/flat-style-Metro-UI-Icons/Other/png/256/MetroUI-Phone.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 15px 0 0 15px;
+  float: right;
+  width: 20px;
+  height: 20px;
 }
 .phonebookEntryRowNumber {
-  padding: 0 10px 0 10px;
-  font-size: smaller;
+  margin: 15px -10px 0 0;
+  font-size: small;
+  float: right;
   /* border: 1px solid black; */
 }
-.phonebookButtons {
+.phonebookEditButtons {
   color: #fff;
-  font-size: xx-small;
   background-color: #48832B;
-  padding: 1px 3px;
-  border: 1px solid black;
-  margin: 0 0 0 225px;
+  /* display: block; */
+  /* font-size: small; */
+  height: 25px;
+  width: 45px;
+  /* height: 20px; */
+  text-align: center;
+  font-size: xx-small;
+  border: 1px transparent;
+  /* padding: 10px 30px; */
+  float: right;
+  margin: 15px -70px 0 0;
 }
 .phonebookAddButtons {
   color: #fff;
@@ -92,17 +143,21 @@
   margin: -50px 0 0 0;
   /* top right bottom left */
 }
-.phonebookEditButton {
-  color: #fff;
-  font-size: small;
-  border: none;
-  padding: 0 30px;
-  margin: -28px 0 0 40px;
-  /* top right bottom left */
-}
 #phonebookWord {
   text-align: center;
   font-size: 1.75em;
+  margin: 25px 0 0 0;
+  color: #787878;
+}
+#phonebookFormWord {
+  /* background-color: #48832B; */
+  text-align: center;
+  font-style: italic;
+  font-size: small;
+  margin: 10px 0 0 0;
+  color: #787878;
+}
+.phonebookFormRow {
   color: #787878;
 }
 .phonebookError {

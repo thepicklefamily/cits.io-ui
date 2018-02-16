@@ -93,21 +93,21 @@ class Messages extends Component {
         roomId: location.pathname.slice(1) //this will change to the room of the property that I put into the URL
       }
     })
-    this.setState({socket})
-    socket.on('connect', () => {
-      console.log('emit 1 FUUUUUUUUUUUUUUUUUUUUUUUUCK');
-      socket.emit('client.ready', 'all');
-    })
+    // this.setState({socket})
+    // socket.on('connect', () => {
+    //   console.log('emit 1 FUUUUUUUUUUUUUUUUUUUUUUUUCK');
+    //   socket.emit('client.ready', 'all');
+    // })
     
-    socket.on('server.initialState', () => {
-      console.log('this is the fucking socket', socket);
-      this.setState({
-        socket,
-        roomname: location.pathname.slice(1)
-      }, ()=> {
-        console.log('messages', socket)
-      })
-    })
+    // socket.on('server.initialState', () => {
+    //   console.log('this is the fucking socket', socket);
+    //   this.setState({
+    //     socket,
+    //     roomname: location.pathname.slice(1)
+    //   }, ()=> {
+    //     console.log('messages', socket)
+    //   })
+    // })
     
     // socket.on('server.message', async (data) => {
     //   try {

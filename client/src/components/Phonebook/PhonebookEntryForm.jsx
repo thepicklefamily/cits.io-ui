@@ -85,12 +85,21 @@ class PhonebookEntryForm extends Component {
   render() {
     return (
       <div>
-        Company: <input type='text' name='company'></input>
-        <br/><br/>
-        Service: <input type='text' name='service'></input>
-        <br/><br/>
-        Contact Info: <input type='text' name='contactinfo'></input>
-        <br/><br/>
+        <br/>
+        {this.props.phonebookEditState !== '2' ? <div id='phonebookFormWord'>Please fill out the following fields to create a new phonebook entry!</div> : <div id='phonebookFormWord'>Please edit the following fields to update an existing phonebook entry!</div>}
+        <br/>
+        <div className='phonebookFormRow'>
+          Company: <input type='text' name='company'></input>
+        </div>
+        <br/>
+        <div className='phonebookFormRow'>
+          Service: <input type='text' name='service'></input>
+        </div>
+        <br/>
+        <div className='phonebookFormRow'>
+          Contact Info: <input type='text' name='contactinfo'></input>
+        </div>
+        <br/>
         {this.state.phonebookError ? <div className='phonebookError'>Please check your input fields and try again!</div> : null}
         {this.props.phonebookEditState === '1' ? 
           <button onClick={this.onAddHandler.bind(this)}>ADD</button> 

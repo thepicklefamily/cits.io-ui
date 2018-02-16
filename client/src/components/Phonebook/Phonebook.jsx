@@ -36,7 +36,7 @@ class Phonebook extends Component {
   render() {
     return (
       <div className='phonebookMain'>
-        <h2 id='phonebookWord'>PHONEBOOK INDEX</h2>
+        {this.props.phonebookEditState === '0' ? <h2 id='phonebookWord'>PHONEBOOK INDEX</h2> : <h2 id='phonebookWord'>PHONEBOOK ENTRY FORM</h2>}
         <div className='phonebookInner'>
           {this.props.phonebookEditState === '0' && localStorage.getItem('type') === '1' ? 
               <button className='phonebookAddButtons' onClick={this.onAddHandler.bind(this)}>CREATE A NEW ENTRY</button> 
@@ -46,7 +46,7 @@ class Phonebook extends Component {
           <br/><br/>
           <div id='phonebookContainer' className='hiddenscrollbars'>
           {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && localStorage.getItem('type') === '1' ? 
-            <div>
+            <div className='phonebookInnerForm'>
               <PhonebookEntryForm/>
             </div> 
             :

@@ -20,20 +20,19 @@ class PhonebookEntry extends Component {
         <div className='phonebookEntryRows'>
           <div className='phonebookEntryRowCompany'>
             {this.props.data.company} <br/>
+            <div className='phonebookEntryRowService'>
+              {this.props.data.service} <br/>
+            </div>
           </div>
-          <div className='phonebookEntryRowService'>
-            {this.props.data.service} <br/>
-          </div>
-          <div className='phonebookEntryRowNumber'>
-            {this.props.data.contactinfo} <br/>
-          </div>
-        </div>
-        <div className='phonebookEditButton'>
           {localStorage.getItem('type') === '1' ? 
-            <button className='phonebookButtons' onClick={this.onEditHandler.bind(this)}>EDIT ENTRY</button> 
+            <button className='phonebookEditButtons' onClick={this.onEditHandler.bind(this)}>Edit</button> 
             : 
             null
           }
+          <div className='phonebookEntryRowNumber'>
+            : {this.props.data.contactinfo} <br/>
+          </div>
+          <div className='phonebookCallIcon'/>
         </div>
       </div>
     );
