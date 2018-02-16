@@ -30,15 +30,22 @@ class Messages extends Component {
     this.goToProfile = this.goToProfile.bind(this);
   }
 
+  updateScroll() {
+    var element = document.getElementById("chat-box");
+    element.scrollTop = element.scrollHeight;
+  }
+
   componentDidMount() {
+    setInterval(this.updateScroll);
+
     const socket = io(`${this.SOCKET_URL}`, {
       query: {
         roomId: location.pathname.slice(1) //this will change to the room of the property that I put into the URL
       }
     })
+
     this.setState({socket})
     socket.on('connect', () => {
-      console.log('emit 1 FUUUUUUUUUUUUUUUUUUUUUUUUCK');
       socket.emit('client.ready', 'all');
     })
     
@@ -78,8 +85,8 @@ class Messages extends Component {
 
     })
   }
+
   componentWillMount() {
-    
     this.config.headers.authorization = localStorage.getItem('token');
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST: process.env.SOCKET_SERVER_LOCAL_HOST;
@@ -99,6 +106,7 @@ class Messages extends Component {
         roomId: location.pathname.slice(1) //this will change to the room of the property that I put into the URL
       }
     })
+
     // this.setState({socket})
     // socket.on('connect', () => {
     //   console.log('emit 1 FUUUUUUUUUUUUUUUUUUUUUUUUCK');
@@ -134,12 +142,14 @@ class Messages extends Component {
     //   }
 
     // })
+
     let type = '';
     if (localStorage.getItem('type') === '1') {
       type = 'Manager';
     } else {
       type = 'Tenant';
     }
+
     this.setState({
       username: localStorage.getItem('username'),
       userId: localStorage.getItem('id'),
@@ -185,16 +195,19 @@ class Messages extends Component {
       [e.target.name]: e.target.value
     })
   }
+
   handleKeyPress(e) {
     if (e.keyCode === 13) {
       this.handleClick(e);
     }
   }
+
   async handleClick(e) {
     e.preventDefault();
     if (document.getElementById('message').value === '') {
       return;
     }
+
     const timeStamp = Date.now()
     const payload = {
       message: this.state.message,
@@ -203,6 +216,7 @@ class Messages extends Component {
       roomname: 'ROOMNAME',
       type: this.state.type
     }
+
     try {
       const data = await axios.post(`${this.REST_URL}/api/chat/addMessage`, payload, this.config)
       data.data ? 
@@ -215,10 +229,13 @@ class Messages extends Component {
     } catch (err) {
       console.log('error', err);
     }
+
     document.getElementById('message').value = '';
   }
+
   async goToProfile(e) {
     e.preventDefault();
+
     try {
       const { data } = await axios.get(`${this.REST_URL}/api/users/fetch/${e.target.name}`, this.config)
       delete data[0].password
@@ -228,13 +245,15 @@ class Messages extends Component {
     } catch (err) {
       console.log('userProfile err ', err);
     }
+
     this.props.changeHistory();
   }
+
   render() {
     return (
-      <div className="messagesMain">
-        <h2 id="messagesPropertyName">PROPERTY NAME</h2>
-        <div id="messageScroll" className="messagesInner">
+      <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <h5>Messages</h5>
+        <div id="chat-box">
           <ul>
             {this.state.messages.map((message, i) => (
               <div className="messageHolder" key={i}>
@@ -243,10 +262,13 @@ class Messages extends Component {
                     <a
                       onClick={this.goToProfile}
                       name={message.userId}>{message.username}
-                      </a> ({message.type})
+                      </a> <span className="poster-type"> ({message.type})</span>:
                   </div>
                   <div className="messageContent">
-                    {message.message}<span id="moment">{moment(message.date).fromNow()}</span>
+                    {message.message}
+                  </div>
+                  <div id="moment">
+                    <span>{moment(message.date).fromNow()}</span>
                   </div>
                 </li>
               </div>
