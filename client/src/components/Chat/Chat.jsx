@@ -17,9 +17,12 @@ class Chat extends Component {
 
   render() {
     return (
-      <div className="chatContainer">
-        <Members />
-        <Messages changeHistory={this.changeHistory}/>
+      <div className="container">
+        <h4 className="title">PROPERTY NAME</h4>
+        <div className="row">
+          <Members />
+          <Messages changeHistory={this.changeHistory}/>
+        </div>
       </div>
     )
   }
