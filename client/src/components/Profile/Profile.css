@@ -1,0 +1,150 @@
+.title {
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.info-box {
+  padding: 40px 40px 50px 40px;;
+  background-color: #f1f1f1;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #dadada;
+  margin-bottom: 5px;
+}
+
+ul {
+  padding: 0;
+}
+
+input { 
+  margin-top: 5px;
+  margin-bottom: 15px;
+  padding-left: 15px;
+  width: 100%;
+  height: 50px;
+  border: none;
+  color: #616161;
+}
+
+input::placeholder {
+  color: #aeaeae;
+}
+
+.prop-name, .description, .info {
+  color: #616161;
+}
+
+.prop-name {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.description {
+  font-weight: bold;
+}
+
+.side-note {
+  color: #aeaeae;
+  font-size: 14px;
+}
+
+h3 {
+  margin-bottom: 15px;
+}
+
+.profile-btn, .properties-btn {
+  transition: background-color 0.5s ease;
+  margin-top: 25px;
+  margin-right: 15px;
+  padding: 10px 30px;
+  border: none;
+  background-color: #48822D;
+  color: white;
+  cursor: pointer;
+}
+
+.profile-btn:hover, .properties-btn:hover {
+  background-color: rgb(26, 83, 26);
+}
+
+.properties-btn {
+  margin-top: 15px;
+  padding: 10px 18px;
+}
+
+.delete-btn {
+  margin-top: 15px;
+  transition: background-color 0.5s ease;
+  color: white;
+  background-color: rgb(162, 0, 0);
+  padding: 10px 18px;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: rgb(125, 0, 0);
+}
+
+.current-btn, .add-prop-btn, .select-btn, .selected-btn {
+  margin-top: 15px;
+  transition: background-color 0.5s ease;
+  color: #48822D;
+  background-color: rgba(162, 0, 0, 0);
+  padding: 10px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #48822D;
+  cursor: pointer;
+}
+
+.current-btn {
+  width: 100%;
+}
+
+.current-btn:hover, .add-prop-btn:hover, .select-btn:hover {
+  color: white;
+  background-color: #48822D;
+}
+
+.select-btn, .selected-btn {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.selected-btn {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #48822D;
+  color: white;
+  border: none;
+}
+
+.selected-btn:hover {
+  background-color: rgb(26, 83, 26);
+}
+
+.add-prop-btn {
+  padding-left: 40px;
+  padding-right: 40px;
+  margin-top: 35px;
+  margin-bottom: 75px;
+}
+
+.search {
+  margin-top: 10px;
+}
+
+.add-prop-input {
+  background-color: #f1f1f1;
+}
+
+.unit {
+  margin-top: 20px;
+}
+
+.unit-input {
+  width: 300px;
+  margin-bottom: -15px;
+}
