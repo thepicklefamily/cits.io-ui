@@ -69,7 +69,7 @@ class Tickets extends Component {
           <div>
             {
               localStorage.getItem('type') === '0' && this.props.ticketEditState === 'list' ? 
-              <button onClick={this.onAddHandler} className='submitbutton'>Submit New Ticket</button> 
+              <button onClick={this.onAddHandler} className='submitbutton subbut ticket-btn'>Submit New Ticket</button> 
               : null
             }
           </div>
