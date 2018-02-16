@@ -78,7 +78,7 @@ class TicketEntry extends Component {
       <div className='entryContainer'>
         <div className='left'>
           {<div>
-            <span clspanssName='subject'>{this.props.data.subject}</span>
+            <span className='subject'>{this.props.data.subject}</span>
             <span className='category'> ({this.props.data.category})</span>
             <span className='aptnum'> #{this.props.data.apt_num}</span>
             </div>}

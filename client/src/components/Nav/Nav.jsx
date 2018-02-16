@@ -8,23 +8,46 @@ import { setNotificationProperties } from '../../actions/setNotificationProperti
 import mainLogo from '../../../public/assets/icons/cits-logo.png';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
-import './Nav.css';
+
+import './Nav2.css';
 
 class Nav extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      userProps: []
+    };
+
     this.config = {
       headers: {
         authorization: ''
       }
     };
+
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
+    this.propDropdownHandler = this.propDropdownHandler.bind(this);
+    this.logoutHandler = this.logoutHandler.bind(this);
   }
 
   async componentWillMount() {
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST : process.env.SOCKET_SERVER_LOCAL_HOST;
+
+    // get all user properties
+    try {
+      if (localStorage.getItem('id')) {
+        const userProps = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
+  
+        await this.setState({
+          userProps: userProps.data
+        });
+      }
+    } catch (err) {
+      //
+    }
+
     try {
       await this.setPropertyList();
 
@@ -36,6 +59,7 @@ class Nav extends Component {
         //send userid and array of user's props so server can tell client which props to give this user notifications for:
         this.sendInfoForInitialNotifications();
       });
+
       this.props.chatNotificationSocket.on('initial.notifications', (notifPropsArray) => {
         //should get an array of prop ids for which to render notifications.
         console.log('init.notifpropsarray', notifPropsArray);
@@ -44,6 +68,7 @@ class Nav extends Component {
           this.renderNotifications();
         }
       });
+
       this.props.chatNotificationSocket.on('notifications.whileonline', ({ userId, propId }) => {
         console.log('notifications.whileonline data = ', userId, propId);
         //if the notification is for a msg not from this user, on this users prop list, and not on the notification props list yet
@@ -70,6 +95,7 @@ class Nav extends Component {
       document.getElementById('chatButton').innerHTML = 'Go to Chat *MSG*';
       document.title = '● CITS';
     }
+
     //if there is a property on the notifications list array that isn't the current property, render the notification on the property select button:
     let notifsDisplay = '';
     for (let i = 0; i < this.props.notificationProperties.length; i++) {
@@ -77,6 +103,7 @@ class Nav extends Component {
         notifsDisplay += ` ${this.props.notificationProperties[i]}`;
       }
     }
+
     notifsDisplay !== '' ?
       (document.getElementById('propSelectButton').innerHTML = `CastleLogo *MSG* for props${notifsDisplay}`,
         document.title = '● CITS')
@@ -84,7 +111,6 @@ class Nav extends Component {
       null;
 
     document.getElementById('notification').play();
-
   }
 
   //get and set user's properties list onto state
@@ -107,13 +133,35 @@ class Nav extends Component {
       });
     }
   }
+
   handleMouseOver(e) {
     let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
     changeImg.src = `assets/icons/${e.target.id}-icon-sm-green.png`;
   }
+
   handleMouseOut(e) {
     let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
     changeImg.src = `assets/icons/${e.target.id}-icon-sm-gray.png`;
+  }
+
+  propDropdownHandler(id) {
+    localStorage.setItem('propertyId', id);
+    location.reload();
+  }
+
+  logoutHandler() {
+    this.props.setPropertyData(null),
+    this.props.setCurrentProperty(null),
+    localStorage.removeItem('token'),
+    localStorage.removeItem('propertyId'),
+    localStorage.removeItem('id'),
+    localStorage.removeItem('type'),
+    localStorage.removeItem('username'),
+    localStorage.removeItem('email'),
+    localStorage.removeItem('full_name'),
+    localStorage.removeItem('phonenumber'),
+    document.title = 'CITS',
+    this.props.history.push('/')
   }
 
   render() {
@@ -121,98 +169,121 @@ class Nav extends Component {
       <div className="header">
         {localStorage.getItem('token') ?
           // LOGGED IN
-          <div className="navMain">
-            <div className="navLeft">
-              <img src='assets/icons/cits-logo.png' id='propSelectButton' onClick={() => console.log('o hai, I am propSelectButton')} />
-            </div>
-            <div className="navRight">
-              <div
-                onMouseOver={this.handleMouseOver}
-                onMouseLeave={this.handleMouseOut}
-                onClick={() => this.props.history.push('/profile')}
-                className="test"
-                id="account"
-              >
-                <img id="account" src='assets/icons/account-icon-sm-gray.png' />
-              </div>
-              <div
-                onMouseOver={this.handleMouseOver}
-                onMouseLeave={this.handleMouseOut}
-                onClick={() => this.props.history.push('/chat')}
-                className="test"
-                id="chat"
-              >
-                <img id="chat" src='assets/icons/chat-icon-sm-gray.png' />
-              </div>
-              <div
-                onMouseOver={this.handleMouseOver}
-                onMouseLeave={this.handleMouseOut}
-                onClick={() => this.props.history.push('/articles')}
-                className="test"
-                id="articles"
-              >
-                <img id="articles" src="assets/icons/articles-icon-sm-gray.png" />
-              </div>
-              <div
-                onMouseOver={this.handleMouseOver}
-                onMouseLeave={this.handleMouseOut}
-                onClick={() => this.props.history.push('/tickets')}
-                className="test"
-                id="tickets"
-              >
-                <img id="tickets" src='assets/icons/tickets-icon-sm-gray.png' />
-              </div>
-              <div
-                onMouseOver={this.handleMouseOver}
-                onMouseLeave={this.handleMouseOut}
-                onClick={() => this.props.history.push('/phonebook')}
-                className="test"
-                id="phonebook"
-              >
-                <img id="phonebook" src='assets/icons/phonebook-icon-sm-gray.png' />
-              </div>
-              <div
+          <div className="container">
+            <div className="row">
+              <div 
                 onClick={() => this.props.history.push('/')}
-                className="test"
-                id="castlePNG"
+                className="navLeft col-lg-4 col-md-4 col-sm-12 col-xs-12"
               >
-                <img src='assets/icons/castle-icon-sm-green.png' />
+                <img src='assets/icons/cits-logo.png' id='propSelectButton' onClick={() => console.log('o hai, I am propSelectButton')} />
               </div>
-              <div
-                className="test"
-                id="logout"
-                onClick={() => {
-                  (
-                    this.props.setPropertyData(null),
-                    this.props.setCurrentProperty(null),
-                    localStorage.removeItem('token'),
-                    localStorage.removeItem('propertyId'),
-                    localStorage.removeItem('id'),
-                    localStorage.removeItem('type'),
-                    localStorage.removeItem('username'),
-                    localStorage.removeItem('email'),
-                    localStorage.removeItem('full_name'),
-                    localStorage.removeItem('phonenumber'),
-                    document.title = 'CITS',
-                    this.props.history.push('/')
-                  )
-                }}
-              >
-                LOGOUT
+              <div className="navRight col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div className="navi">
+                  <div
+                    // onMouseOver={this.handleMouseOver}
+                    // onMouseLeave={this.handleMouseOut}
+                    className="test dropdown"
+                    id="account"
+                  >
+                    <img src='assets/icons/account-icon-sm-green.png' id="account" />
+                    &nbsp;&#x25BE;
+                    <div className="dropdown-content">
+                      <p onClick={() => {this.props.history.push('/profile')}}>
+                        My Account
+                      </p>
+
+                      <p onClick={this.logoutHandler}>
+                        Log Out
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div
+                    onMouseOver={this.handleMouseOver}
+                    onMouseLeave={this.handleMouseOut}
+                    onClick={() => this.props.history.push('/chat')}
+                    className="test"
+                    id="chat"
+                  >
+                    <img id="chat" src='assets/icons/chat-icon-sm-gray.png' />
+                  </div>
+
+                  <div
+                    onMouseOver={this.handleMouseOver}
+                    onMouseLeave={this.handleMouseOut}
+                    onClick={() => this.props.history.push('/articles')}
+                    className="test"
+                    id="articles"
+                  >
+                    <img id="articles" src="assets/icons/articles-icon-sm-gray.png" />
+                  </div>
+
+                  <div
+                    onMouseOver={this.handleMouseOver}
+                    onMouseLeave={this.handleMouseOut}
+                    onClick={() => this.props.history.push('/tickets')}
+                    className="test"
+                    id="tickets"
+                  >
+                    <img id="tickets" src='assets/icons/tickets-icon-sm-gray.png' />
+                  </div>
+
+                  <div
+                    onMouseOver={this.handleMouseOver}
+                    onMouseLeave={this.handleMouseOut}
+                    onClick={() => this.props.history.push('/phonebook')}
+                    className="test"
+                    id="phonebook"
+                  >
+                    <img id="phonebook" src='assets/icons/phonebook-icon-sm-gray.png' />
+                  </div>
+
+                  <div
+                    className="test dropdown"
+                    id="castlePNG"
+                  >
+                    <img src='assets/icons/castle-icon-sm-green.png' id="castlePNG" />
+                    &nbsp;&#x25BE;
+                    <div className="dropdown-content">
+                      {
+                        !this.state.userProps.length ? null :
+                        this.state.userProps.map(prop => 
+                          <p 
+                            onClick={() => this.propDropdownHandler(prop.id)}
+                            key={prop.id}
+                          >
+                            {prop.name}
+                          </p>
+                        )
+                      }
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           :
           // LOGGED OUT
-          <div className="navMain">
-            <div className="navLeft">
-              <img src='assets/icons/cits-logo.png' onClick={() => this.props.history.push('/')} />
-            </div>
-            <div 
-              className="navRightLoggedOut"
-              onClick={() => this.props.history.push('/login')}
-            >
-              <button className="navRight test" id="goToLogin">Login</button>
+          <div className="container">
+            <div className="row">
+              <div className="navLeft col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <img src='assets/icons/cits-logo.png' id="propSelectButton" onClick={() => this.props.history.push('/')} />
+              </div>
+
+              <div className="navRight col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div className="navi">
+                  <button className="test" className="logged-out-btn" onClick={() => this.props.history.push('/login')}>Log In</button>
+                  <button className="test" className="logged-out-btn" onClick={() => this.props.history.push('/signup')}>Sign Up</button>
+                </div>
+              </div>
+
+
+
+              <div 
+                className="navRight col-lg-8 col-md-8 col-sm-12 col-xs-12"
+                onClick={() => this.props.history.push('/login')}
+              >
+              </div>
             </div>
           </div>
         }
