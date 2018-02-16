@@ -5,6 +5,8 @@ import io from 'socket.io-client/dist/socket.io.js';
 import moment from 'moment';
 import axios from 'axios';
 
+import './Chat.css';
+
 class Members extends Component {
   constructor(props) {
     super(props)
@@ -119,46 +121,49 @@ class Members extends Component {
 
   render() {
     return (
-      <div className="membersMain">
-        Members
-        <div className="membersInner">
-          <ul>
-            {
-              this.state.allUsersInProperty.map(user =>
-                user.username === localStorage.getItem('username') ? null :
-                !this.state.activeUsers.hasOwnProperty(user.username) ? null :
-                <li className="activeUsers" key={user.id}>
-                  Active:
-                  <span>{user.username}</span>
-                  {
-                    user.type === '0' ?
-                    <span>(Tenant)</span>
-                    :
-                    <span>(Manager)</span>
-                  }
-                </li>
-              )
-            }
-          </ul>
-          <ul>
-            {
-              this.state.allUsersInProperty.map(user => 
-                user.username === localStorage.getItem('username') ? null :
-                this.state.activeUsers.hasOwnProperty(user.username) ? null :
-                <li className="inactiveUsers" key={user.id}>
-                  Inactive:
-                  <span>{user.username}</span>
-                  {
-                    user.type === '0' ?
-                    <span>(Tenant)</span>
-                    :
-                    <span>(Manager)</span>
-                  }
-                </li>
-              )
-            }
-          </ul>
-        </div>
+      <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <h5>Members</h5>
+        {
+          !this.state.allUsersInProperty.length ? null :
+          <div className="members">
+            <ul>
+              {
+                this.state.allUsersInProperty.map(user =>
+                  user.username === localStorage.getItem('username') ? null :
+                  !this.state.activeUsers.hasOwnProperty(user.username) ? null :
+                  <li className="activeUsers" key={user.id}>
+                    <span>&bull;&nbsp; {user.username}</span>
+                    {
+                      user.type === 0 ?
+                      <span> (Tenant)</span>
+                      :
+                      <span> (Manager)</span>
+                    }
+                    <hr/>
+                  </li>
+                )
+              }
+            </ul>
+            <ul>
+              {
+                this.state.allUsersInProperty.map(user => 
+                  user.username === localStorage.getItem('username') ? null :
+                  this.state.activeUsers.hasOwnProperty(user.username) ? null :
+                  <li className="inactiveUsers" key={user.id}>
+                    <span>&bull;&nbsp; {user.username}</span>
+                    {
+                      user.type === 0 ?
+                      <span> (Tenant)</span>
+                      :
+                      <span> (Manager)</span>
+                    }
+                    <hr/>
+                  </li>
+                )
+              }
+            </ul>
+          </div>
+        }
       </div>
     )
   }
