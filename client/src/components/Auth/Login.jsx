@@ -59,6 +59,7 @@ class Login extends Component {
       this.setState({ inputError: true });
     }
 
+    location.reload();
   }
 
   sendInfoForInitialNotifications (data) {
