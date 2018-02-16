@@ -127,3 +127,7 @@ h6 {
 .signup:hover {
   background-color: rgb(26, 83, 26);
 }
+
+.itl {
+  font-style: italic;
+}
