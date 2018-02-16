@@ -154,7 +154,8 @@ class Messages extends Component {
     //clear notification once you go to chat page:
     const currentProperty = +localStorage.getItem('propertyId')
     if (this.props.notificationProperties.includes(currentProperty)) {
-      document.getElementById('chatButton').innerHTML = 'Go to Chat';
+      // document.getElementById('chatButton').innerHTML = 'Go to Chat';
+      document.querySelectorAll(`#chat img`)[0].src = 'assets/icons/chat-icon-sm-gray.png';
       document.title = 'CITS';
       const properties = this.props.notificationProperties.filter(prop => prop !== currentProperty);
       this.props.setNotificationProperties(properties);
