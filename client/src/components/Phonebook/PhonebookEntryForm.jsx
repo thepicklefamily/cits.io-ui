@@ -53,14 +53,14 @@ class PhonebookEntryForm extends Component {
         propertyId: localStorage.getItem('propertyId'),
         company: document.getElementsByName('company')[0].value.toString(),
         service: document.getElementsByName('service')[0].value.toString(),
-        contactInfo: parseInt(document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString()) > 100 ? document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString() : ''
+        contactInfo: parseInt(document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString()) >= 2000000000 ? document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString() : ''
       }
       :
       {
         id: this.props.currentPhonebookEntry.id.toString(),
         company: document.getElementsByName('company')[0].value.toString(),
         service: document.getElementsByName('service')[0].value.toString(),
-        contactInfo: parseInt(document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString()) > 100 ? document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString() : ''
+        contactInfo: parseInt(document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString()) >= 2000000000 ? document.getElementsByName('contactinfoone')[0].value.toString() + document.getElementsByName('contactinfotwo')[0].value.toString() + document.getElementsByName('contactinfothree')[0].value.toString() : ''
       }
     let data = null;
     try {
@@ -100,10 +100,10 @@ class PhonebookEntryForm extends Component {
           Company:<br/><input className='phonebookFormInput' type='text' name='company'></input>
         </div>
         <div className='phonebookFormRow'>
-          Service:<br/><input className='phonebookFormInput' type='text' name='service'></input>
+          Service:<br/><input className='phonebookFormInput' type='text' name='service' maxLength='28'></input>
         </div>
         <div className='phonebookFormRow'>
-          Phone Number:<br/><input className='phonebookFormInputOne' type='text' name='contactinfoone' maxLength='3' min='100' max='999'/> <input className='phonebookFormInputTwo' type='text' name='contactinfotwo' maxLength='3' min='100' max='999'/> <input className='phonebookFormInputThree' type='text' name='contactinfothree' maxLength='4' min='1000' max='9999'/>
+          Phone Number:<br/><input className='phonebookFormInputOne' type='text' name='contactinfoone' maxLength='3' min='200' max='999'/> <input className='phonebookFormInputTwo' type='text' name='contactinfotwo' maxLength='3' min='000' max='999'/> <input className='phonebookFormInputThree' type='text' name='contactinfothree' maxLength='4' min='0000' max='9999'/>
         </div>
         <br/><br/>
         {this.state.phonebookError ? <div className='phonebookError'>Please check your input fields and try again!</div> : null}
