@@ -125,6 +125,7 @@ textarea:hover, input:hover, textarea:active, input:active, textarea:focus, inpu
   text-align: center;
   border: 1px solid #e0e0e0;
   padding: 40px;
+  margin-bottom: 75px;
 }
 
 .loginInner > input {

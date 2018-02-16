@@ -1,140 +1,113 @@
 /* --
   PHONEBOOK
 -- */
+button {
+  border: none;
+  cursor: pointer;
+}
 
 .phonebookMain {
-  /* background-image: url(https://images5.alphacoders.com/882/882927.jpg); */
   background-size: cover;
   opacity: 70%;
   font-family: Arial, Helvetica, sans-serif;
   margin: auto auto auto auto;
   height: 100%;
 }
+
 .phonebookInner {
-  /* background-image: url(http://worldartsme.com/images/paper-spiral-notebook-clipart-1.jpg); */
   background-color: #F1F1F1;
   background-size: cover;
   color: #F1F1F1;
-  /* background: linear-gradient(#48832B, rgba(6, 241, 14, 0.1)); */
-  margin: 3vh auto auto auto;
-  width: 50%;
-  height: 20%;
+  margin: 0 auto;
+  width: 100%;
   background-repeat: no-repeat;
-  overflow: hidden;
   text-align: center;
-  /* border: 1px solid black; */
-  padding: 20px 0 200px 0;
+  padding: 40px;
+  margin-bottom: 75px;
 }
+
 .phonebookInnerForm {
-  /* background-image: url(http://worldartsme.com/images/paper-spiral-notebook-clipart-1.jpg); */
-  /* background-color: white; */
   background-size: cover;
-  color: #48832B;
-  /* background: linear-gradient(#48832B, rgba(6, 241, 14, 0.1)); */
+  color: #616161;
   margin: auto auto auto auto;
-  width: 45%;
+  width: 100%;
   height: 100%;
   background-repeat: no-repeat;
-  overflow: hidden;
   text-align: center;
-  /* border: 1px solid black; */
-  /* padding: -30px 0 0 0; */
 }
+
 .phonebookFormContainer {
-  /* display: block; */
   text-align: center;
-  display: inline;
 }
-/* .phonebookInner:hover {
-  background: linear-gradient(#48832B, rgba(31, 114, 34, 0.1));
-} */
+
 .phonebookMapEntry {
   margin: 0 auto 0 auto;
-  padding: 10px 0 30px 0;
-  /* border-width: 0 1px 1px 1px;
-  border-top: 1px solid #48832B;
-  border-bottom: 1px solid #48832B;
-  border-left: 2px solid #48832B;
-  border-right: 2px solid #48832B; */
-  /* background-color: white; */
-  /* border-color: #e0e0e0; */
-  /* opacity: 1.0 !important; */
   border-style: solid;
   width: 80%;
   height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
+
 .phonebookInnerRight {
   height: 35px;
   width: 77%;
   float: right;
 }
+
 #phonebookContainer {
-  height: 470px;
   width: 100%;
-  overflow: scroll;
 }
+
 .phonebookFormInput {
-  font-size: small;
   text-align: left;
-  height: 20px;
-  width: 60%;
+  height: 50px;
+  width: 100%;
 }
+
 .phonebookFormInputOne {
-  font-size: small;
   text-align: left;
-  height: 20px;
-  width: 15%;
+  height: 50px;
+  width: 32.8%;
 }
+
 .phonebookFormInputTwo {
-  font-size: small;
   text-align: left;
-  height: 20px;
-  width: 15%;
+  height: 50px;
+  width: 32.8%;
 }
+
 .phonebookFormInputThree {
-  font-size: small;
   text-align: left;
-  height: 20px;
-  width: 15%;
+  height: 50px;
+  width: 32.8%;
 }
-.hiddenscrollbars::-webkit-scrollbar { 
-  display: none; 
-}
+
 .phonebookInnerEntry {
-  /* border: 1px solid black; */
-  width: 85%;
+  width: 100%;
   height: 90%;
-  text-align: center;
   color: #616161;
-  font-size: small;
-  float: left;
 }
-.phonebookEntryRows {
-  /* border-top: 5px solid #48832B; */
-  padding: -50px;
-  font-size: small;
-}
+
 .phonebookEntryRowCompany {
-  /* background-color: #48832B; */
-  padding: 10px 10px 0 5px;
   font-style: bold;
-  color: #48832B;
-  /* text-decoration: #48832B overline; */
+  color: #616161;
   font-size: large;
   float: left;
-  /* border: 1px solid black; */
 }
+
 .phonebookEntryRowService {
-  padding: 0 0 0 0;
-  float: left;
-  /* text-decoration: #48832B underline; */
+  font-size: 12px;
   font-style: italic;
-  font-size: xx-small;
-  /* border: 1px solid black; */
+  color: #aeaeae;
 }
+
+hr {
+  margin: 0;
+  padding: 0;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  width: 100%
+}
+
 .phonebookCallIcon {
   background-image: url(http://iconshow.me/media/images/social/flat-style-Metro-UI-Icons/Other/png/256/MetroUI-Phone.png);
   background-size: cover;
@@ -144,72 +117,65 @@
   width: 20px;
   height: 20px;
 }
+
 .phonebookEntryRowNumber {
-  margin: 15px 0 0 0;
-  font-size: small;
+  color: #616161;
+  margin-top: 13px;
   float: right;
-  /* border: 1px solid black; */
 }
+
 .phonebookEditButtons {
+  transition: background-color 0.5s ease;
   color: #fff;
   background-color: #48832B;
-  /* display: block; */
-  /* font-size: small; */
-  height: 25px;
-  width: 45px;
-  /* height: 20px; */
   text-align: center;
-  font-size: xx-small;
-  border: 1px transparent;
-  /* padding: 10px 30px; */
+  font-size: 16px;
   float: right;
-  margin: 15px -60px 0 0;
+  margin: 2px -70px 0 0;
+  padding: 10px 15px;;
 }
+
 .phonebookAddButtons {
+  transition: background-color 0.5s ease;
   color: #fff;
-  font-size: small;
   border: none;
   background-color: #48832B;
   padding: 10px 30px;
-  margin: 0 0 10px 0;
-  /* top right bottom left */
+  margin-bottom: 25px;
 }
+
+.phonebookFormButtons {
+  transition: background-color 0.5s ease;
+  color: #fff;
+  background-color: #48832B;
+  text-align: center;
+  padding: 15px 30px;
+  margin: 10px;
+}
+
+.phonebookAddButtons:hover, .phonebookEditButtons:hover, .phonebookFormButtons:hover {
+  background-color: rgb(26, 83, 26);
+}
+
 #phonebookWord {
   text-align: center;
   font-size: 1.75em;
-  margin: 25px 0 0 0;
   color: #787878;
 }
+
 #phonebookFormWord {
-  /* background-color: #48832B; */
   text-align: center;
   font-style: italic;
-  font-size: small;
   margin: 10px 0 0 0;
   color: #787878;
 }
+
 .phonebookFormRow {
-  color: #48832B;
+  color: #616161;
   text-align: center;
   font-size: medium;
-  display: block;
-  margin: 0 0 0 0 ;
 }
-.phonebookFormButtons {
-  color: #fff;
-  background-color: #48832B;
-  /* display: block; */
-  /* font-size: small; */
-  height: 25px;
-  width: 65px;
-  /* height: 20px; */
-  text-align: center;
-  font-size: small;
-  border: 1px transparent;
-  /* padding: 10px 30px; */
-  /* float: right; */
-  /* margin: 15px -40px 0 0; */
-}
+
 .phonebookError {
   color: red;
   font-size: 14px;
