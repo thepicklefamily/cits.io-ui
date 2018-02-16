@@ -1,0 +1,34 @@
+.navMain {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.navLeft {
+  grid-column: 1 / 2;
+  display: flex;
+  justify-content: left;
+}
+.navLeft > img {
+  margin: 2px 0 0 10px;
+  height: 80%;
+}
+.navRight {
+  grid-column-start: 2 / 3;
+  display: flex;
+  justify-content: right;
+}
+.navRight > img {
+  margin: auto 7px;
+  height: 30%;
+}
+.navRight > button {
+  margin: auto 7px;
+  height: 30%;
+}
+.test {
+  height: 86%;
+  padding: 17px 10px;
+}
+.test:hover {
+  cursor: pointer;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.168);
+}
