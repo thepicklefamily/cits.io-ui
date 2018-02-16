@@ -61,10 +61,15 @@ h6 {
   margin-bottom: 75px;
 }
 
+.welcome-msg {
+  text-align: center;
+  color: #a2a2a2;
+  margin: 0 auto;
+}
+
 .easy {
   text-align: center;
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin-bottom: 45px;
 }
 
 .secondary-banner, .third-banner {
@@ -90,18 +95,21 @@ h6 {
 
 .feature {
   text-align: center;
-  margin-bottom: 100px;
+  margin-bottom: 75px;
+  padding: 0 35px;
 }
 
 .feature-title {
+  font-family: Arial, Helvetica, sans-serif;
   color: #616161;
   font-size: 22px;
-  font-weight: bold;
+  font-weight: 450;
   margin-top: 25px;
+  margin-bottom: 5px;
 }
 
 .feature-content {
-  color: #616161;
+  color: #979797;
   font-size: 16px;
 }
 

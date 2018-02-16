@@ -62,7 +62,7 @@ class Tickets extends Component {
       <div>
         {
           this.props.ticketEditState === 'list' ? 
-          <h5 className="title">SUBMITTED TICKETS</h5>
+          <h3 className="title">SUBMITTED TICKETS</h3>
           : null
         }
         <div className='container'>
