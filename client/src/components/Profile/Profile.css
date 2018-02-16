@@ -31,8 +31,13 @@ input::placeholder {
   color: #aeaeae;
 }
 
-.description, .info {
+.prop-name, .description, .info {
   color: #616161;
+}
+
+.prop-name {
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .description {

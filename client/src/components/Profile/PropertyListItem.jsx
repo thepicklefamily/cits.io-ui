@@ -140,10 +140,10 @@ class PropertyListItem extends Component {
         {
           localStorage.getItem('type') === '0' ?
           <div>
-            <div>
+            <div className="prop-name">
               {this.props.property.name}
             </div>
-            <div>
+            <div className="info">
               {this.props.property.address}
             </div>
             {
@@ -177,10 +177,10 @@ class PropertyListItem extends Component {
             {
               this.state.edit === 0 ?
               <div>
-                <div>
+                <div className="prop-name">
                   {this.props.property.name}
                 </div>
-                <div>
+                <div className="info">
                   {this.props.property.address}
                 </div>
                 <button onClick={this.editHandler}>Edit</button>
@@ -189,7 +189,7 @@ class PropertyListItem extends Component {
               </div>
               :
               <div>
-                NAME:
+                Name:
                 <div>
                   <input 
                     type="text"
@@ -197,9 +197,9 @@ class PropertyListItem extends Component {
                     defaultValue={this.props.property.name}
                     onChange={this.inputChangeHandler}
                   />
-                </div><br/>
+                </div>
 
-                ADDRESS:
+                Address:
                 <div>
                   <input 
                     type="text"
@@ -207,9 +207,9 @@ class PropertyListItem extends Component {
                     defaultValue={this.props.property.address}
                     onChange={this.inputChangeHandler}
                   />
-                </div><br/>
+                </div><hr/>
 
-                SECRET KEY:
+                UPDATE SECRET KEY:
                 <div>
                   <div>
                     Your password:
@@ -221,7 +221,7 @@ class PropertyListItem extends Component {
                         onChange={this.inputChangeHandler}
                       />
                     </div>
-                  </div><br/>
+                  </div>
 
                   <div>
                     New secret key:
@@ -233,7 +233,7 @@ class PropertyListItem extends Component {
                         onChange={this.inputChangeHandler}
                       />
                     </div>
-                  </div><br/>
+                  </div>
 
                   <div>
                     Confirm new secret key:
@@ -246,7 +246,7 @@ class PropertyListItem extends Component {
                       />
                     </div>
                   </div>
-                </div><br/><br/>
+                </div>
 
 
                 <button onClick={this.propertyUpdateHandler}>SAVE CHANGES</button>
