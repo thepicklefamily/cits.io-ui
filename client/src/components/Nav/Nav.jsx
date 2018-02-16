@@ -8,23 +8,45 @@ import { setNotificationProperties } from '../../actions/setNotificationProperti
 import mainLogo from '../../../public/assets/icons/cits-logo.png';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
+
 import './Nav2.css';
 
 class Nav extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      userProps: []
+    };
+
     this.config = {
       headers: {
         authorization: ''
       }
     };
+
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
+    this.propDropdownHandler = this.propDropdownHandler.bind(this);
   }
 
   async componentWillMount() {
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST : process.env.SOCKET_SERVER_LOCAL_HOST;
+
+    // get all user properties
+    try {
+      if (localStorage.getItem('id')) {
+        const userProps = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
+  
+        await this.setState({
+          userProps: userProps.data
+        });
+      }
+    } catch (err) {
+      //
+    }
+
     try {
       await this.setPropertyList();
 
@@ -36,6 +58,7 @@ class Nav extends Component {
         //send userid and array of user's props so server can tell client which props to give this user notifications for:
         this.sendInfoForInitialNotifications();
       });
+
       this.props.chatNotificationSocket.on('initial.notifications', (notifPropsArray) => {
         //should get an array of prop ids for which to render notifications.
         console.log('init.notifpropsarray', notifPropsArray);
@@ -44,6 +67,7 @@ class Nav extends Component {
           this.renderNotifications();
         }
       });
+
       this.props.chatNotificationSocket.on('notifications.whileonline', ({ userId, propId }) => {
         console.log('notifications.whileonline data = ', userId, propId);
         //if the notification is for a msg not from this user, on this users prop list, and not on the notification props list yet
@@ -70,6 +94,7 @@ class Nav extends Component {
       document.getElementById('chatButton').innerHTML = 'Go to Chat *MSG*';
       document.title = '● CITS';
     }
+
     //if there is a property on the notifications list array that isn't the current property, render the notification on the property select button:
     let notifsDisplay = '';
     for (let i = 0; i < this.props.notificationProperties.length; i++) {
@@ -77,6 +102,7 @@ class Nav extends Component {
         notifsDisplay += ` ${this.props.notificationProperties[i]}`;
       }
     }
+
     notifsDisplay !== '' ?
       (document.getElementById('propSelectButton').innerHTML = `CastleLogo *MSG* for props${notifsDisplay}`,
         document.title = '● CITS')
@@ -84,7 +110,6 @@ class Nav extends Component {
       null;
 
     document.getElementById('notification').play();
-
   }
 
   //get and set user's properties list onto state
@@ -116,6 +141,11 @@ class Nav extends Component {
   handleMouseOut(e) {
     let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
     changeImg.src = `assets/icons/${e.target.id}-icon-sm-gray.png`;
+  }
+
+  propDropdownHandler(id) {
+    localStorage.setItem('propertyId', id);
+    location.reload();
   }
 
   render() {
@@ -189,9 +219,17 @@ class Nav extends Component {
                   >
                     <img src='assets/icons/castle-icon-sm-green.png' id="castlePNG" />
                     <div className="dropdown-content">
-                      <p>HELLO1</p>
-                      <p>HELLO1</p>
-                      <p>HELLO3</p>
+                      {
+                        !this.state.userProps.length ? null :
+                        this.state.userProps.map(prop => 
+                          <p 
+                            onClick={() => this.propDropdownHandler(prop.id)}
+                            key={prop.id}
+                          >
+                            {prop.name}
+                          </p>
+                        )
+                      }
                     </div>
                   </div>
 

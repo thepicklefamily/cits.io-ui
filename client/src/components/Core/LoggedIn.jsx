@@ -63,7 +63,7 @@ class LoggedIn extends Component {
             <div className="small-articles row">
               {
                 this.state.articles.slice(1).map(article => 
-                  <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                  <div key={article.id} className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                     <img 
                       className="col-lg-12 col-md-12 col-sm-12 col-xs-12 sub-image"
                       src={article.photo_url}
