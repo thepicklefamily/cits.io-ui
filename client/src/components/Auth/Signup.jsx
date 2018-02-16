@@ -40,6 +40,7 @@ class Signup extends Component {
 
   componentWillMount() {
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+    this.SMTP_URL = (process.env.NODE_ENV === 'production') ? process.env.SMTP_SERVER_AWS_HOST : process.env.SMTP_SERVER_LOCAL_HOST;
   }
 
   inputChangeHandler(e) {
@@ -111,7 +112,7 @@ class Signup extends Component {
         full_name: this.state.full_name,
         email: this.state.email
       }
-      await axios.post('http://localhost:8080/welcomes/sendWelcomeEmail', emailPayload, this.config);
+      await axios.post(`${this.SMTP_URL}/welcomes/sendWelcomeEmail`, emailPayload, this.config); // change this URL!
       // add apartment unit to the table if it exists
       let tempUnit = '';
   
