@@ -87,7 +87,7 @@ class TicketEntryForm extends Component {
 
   render() {
     return (
-      <div>
+      <div className='ticketSubmit'>
         <br/><br/>
         TICKET INFORMATION <br/><br/>
         <select name='category'>

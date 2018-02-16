@@ -128,3 +128,7 @@
   margin: auto;
   text-align: center;
 }
+
+.ticketSubmit {
+  /* display: flex; */
+}
