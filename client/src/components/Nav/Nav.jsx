@@ -65,6 +65,7 @@ class Nav extends Component {
         console.log('init.notifpropsarray', notifPropsArray);
         if (notifPropsArray.length) {
           this.props.setNotificationProperties(notifPropsArray);
+          this.clearNotificationPropAfterReload();
           this.renderNotifications();
         }
       });
@@ -73,11 +74,14 @@ class Nav extends Component {
         console.log('notifications.whileonline data = ', userId, propId);
         //if the notification is for a msg not from this user, on this users prop list, and not on the notification props list yet
         //then add it to the notification props list and re-render notifications.
-        if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1 && this.props.propertyData) {
-          for (let i = 0; i < this.props.propertyData.length; i++) {
-            if (+propId === this.props.propertyData[i].id) {
-              this.props.setNotificationProperties(this.props.notificationProperties.concat(+propId));
-              this.renderNotifications();
+        // if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1 && this.props.propertyData) {
+          if (userId !== +localStorage.getItem('id') && this.props.notificationProperties.indexOf(+propId) === -1 && this.props.propertyData) {
+            if (!window.location.href.includes('/chat') || propId !== localStorage.getItem('propertyId')) {
+              for (let i = 0; i < this.props.propertyData.length; i++) {
+                if (+propId === this.props.propertyData[i].id) {
+                  this.props.setNotificationProperties(this.props.notificationProperties.concat(+propId));
+                  this.renderNotifications();
+                }
             }
           }
         }
@@ -87,17 +91,24 @@ class Nav extends Component {
     }
   }
 
+  componentDidMount () {
+    // if (window.location.href.includes('/chat')) {
+    //   this.clearNotificationPropAfterReload();
+    // }
+  }
+
   //anytime get or do something notifications worthy / change the state of the notificationProperties, then run this func to render them all properly:
   renderNotifications() {
     //if a property on the notifications list array is the current property, render the notification on the chat button, unless the user is looking at the chat page:
-    if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && window.location.href !== "http://localhost:3000/chat" ||
-      this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !document.hasFocus()) {
+    // if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !window.location.href.includes('/chat') ||
+    //   this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !document.hasFocus()) {
+      console.log('notif render')
+        if (this.props.notificationProperties.includes(+localStorage.getItem('propertyId')) && !window.location.href.includes('/chat')) {
       document.querySelectorAll(`#chat img`)[0].src = 'assets/icons/chat-icon-notif-gray.png';
       document.title = '● CITS';
     }
 
-    //NOTIFICATIONS FOR YOUR OTHER PROPERTIES - FIX THESE NEXT - DROPDOWN- CAN MAKE CROWN WITH DOT FOR NOW, or show in acct page or come up with something else:
-
+    //NOTIFICATIONS FOR YOUR OTHER PROPERTIES - ADD TO THESE NEXT - DROPDOWN- CAN MAKE CROWN WITH DOT FOR NOW, or show in acct page or come up with something else:
     //if there is a property on the notifications list array that isn't the current property, render the notification on the property select button:
     let notifsDisplay = '';
     for (let i = 0; i < this.props.notificationProperties.length; i++) {
@@ -106,14 +117,12 @@ class Nav extends Component {
       }
     }
     notifsDisplay !== '' ?
-
-      //replace this line with crown...
-      (document.getElementById('propSelectButton').innerHTML = `CastleLogo *MSG* for props${notifsDisplay}`,
+        (document.querySelectorAll(`#castlePNG img`)[0].src = 'assets/icons/castle-icon-notif-green.png',
         document.title = '● CITS')
       :
       null;
 
-    document.getElementById('notification').play();
+      window.location.href.includes('/chat') ? null : document.getElementById('notification').play();
   }
 
   //get and set user's properties list onto state
@@ -125,6 +134,22 @@ class Nav extends Component {
       Array.isArray(data) ? this.props.setPropertyData(data) : null;
     } catch (err) {
       //
+    }
+  }
+
+  clearNotificationPropAfterReload () { //similar to clearNotifications() and confirmMessagesSeen(), but cant invoke it there due to async/render order issues
+    const currentProperty = +localStorage.getItem('propertyId')
+    if (this.props.notificationProperties.includes(currentProperty) && window.location.href.includes('/chat')) {
+      document.querySelectorAll(`#chat img`)[0].src = 'assets/icons/chat-icon-sm-gray.png';
+      document.title = 'CITS';
+      const properties = this.props.notificationProperties.filter(prop => prop !== currentProperty);
+      this.props.setNotificationProperties(properties);
+      //tell server have seen messages up this point:
+      this.props.chatNotificationSocket.emit('message.received', { 
+        userId: +localStorage.getItem('id'),
+        propId: +localStorage.getItem('propertyId'),
+        timeStamp: Date.now()
+      });
     }
   }
 

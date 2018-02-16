@@ -55,13 +55,19 @@ class Messages extends Component {
     socket.on('server.message', async (data) => {
       try {
         //sending confirmation back to server that saw message (for chat notifications):
-        console.log('emit 2');
-        this.props.chatNotificationSocket.emit('message.received', { 
-          userId: localStorage.getItem('id'),
-          propId: data.propId,
-          timeStamp: data.timeStamp
-        });
-        //other chat logic:
+        // if (data.propId === localStorage.getItem('propertyId') && document.hasFocus()) {
+          if (data.propId === localStorage.getItem('propertyId') && window.location.href.includes('/chat')) {
+          this.confirmMessagesSeen();
+          console.log('mewmew')
+        }
+        // console.log('emit 2', data);
+        // this.props.chatNotificationSocket.emit('message.received', { 
+        //   userId: localStorage.getItem('id'),
+        //   propId: data.propId,
+        //   timeStamp: data.timeStamp
+        // });
+
+        //chat logic:
         const message = await axios.get(`${this.REST_URL}/api/chat/getMostRecentMessage`, this.config)
         await this.setState({
           messages: [...this.state.messages, data]
@@ -146,8 +152,9 @@ class Messages extends Component {
       : 
       null;
 
-      const clearNotifications = this.clearNotifications.bind(this);
-      window.addEventListener("focus", function() {clearNotifications()});
+      // const clearNotifications = this.clearNotifications.bind(this);
+      // window.addEventListener("focus", function() {clearNotifications()});
+      // document.addEventListener("focus", function() {clearNotifications()});
   }
 
   clearNotifications () {
@@ -163,12 +170,14 @@ class Messages extends Component {
   
   confirmMessagesSeen () {
     //send confirmation back to server that saw messages in this chat room up to this point (for chat notifications):
+    //for most precise accuracy, would send back timestamp of last message
     console.log('emit 3');
     this.props.chatNotificationSocket.emit('message.received', { 
       userId: +localStorage.getItem('id'),
       propId: +localStorage.getItem('propertyId'),
       timeStamp: Date.now()
     });
+    console.log('last msg', this.state.messages, Date.now()); 
   }
 
   handleChange(e) {
