@@ -1,8 +1,7 @@
 /* --
   PHONEBOOK
 -- */
-.main {
-}
+
 .phonebookMain {
   /* background-image: url(https://images5.alphacoders.com/882/882927.jpg); */
   background-size: cover;
@@ -28,7 +27,7 @@
 }
 .phonebookInnerForm {
   /* background-image: url(http://worldartsme.com/images/paper-spiral-notebook-clipart-1.jpg); */
-  background-color: white;
+  /* background-color: white; */
   background-size: cover;
   color: #48832B;
   /* background: linear-gradient(#48832B, rgba(6, 241, 14, 0.1)); */
@@ -57,7 +56,7 @@
   border-bottom: 1px solid #48832B;
   border-left: 2px solid #48832B;
   border-right: 2px solid #48832B; */
-  background-color: white;
+  /* background-color: white; */
   /* border-color: #e0e0e0; */
   /* opacity: 1.0 !important; */
   border-style: solid;
@@ -167,9 +166,9 @@
 }
 .phonebookFormRow {
   color: #787878;
-  text-align: right;
+  /* text-align: right; */
   display: block;
-  margin: 0 33% 0 0 ;
+  /* margin: 0 33% 0 0 ; */
 }
 .phonebookFormButtons {
   color: #fff;
