@@ -73,3 +73,18 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.logged-out-btn {
+  margin-top: -19px;
+  transition: background-color 0.5s ease;
+  background-color: white;
+  color: #616161;
+  padding: 23px 25px;
+  border: none;
+  cursor: pointer;
+}
+
+.logged-out-btn:hover {
+  background-color: #48822D;
+  color: white;
+}

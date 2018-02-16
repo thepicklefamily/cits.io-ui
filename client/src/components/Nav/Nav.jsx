@@ -197,27 +197,7 @@ class Nav extends Component {
                       </p>
                     </div>
                   </div>
-
-                  {/* <div
-                    className="test dropdown"
-                    id="castlePNG"
-                  >
-                    <img src='assets/icons/castle-icon-sm-green.png' id="castlePNG" />
-                    <div className="dropdown-content">
-                      {
-                        !this.state.userProps.length ? null :
-                        this.state.userProps.map(prop => 
-                          <p 
-                            onClick={() => this.propDropdownHandler(prop.id)}
-                            key={prop.id}
-                          >
-                            {prop.name}
-                          </p>
-                        )
-                      }
-                    </div>
-                  </div> */}
-
+                  
                   <div
                     onMouseOver={this.handleMouseOver}
                     onMouseLeave={this.handleMouseOut}
@@ -278,45 +258,32 @@ class Nav extends Component {
                       }
                     </div>
                   </div>
-
-                  {/* <div
-                    className="test"
-                    id="logout"
-                    onClick={() => {
-                      (
-                        this.props.setPropertyData(null),
-                        this.props.setCurrentProperty(null),
-                        localStorage.removeItem('token'),
-                        localStorage.removeItem('propertyId'),
-                        localStorage.removeItem('id'),
-                        localStorage.removeItem('type'),
-                        localStorage.removeItem('username'),
-                        localStorage.removeItem('email'),
-                        localStorage.removeItem('full_name'),
-                        localStorage.removeItem('phonenumber'),
-                        document.title = 'CITS',
-                        this.props.history.push('/')
-                      )
-                    }}
-                  >
-                    LOGOUT
-                  </div> */}
                 </div>
               </div>
             </div>
-            
           </div>
           :
           // LOGGED OUT
-          <div className="navMain">
-            <div className="navLeft">
-              <img src='assets/icons/cits-logo.png' onClick={() => this.props.history.push('/')} />
-            </div>
-            <div 
-              className="navRightLoggedOut"
-              onClick={() => this.props.history.push('/login')}
-            >
-              <button className="navRight test" id="goToLogin">Login</button>
+          <div className="container">
+            <div className="row">
+              <div className="navLeft col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <img src='assets/icons/cits-logo.png' id="propSelectButton" onClick={() => this.props.history.push('/')} />
+              </div>
+
+              <div className="navRight col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div className="navi">
+                  <button className="test" className="logged-out-btn" onClick={() => this.props.history.push('/login')}>Log In</button>
+                  <button className="test" className="logged-out-btn" onClick={() => this.props.history.push('/signup')}>Sign Up</button>
+                </div>
+              </div>
+
+
+
+              <div 
+                className="navRight col-lg-8 col-md-8 col-sm-12 col-xs-12"
+                onClick={() => this.props.history.push('/login')}
+              >
+              </div>
             </div>
           </div>
         }
