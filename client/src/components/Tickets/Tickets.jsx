@@ -64,7 +64,7 @@ class Tickets extends Component {
             : 
             null
             }
-          </div>
+          </div><br/>
           <div>{this.props.ticketEditState === 'create' ? 
             <div><TicketEntryForm/>
             <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button></div>
