@@ -47,7 +47,9 @@ class Phonebook extends Component {
         <div className='phonebookInner'>
           {
             this.props.phonebookEditState === '0' && localStorage.getItem('type') === '1' ? 
-            <button className='phonebookAddButtons' onClick={this.onAddHandler.bind(this)}>Add New Entry</button> 
+            <center>
+              <button className='phonebookAddButtons' onClick={this.onAddHandler.bind(this)}>Add New Entry</button> 
+            </center>
             : null
           }
           
