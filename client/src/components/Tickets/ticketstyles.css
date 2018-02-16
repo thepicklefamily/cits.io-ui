@@ -9,11 +9,15 @@
   border: 1px solid #e0e0e0;
   padding: 40px;
   display: flex;
+  color: #616161;
+  font-size: 80%;
 }
 
 .ticketsHeader {
   text-align: center;
   margin: auto;
+  font-size: 110%;
+  font-weight: bold;
 }
 
 .entryContainer {
@@ -21,10 +25,12 @@
   grid-gap: 20px;
   /* grid-template-columns: minmax(100px, max-content); */
   grid-template-columns: 50%, 50%;
+  background-color: white;
 }
 
 .left {
   grid-column: 1 / 2;
+  text-align: left;
 }
 
 .right {
@@ -36,10 +42,22 @@
 
 .details {
   grid-row: 1 / 2;
+  text-align: right;
 }
 
 .delete {
   grid-row: 2 / 3;
+  text-align: right;
+}
+
+.detailsbtn {
+  background-color: transparent;
+  border-color: green;
+}
+
+.deletebtn {
+  background-color: green;
+  border-color: green;
 }
 
 
@@ -47,7 +65,34 @@
   display: grid;
   grid-gap: 20px;
   /* grid-template-columns: minmax(100px, max-content); */
-  grid-template-columns: 300px;
+  grid-template-columns: 100%;
   text-align: center;
   margin: auto;
+}
+
+.category {
+  color: #AEAEAE;
+}
+
+.aptnum {
+  color: #48822D;
+}
+
+.description {
+  color: #AEAEAE;
+}
+
+.pending {
+  color: #48822D;
+  font-weight: bold;
+}
+
+.inprogress {
+  color: goldenrod;
+  font-weight: bold;
+}
+
+.complete {
+  color: red;
+  font-weight: bold;
 }

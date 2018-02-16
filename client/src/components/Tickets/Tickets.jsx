@@ -52,44 +52,48 @@ class Tickets extends Component {
 
   render() {
     return (
-      <div className='ticketsMain'>
-        <div>{localStorage.getItem('type') === '0' && this.props.ticketEditState === 'list' ? 
-          <button onClick={this.onAddHandler.bind(this)} className='ticketsHeader'>SUBMIT NEW TICKET</button> 
-          : 
-          null
-          }
-        </div>
-        <div>{this.props.ticketEditState === 'create' ? 
-          <div><TicketEntryForm/>
-          <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button></div>
-          : 
-          null
-          }
-        </div>
-        <br/><br/>
-        
-        {this.props.ticketEditState === 'details' ? 
-          <TicketDetails/>
-          :
-          null
-          }
-
-
+      <div><br/><br/>
         {this.props.ticketEditState === 'list' ? 
-          <div className='ticketsHeader'>SUBMITTED TICKETS:
-          <br/><br/>
-          <div className='entriesContainer'>
-            {this.props.ticketsData && this.props.ticketsData.length ? 
-              this.props.ticketsData.map(ticket => <TicketEntry key={ticket.id} data={ticket}/>)
-              :
-              'There are no tickets.'
-              }
-          </div>
-          </div>
+          <div className='ticketsHeader'>SUBMITTED TICKETS:</div>
           :
           null
           }
-        {this.state.ticketsError ? <div>Oops! There was an issue with loading your tickets. Please try again!</div> : null}
+        <div className='ticketsMain'>
+          <div>{localStorage.getItem('type') === '0' && this.props.ticketEditState === 'list' ? 
+            <button onClick={this.onAddHandler.bind(this)} className='ticketsHeader'>SUBMIT NEW TICKET</button> 
+            : 
+            null
+            }
+          </div>
+          <div>{this.props.ticketEditState === 'create' ? 
+            <div><TicketEntryForm/>
+            <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button></div>
+            : 
+            null
+            }
+          </div>
+          <br/><br/>
+          
+          {this.props.ticketEditState === 'details' ? 
+            <TicketDetails/>
+            :
+            null
+            }
+
+
+          {this.props.ticketEditState === 'list' ? 
+            <div className='entriesContainer'>
+              {this.props.ticketsData && this.props.ticketsData.length ? 
+                this.props.ticketsData.map(ticket => <TicketEntry key={ticket.id} data={ticket}/>)
+                :
+                'There are no tickets.'
+                }
+            </div>
+            :
+            null
+            }
+          {this.state.ticketsError ? <div>Oops! There was an issue with loading your tickets. Please try again!</div> : null}
+        </div>
       </div>
     );
   }

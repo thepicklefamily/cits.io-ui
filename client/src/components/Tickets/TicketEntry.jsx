@@ -79,18 +79,26 @@ class TicketEntry extends Component {
       <div className='entryContainer'>
         <div className='left'>
           {<div>
-            <div className='subject'>{this.props.data.subject}</div>
-            <div className='category'>{this.props.data.category}</div>
-            <div className='aptnum'>{this.props.data.apt_num}</div>
+            <span clspanssName='subject'>{this.props.data.subject}</span>
+            <span className='category'> ({this.props.data.category})</span>
+            <span className='aptnum'> #{this.props.data.apt_num}</span>
             </div>}
-            <br/>
-          description: {this.props.data.description} <br/>
-          status: {this.props.data.status} <br/>
+          <div className='description'>{this.props.data.description.substring(0,50)}...</div>
+          {this.props.data.status === 'Pending' ? <div className='pending'>{this.props.data.status}</div> :
+            this.props.data.status === 'In-Progress' ? <div className='inprogress'>{this.props.data.status}</div> : 
+            <div className='complete'>{this.props.data.status}</div>}
         </div>
         <div className='right'>
-        {<div className='details'><button onClick={this.onDetailsHandler.bind(this)}>DETAILS</button></div>}
+        {<div className='details'>
+          <button className='detailsbtn btn btn-sm btn-light' onClick={this.onDetailsHandler.bind(this)}>
+            <span>
+              <img className='detailsimg' src='assets/icons/eyeball-icon-green.png'/>
+            </span>
+          </button>
+        </div>}
         {localStorage.getItem('type') === '1' ? 
-          <div className='delete'><button onClick={this.deleteModalHandler.bind(this)}>DELETE</button></div>
+          <div className='delete'>
+            <button className='deletebtn btn btn-sm btn-success' onClick={this.deleteModalHandler.bind(this)}><span><img className='deleteimg' src='assets/icons/trash-icon-white.png'/></span></button></div>
           : 
           null
         }
