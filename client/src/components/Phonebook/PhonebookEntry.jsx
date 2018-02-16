@@ -16,17 +16,24 @@ class PhonebookEntry extends Component {
 
   render() {
     return (
-      <div>
-        Phonebook Entry: <br/>
-        COMPANY: {this.props.data.company} <br/>
-        SERVICE: {this.props.data.service} <br/>
-        CONTACT INFO: {this.props.data.contactinfo} <br/>
-        {localStorage.getItem('type') === '1' ? 
-          <button onClick={this.onEditHandler.bind(this)}>EDIT ENTRY</button> 
-          : 
-          null
-        }
-        <br/><br/>
+      <div className='phonebookInnerEntry'>
+        <div className='phonebookEntryRows'>
+          <div className='phonebookEntryRowCompany'>
+            {this.props.data.company} <br/>
+            <div className='phonebookEntryRowService'>
+              Service: {this.props.data.service} <br/>
+            </div>
+          </div>
+          {localStorage.getItem('type') === '1' ? 
+            <button className='phonebookEditButtons' onClick={this.onEditHandler.bind(this)}>Edit</button> 
+            : 
+            null
+          }
+          <div className='phonebookEntryRowNumber'>
+            : {this.props.data.contactinfo} <br/>
+          </div>
+          <div className='phonebookCallIcon'/>
+        </div>
       </div>
     );
   }

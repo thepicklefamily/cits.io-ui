@@ -66,7 +66,12 @@ class Mein extends Component {
               >
                 <div>
                   <img src="assets/images/tickets-icon-lg.png" alt="tickets-icon"/><br/><br/>
-                  <h5>SUBMIT A TICKET</h5>
+                  {
+                    localStorage.getItem('type') === '0' ?
+                    <h5>SUBMIT A TICKET</h5>
+                    :
+                    <h5>SUBMITTED TICKETS</h5>
+                  }
                 </div>
               </div>
 

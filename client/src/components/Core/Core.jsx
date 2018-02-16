@@ -9,12 +9,23 @@ import './Core.css';
 class Core extends Component {
   constructor(props) {
     super(props);
+
+    this.goToPage = this.goToPage.bind(this);
+  }
+
+  goToPage(str) {
+    this.props.history.push(str);
   }
 
   render() {
     return (
-      <div className="container">
-        {localStorage.getItem('token') ? <LoggedIn /> : <LoggedOut />}
+      <div>
+        {localStorage.getItem('token') ? 
+        <LoggedIn 
+          goToPage = {this.goToPage}
+        /> 
+        :
+        <LoggedOut />}
       </div>
     );
   }

@@ -12,7 +12,9 @@ class LoggedOut extends Component {
   render() {
     return (
       <div className="row">
-        LOGGED OUT
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 title">
+          <h5>WELCOME TO CASTLE IN THE SKY</h5>
+        </div>
       </div>
     );
   }

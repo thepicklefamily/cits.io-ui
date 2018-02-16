@@ -8,6 +8,7 @@ import { setCurrentPhonebookEntry } from '../../actions/setCurrentPhonebookEntry
 // import { withRouter } from 'react-router';
 import { setPhonebookData } from '../../actions/setPhonebookData';
 import axios from 'axios';
+import './Phonebook.css'
 
 class Phonebook extends Component {
   constructor(props) {
@@ -34,26 +35,31 @@ class Phonebook extends Component {
 
   render() {
     return (
-      <div>
-        PHONEBOOK DATA:
-        <br/><br/>
-        {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && localStorage.getItem('type') === '1' ? 
-          <div>
-            <PhonebookEntryForm/>
-          </div> 
-          : 
-          this.props.phonebookData ? 
-            this.props.phonebookData.map( entry => <PhonebookEntry key={entry.id} data={entry}/> ) 
+      <div className='phonebookMain'>
+        {this.props.phonebookEditState === '0' ? <h2 id='phonebookWord'>PHONEBOOK INDEX</h2> : <h2 id='phonebookWord'>PHONEBOOK ENTRY FORM</h2>}
+        <div className='phonebookInner'>
+          {this.props.phonebookEditState === '0' && localStorage.getItem('type') === '1' ? 
+              <button className='phonebookAddButtons' onClick={this.onAddHandler.bind(this)}>Add New Entry</button> 
             : 
-            'No DATA'
-          )
-        }
-        {this.props.phonebookEditState === '0' && localStorage.getItem('type') === '1' ? 
-          <button onClick={this.onAddHandler.bind(this)}>ADD NEW ENTRY</button> 
-          : 
-          null
-        }
-      </div>
+            null
+          }
+          <br/>
+          <div id='phonebookContainer' className='hiddenscrollbars'>
+          {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && localStorage.getItem('type') === '1' ? 
+            <div className='phonebookInnerForm'>
+              <PhonebookEntryForm/>
+            </div> 
+            :
+            this.props.phonebookData ? 
+              
+              this.props.phonebookData.map( entry => <div className='phonebookMapEntry' key={entry.id}><PhonebookEntry data={entry}/><br/><br/></div> ) 
+              : 
+              'No DATA'
+            )
+          }
+          </div>
+        </div>
+    </div>
     );
   }
 }
