@@ -201,6 +201,7 @@ class PropertyListItem extends Component {
                   <input 
                     type="text"
                     name="propName"
+                    placeholder="Enter property name"
                     defaultValue={this.props.property.name}
                     onChange={this.inputChangeHandler}
                   />
@@ -213,6 +214,7 @@ class PropertyListItem extends Component {
                   <input 
                     type="text"
                     name="propAddress"
+                    placeholder="Enter property address"
                     defaultValue={this.props.property.address}
                     onChange={this.inputChangeHandler}
                   />

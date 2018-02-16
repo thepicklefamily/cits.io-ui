@@ -6,13 +6,14 @@ import { setSearchResults } from '../../actions/setSearchResults';
 import { setSecretErrorState } from '../../actions/setSecretErrorState';
 import axios from 'axios';
 
-class Signup extends Component {
+class PropertySearch extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       searchInput: '',
-      secret: ''
+      secret: '',
+      userClass: ''
     }
 
     this.config = {
@@ -28,6 +29,14 @@ class Signup extends Component {
 
   componentWillMount() {
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
+
+    if (localStorage.getItem('type') === '1') {
+      this.setState({ userClass: 'col-lg-6 col-md-6 col-sm-12 col-xs-12 info-box' });
+    }
+
+    if (localStorage.getItem('type') === '0') {
+      this.setState({ userClass: 'col-lg-12 col-md-12 col-sm-12 col-xs-12 info-box' });
+    }
   }
 
   handleKeyPress(e) {
@@ -54,130 +63,151 @@ class Signup extends Component {
 
   render() {
     return (
-      <div className="propertySearch">
-        Search Property:
-        {/* <form> */}
-          <input 
-            id="searchInputField"
-            name="searchInput" 
-            placeholder="Enter Property Name Here"
-            onChange={this.inputChangeHandler}
-            onKeyUp={this.handleKeyPress}
-            className="signUpInnerInputs"
-          />
-          <button className="signUpButtons" onClick={this.searchClickHandler}>Search</button>
-        {/* </form> */}
-        {
-          !this.props.searchResults.length ? null :
-          this.props.userType === "0" ?
-            <div>
-              {
-                this.props.searchResults[0] === "No Results" ? 
-                <div>
-                  No results, please try again.
-                </div>
-                : 
-                this.props.searchResults.map(property => 
-                  <div key={property.id}>
-                    <div>
-                      {property.name}
-                    </div>
-                    <div>
-                      {property.address}
-                    </div>
-                    {
-                      this.props.propertyID === property.id ? 
-                      <button className="signUpButtons" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
-                      :
-                      <button className="signUpButtons" onClick={() => { this.props.selectProperty(property.id) }}>Select Property</button>
-                    }
-                  </div>
-                )
-              }
-            </div>
-          :
-          this.props.userType === "1" ?
-            <div>
-              {
-                this.props.searchResults[0] === "No Results" ? 
-                <div>
-                  No results, please try again.
-                </div>
-                : 
-                this.props.searchResults.map(property => 
-                  <div key={property.id}>
-                    <div>
-                      {property.name}
-                    </div>
-                    <div>
-                      {property.address}
-                    </div>
-                    <div>
-                      Property Secret:
-                      {
-                        this.props.propertyID === property.id ? null :
-                        <input 
-                          id="secretInputField"
-                          type="password"
-                          name="secret" 
-                          placeholder="Enter Secret Key"
-                          onChange={this.inputChangeHandler}
-                          className="signUpInnerInputs"
-                        />
-                      }
-                      { this.props.secretErrorState ? <div>INVALID SECRET KEY</div> : null }
-                    </div>
-                    {
-                      this.props.propertyID === property.id ? 
-                      <button className="signUpButtons" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
-                      :
-                      <button className="signUpButtons" onClick={() => { this.props.selectProperty(property.id, this.state.secret)}}>Select Property</button>
-                    }
-                  </div>
-                )
-              }
-            </div>
-          : null
-        }
-        {
-          this.props.userType === "1" ?
-            <div>
-              or Add New Property:
-              <form action="">
-                <div>
-                  Property Name:
-                  <input 
-                    onChange={this.props.inputChangeHandler}
-                    name="propName" 
-                    placeholder="Enter Property Name"
-                    className="signUpInnerInputs"
-                  />
-                </div>
+      <div className="container">
+      <div className="row">
+        <div className={this.state.userClass}>
+          <div>
 
+          </div>
+          <span className="description">
+            Search Property:
+          </span>
+          <div>
+            <input 
+              id="searchInputField"
+              name="searchInput" 
+              placeholder="Enter Property Name Here"
+              onChange={this.inputChangeHandler}
+              onKeyUp={this.handleKeyPress}
+              className="search"
+            />
+            <button className="profile-btn search" onClick={this.searchClickHandler}>Search</button>
+          </div>
+            {
+              !this.props.searchResults.length ? null :
+              this.props.userType === "0" ?
                 <div>
-                  Property Address:
-                  <input 
-                    onChange={this.props.inputChangeHandler}
-                    name="propAddress" 
-                    placeholder="Enter Property Address"
-                    className="signUpInnerInputs"
-                  />
+                  {
+                    this.props.searchResults[0] === "No Results" ? 
+                    <div>
+                      No results, please try again.
+                    </div>
+                    : 
+                    this.props.searchResults.map(property => 
+                      <div key={property.id}>
+                        <div>
+                          {property.name}
+                        </div>
+                        <div>
+                          {property.address}
+                        </div>
+                        {
+                          this.props.propertyID === property.id ? 
+                          <button className="signUpButtons" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
+                          :
+                          <button className="signUpButtons" onClick={() => { this.props.selectProperty(property.id) }}>Select Property</button>
+                        }
+                      </div>
+                    )
+                  }
                 </div>
+              :
+              this.props.userType === "1" ?
+                <div>
+                  {
+                    this.props.searchResults[0] === "No Results" ? 
+                    <div>
+                      No results, please try again.
+                    </div>
+                    : 
+                    this.props.searchResults.map(property => 
+                      <div key={property.id}>
+                        <div>
+                          {property.name}
+                        </div>
+                        <div>
+                          {property.address}
+                        </div>
+                        <div>
+                          Property Secret:
+                          {
+                            this.props.propertyID === property.id ? null :
+                            <input 
+                              id="secretInputField"
+                              type="password"
+                              name="secret" 
+                              placeholder="Enter Secret Key"
+                              onChange={this.inputChangeHandler}
+                              className="signUpInnerInputs"
+                            />
+                          }
+                          { this.props.secretErrorState ? <div>INVALID SECRET KEY</div> : null }
+                        </div>
+                        {
+                          this.props.propertyID === property.id ? 
+                          <button className="signUpButtons" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
+                          :
+                          <button className="signUpButtons" onClick={() => { this.props.selectProperty(property.id, this.state.secret)}}>Select Property</button>
+                        }
+                      </div>
+                    )
+                  }
+                </div>
+              : null
+            }
+          </div>
 
+          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            {
+              this.props.userType === "1" ?
                 <div>
-                  Create Secret Key (This will allow you to invite others to manage the property):
-                  <input 
-                    type="password"
-                    onChange={this.props.inputChangeHandler}
-                    name="propSecret" 
-                    placeholder="Enter Secret Key"
-                    className="signUpInnerInputs"
-                  />
+                  <h5>or Add New Property:</h5>
+                  <form action="">
+                    <div>
+                      <span className="description">
+                        Property Name:
+                      </span>
+                      <input 
+                        onChange={this.props.inputChangeHandler}
+                        name="propName" 
+                        placeholder="Enter Property Name"
+                        className="add-prop-input"
+                      />
+                    </div>
+
+                    <div>
+                      <span className="description">
+                        Property Address:
+                      </span>
+                      <input 
+                        onChange={this.props.inputChangeHandler}
+                        name="propAddress" 
+                        placeholder="Enter Property Address"
+                        className="add-prop-input"
+                      />
+                    </div>
+
+                    <div>
+                      <span className="description">
+                        Create Secret Key:
+                      </span><br/>
+                      <span className="side-note">
+                        (This will allow you to invite others to manage the property)
+                      </span>
+                      <input 
+                        type="password"
+                        onChange={this.props.inputChangeHandler}
+                        name="propSecret" 
+                        placeholder="Enter Secret Key"
+                        className="add-prop-input"
+                      />
+                    </div>
+                  </form>
                 </div>
-              </form>
-            </div>
-            : null
-        }
+                : null
+            }
+          </div>
+        </div>
       </div>
     );
   }
@@ -196,4 +226,4 @@ const matchDispatchToProps = dispatch => {
   }, dispatch);
 };
 
-export default connect(mapStateToProps, matchDispatchToProps)(Signup);
+export default connect(mapStateToProps, matchDispatchToProps)(PropertySearch);

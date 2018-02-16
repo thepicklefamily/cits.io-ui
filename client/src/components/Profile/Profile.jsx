@@ -380,7 +380,7 @@ class Profile extends Component {
           {
             // search properties
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <h3 className="title">Add Property</h3>
+              <h3 className="title">Add Property to Account</h3>
               <PropertySearch 
                 propertyID={this.state.propertyID}
                 selectProperty={this.selectProperty}
@@ -399,7 +399,14 @@ class Profile extends Component {
                   />
                 </div>
               }
-              <button onClick={this.addPropertyHandler}>Add Property to Account</button>
+              <center>
+                <button 
+                  onClick={this.addPropertyHandler}
+                  className="add-prop-btn"
+                >
+                  Add Property to Account
+                </button>
+              </center>
             </div>
           }
         </div>
