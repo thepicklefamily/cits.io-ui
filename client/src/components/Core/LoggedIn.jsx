@@ -3,6 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 
+import { setCurrentViewArticle } from "../../actions/setCurrentViewArticle";
+import { setCurrentArticlePosts } from "../../actions/setCurrentArticlePosts";
+
 import './Core.css';
 
 class LoggedIn extends Component {
@@ -55,6 +58,10 @@ class LoggedIn extends Component {
                   <p className="content">{`${this.state.articles[0].content.substring(0, 100)}...`}</p>
                   <button 
                     className="see-through"
+                    onClick={ () => {
+                      this.props.setCurrentViewArticle(this.state.articles[0])
+                      this.props.goToPage(`/${this.state.articles[0].id}`)
+                    }}
                   >
                     Read More
                   </button>
@@ -63,11 +70,15 @@ class LoggedIn extends Component {
 
               <div className="small-articles row">
                 {
-                  this.state.articles.slice(1).map(article => 
+                  this.state.articles.slice(1, 5).map(article => 
                     <div key={article.id} className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                       <img 
                         className="col-lg-12 col-md-12 col-sm-12 col-xs-12 sub-image"
                         src={article.photo_url}
+                        onClick={ () => {
+                          this.props.setCurrentViewArticle(article)
+                          this.props.goToPage(`/${article.id}`)
+                        }}
                       />
 
                       <h6 className="small-title">{`${article.title.substring(0, 20)}...`}</h6>
@@ -96,13 +107,15 @@ class LoggedIn extends Component {
 
 const mapStateToProps = state => {
   return {
-    //
+    currentViewArticle: state.currentViewArticle,
+    currentArticlePosts: state.currentArticlePosts
   }
 };
 
 const matchDispatchToProps = dispatch => {
   return bindActionCreators({
-    //
+    setCurrentViewArticle: setCurrentViewArticle,
+    setCurrentArticlePosts: setCurrentArticlePosts
   }, dispatch);
 };
 
