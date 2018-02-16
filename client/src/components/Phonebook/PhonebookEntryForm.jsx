@@ -103,7 +103,7 @@ class PhonebookEntryForm extends Component {
           Service:<br/><input className='phonebookFormInput' type='text' name='service'></input>
         </div>
         <div className='phonebookFormRow'>
-          Phone Number:<br/><input className='phonebookFormInput' type='text' name='contactinfoone' maxLength='3' min='100' max='999'/> <input className='phonebookFormInput' type='text' name='contactinfotwo' maxLength='3' min='100' max='999'/><input className='phonebookFormInput' type='text' name='contactinfothree' maxLength='4' min='1000' max='9999'/>
+          Phone Number:<br/><input className='phonebookFormInputOne' type='text' name='contactinfoone' maxLength='3' min='100' max='999'/> <input className='phonebookFormInputTwo' type='text' name='contactinfotwo' maxLength='3' min='100' max='999'/> <input className='phonebookFormInputThree' type='text' name='contactinfothree' maxLength='4' min='1000' max='9999'/>
         </div>
         <br/><br/>
         {this.state.phonebookError ? <div className='phonebookError'>Please check your input fields and try again!</div> : null}
