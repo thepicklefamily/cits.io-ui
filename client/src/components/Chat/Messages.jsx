@@ -95,7 +95,7 @@ class Messages extends Component {
       .then((res) => {
         this.setState({
           messages: res.data
-        })
+        }, this.updateScroll)
       })
       .catch(() => {
         console.log('error fetching messages.  WHOOPS!');
@@ -289,7 +289,7 @@ class Messages extends Component {
           </input>
           <button onClick={this.handleClick} type="submit">Send</button>
         </div>
-        {/* {this.updateScroll()} */}
+        {this.updateScroll()}
       </div>
     )
   }
