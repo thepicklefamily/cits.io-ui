@@ -21,7 +21,7 @@ class PhonebookEntry extends Component {
           <div className='phonebookEntryRowCompany'>
             {this.props.data.company} <br/>
             <div className='phonebookEntryRowService'>
-              {this.props.data.service} <br/>
+              Service: {this.props.data.service} <br/>
             </div>
           </div>
           {localStorage.getItem('type') === '1' ? 

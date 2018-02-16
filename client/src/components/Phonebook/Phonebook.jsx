@@ -39,11 +39,11 @@ class Phonebook extends Component {
         {this.props.phonebookEditState === '0' ? <h2 id='phonebookWord'>PHONEBOOK INDEX</h2> : <h2 id='phonebookWord'>PHONEBOOK ENTRY FORM</h2>}
         <div className='phonebookInner'>
           {this.props.phonebookEditState === '0' && localStorage.getItem('type') === '1' ? 
-              <button className='phonebookAddButtons' onClick={this.onAddHandler.bind(this)}>CREATE A NEW ENTRY</button> 
+              <button className='phonebookAddButtons' onClick={this.onAddHandler.bind(this)}>Add New Entry</button> 
             : 
             null
           }
-          <br/><br/>
+          <br/>
           <div id='phonebookContainer' className='hiddenscrollbars'>
           {(this.props.currentPhonebookEntry && this.props.phonebookEditState !== '0' && localStorage.getItem('type') === '1' ? 
             <div className='phonebookInnerForm'>

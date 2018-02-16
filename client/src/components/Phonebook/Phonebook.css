@@ -17,14 +17,14 @@
   background-size: cover;
   color: #F1F1F1;
   /* background: linear-gradient(#48832B, rgba(6, 241, 14, 0.1)); */
-  margin: 3vh auto 2vh auto;
-  width: 80%;
+  margin: 3vh auto auto auto;
+  width: 50%;
   height: 70%;
   background-repeat: no-repeat;
   overflow: hidden;
   text-align: center;
   /* border: 1px solid black; */
-  padding: 20px 0 60px 0;
+  padding: 20px 0 200px 0;
 }
 .phonebookInnerForm {
   /* background-image: url(http://worldartsme.com/images/paper-spiral-notebook-clipart-1.jpg); */
@@ -33,25 +33,30 @@
   color: #48832B;
   /* background: linear-gradient(#48832B, rgba(6, 241, 14, 0.1)); */
   margin: 50px auto 2vh auto;
-  width: 40%;
-  height: 70%;
+  width: 80%;
+  height: 100%;
   background-repeat: no-repeat;
   overflow: hidden;
   text-align: center;
   /* border: 1px solid black; */
-  padding: 20px 0 60px 0;
+  /* padding: -30px 0 0 0; */
+}
+.phonebookFormContainer {
+  /* display: block; */
+  text-align: center;
+  display: inline;
 }
 /* .phonebookInner:hover {
   background: linear-gradient(#48832B, rgba(31, 114, 34, 0.1));
 } */
 .phonebookMapEntry {
   margin: 0 auto 0 auto;
-  padding: 10px 0 15px 0;
-  border-width: 0 1px 1px 1px;
+  padding: 10px 0 30px 0;
+  /* border-width: 0 1px 1px 1px;
   border-top: 1px solid #48832B;
   border-bottom: 1px solid #48832B;
   border-left: 2px solid #48832B;
-  border-right: 2px solid #48832B;
+  border-right: 2px solid #48832B; */
   background-color: white;
   /* border-color: #e0e0e0; */
   /* opacity: 1.0 !important; */
@@ -93,6 +98,8 @@
   /* background-color: #48832B; */
   padding: 10px 10px 0 5px;
   font-style: bold;
+  color: #48832B;
+  /* text-decoration: #48832B overline; */
   font-size: large;
   float: left;
   /* border: 1px solid black; */
@@ -100,6 +107,7 @@
 .phonebookEntryRowService {
   padding: 0 0 0 0;
   float: left;
+  /* text-decoration: #48832B underline; */
   font-style: italic;
   font-size: xx-small;
   /* border: 1px solid black; */
@@ -114,7 +122,7 @@
   height: 20px;
 }
 .phonebookEntryRowNumber {
-  margin: 15px -10px 0 0;
+  margin: 15px 0 0 0;
   font-size: small;
   float: right;
   /* border: 1px solid black; */
@@ -132,15 +140,15 @@
   border: 1px transparent;
   /* padding: 10px 30px; */
   float: right;
-  margin: 15px -70px 0 0;
+  margin: 15px -40px 0 0;
 }
 .phonebookAddButtons {
   color: #fff;
   font-size: small;
   border: none;
   background-color: #48832B;
-  padding: 0 30px;
-  margin: -50px 0 0 0;
+  padding: 10px 30px;
+  margin: 0 0 10px 0;
   /* top right bottom left */
 }
 #phonebookWord {
@@ -159,6 +167,24 @@
 }
 .phonebookFormRow {
   color: #787878;
+  text-align: right;
+  display: block;
+  margin: 0 33% 0 0 ;
+}
+.phonebookFormButtons {
+  color: #fff;
+  background-color: #48832B;
+  /* display: block; */
+  /* font-size: small; */
+  height: 25px;
+  width: 45px;
+  /* height: 20px; */
+  text-align: center;
+  font-size: xx-small;
+  border: 1px transparent;
+  /* padding: 10px 30px; */
+  /* float: right; */
+  /* margin: 15px -40px 0 0; */
 }
 .phonebookError {
   color: red;

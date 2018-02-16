@@ -84,7 +84,7 @@ class PhonebookEntryForm extends Component {
 
   render() {
     return (
-      <div>
+      <div className='phonebookFormContainer'>
         <br/>
         {this.props.phonebookEditState !== '2' ? <div id='phonebookFormWord'>Please fill out the following fields to create a new phonebook entry!</div> : <div id='phonebookFormWord'>Please edit the following fields to update an existing phonebook entry!</div>}
         <br/>
@@ -99,22 +99,25 @@ class PhonebookEntryForm extends Component {
         <div className='phonebookFormRow'>
           Contact Info: <input type='text' name='contactinfo'></input>
         </div>
-        <br/>
+        <br/><br/>
         {this.state.phonebookError ? <div className='phonebookError'>Please check your input fields and try again!</div> : null}
         {this.props.phonebookEditState === '1' ? 
-          <button onClick={this.onAddHandler.bind(this)}>ADD</button> 
+          <div>
+          <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>Add</button> 
+          <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button>
+          </div>
           : 
           null
         }
         {this.props.phonebookEditState === '2' ? 
           <div>
-            <button onClick={this.onAddHandler.bind(this)}>UPDATE</button>
-            <button onClick={this.onDeleteHandler.bind(this)}>DELETE</button>
+            <button className='phonebookFormButtons' onClick={this.onAddHandler.bind(this)}>UPDATE</button>
+            <button className='phonebookFormButtons' onClick={this.onDeleteHandler.bind(this)}>DELETE</button>
+            <button className='phonebookFormButtons' onClick={this.onCancelHandler.bind(this)}>Cancel</button>
           </div> 
           : 
           null
         }
-        <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button>
         <br/><br/>
       </div>
     );
