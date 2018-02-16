@@ -31,7 +31,7 @@ input::placeholder {
   color: #aeaeae;
 }
 
-.prop-name, .description, .info {
+.prop-name, .prof-description, .info {
   color: #616161;
 }
 
@@ -40,7 +40,7 @@ input::placeholder {
   font-weight: bold;
 }
 
-.description {
+.prof-description {
   font-weight: bold;
 }
 
