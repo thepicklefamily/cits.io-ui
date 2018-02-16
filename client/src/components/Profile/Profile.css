@@ -31,7 +31,7 @@ input::placeholder {
   color: #aeaeae;
 }
 
-.prop-name, .description, .info {
+.prop-name, .prof-description, .info {
   color: #616161;
 }
 
@@ -40,17 +40,13 @@ input::placeholder {
   font-weight: bold;
 }
 
-.description {
+.prof-description {
   font-weight: bold;
 }
 
 .side-note {
   color: #aeaeae;
   font-size: 14px;
-}
-
-h3 {
-  margin-bottom: 15px;
 }
 
 .profile-btn, .properties-btn {
@@ -147,4 +143,12 @@ h3 {
 .unit-input {
   width: 300px;
   margin-bottom: -15px;
+}
+
+h5 {
+  margin-bottom: 25px;
+}
+
+h3 {
+  margin-bottom: -1px;
 }

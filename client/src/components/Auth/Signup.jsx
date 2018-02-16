@@ -163,114 +163,109 @@ class Signup extends Component {
 
   render() {
     return (
-      <div className="signUpMain">
-        <h2 id="signUpWord">SIGN UP</h2>
-        {/* Standard form displayed on page load */}
-        <div className="signUpInner">
-          <form action="/api/auth/signup" method="post">
-            <div>
-              Select User Type:
-            <select
-                className="signUpInnerInputs"
-                name="userType"
-                defaultValue="select"
-                onChange={this.inputChangeHandler}
-              >
-                <option name="select" value="">Select User Type</option>
-                <option name="tenant" value="0">Tenant</option>
-                <option name="manager" value="1">Manager</option>
-              </select>
-            </div>
+      <div className="container">
+        <h3 className="title">SIGN UP</h3>
+        <div className="rows">
+          {/* Standard form displayed on page load */}
+          <div className="col-lg-7 col-md-10 col-sm-12 col-xs-12 signUpInner">
+            <form action="/api/auth/signup" method="post">
+              <div>
+                Select User Type:
+                <select
+                  className="signUpInnerSelect"
+                  name="userType"
+                  defaultValue="select"
+                  onChange={this.inputChangeHandler}
+                >
+                  <option name="select" value="">Select User Type</option>
+                  <option name="tenant" value="0">Tenant</option>
+                  <option name="manager" value="1">Manager</option>
+                </select>
+              </div>
 
-            <div>
-              Full Name:
-            <input
-                name="full_name"
-                placeholder="Enter Full Name"
-                onChange={this.inputChangeHandler}
-                className="signUpInnerInputs"
-              />
-            </div>
-            <div>
+              <div>
+                Full Name:
               <input
-                name="email"
-                placeholder="Enter Email"
-                onChange={this.inputChangeHandler}
-                className="signUpInnerInputs"
-              />
-            </div>
-            <div>
-              <input
-                name="username"
-                placeholder="Enter Username"
-                onChange={this.inputChangeHandler}
-                className="signUpInnerInputs"
-              />
-            </div>
-            <div>
-              <input
-                name="phone"
-                placeholder="Phone Number"
-                onChange={this.inputChangeHandler}
-                className="signUpInnerInputs"
-              />
-            </div>
-            <div>
-              <input
-                type="password"
-                name="password"
-                placeholder="Enter Password"
-                onChange={this.inputChangeHandler}
-                className="signUpInnerInputs"
-              />
-            </div>
-          </form>
+                  name="full_name"
+                  placeholder="Enter Full Name"
+                  onChange={this.inputChangeHandler}
+                  className="signUpInnerInputs"
+                />
+              </div>
+              <div>
+                <input
+                  name="email"
+                  placeholder="Enter Email"
+                  onChange={this.inputChangeHandler}
+                  className="signUpInnerInputs"
+                />
+              </div>
+              <div>
+                <input
+                  name="username"
+                  placeholder="Enter Username"
+                  onChange={this.inputChangeHandler}
+                  className="signUpInnerInputs"
+                />
+              </div>
+              <div>
+                <input
+                  name="phone"
+                  placeholder="Phone Number"
+                  onChange={this.inputChangeHandler}
+                  className="signUpInnerInputs"
+                />
+              </div>
+              <div>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Enter Password"
+                  onChange={this.inputChangeHandler}
+                  className="signUpInnerInputs"
+                />
+              </div>
+            </form>
 
-          {/* Conditional properties form based on selected user type */}
-          {
-            !this.state.userType ? null :
+            {/* Conditional properties form based on selected user type */}
+            {
+              !this.state.userType ? null :
               this.state.userType === "0" ?
-                <div>
-                  Property (Tenant):
-              <PropertySearch
-                    propertyID={this.state.propertyID}
-                    selectProperty={this.selectProperty}
-                    inputChangeHandler={this.inputChangeHandler}
-                    userType={this.state.userType}
-                  />
-                  {
-                    !this.state.propertyID ? null :
-                      <div>
-                        Apartment Number/Unit:
-                  <input
-                          name="apt_unit"
-                          placeholder="Enter Unit Number"
-                          onChange={this.inputChangeHandler}
-                          className="signUpInnerInputs"
-                        />
-                      </div>
-                  }
-                </div>
-                :
-                this.state.userType === "1" ?
-                  <div>
-                    Property (Manager):
-              <PropertySearch
-                      propertyID={this.state.propertyID}
-                      selectProperty={this.selectProperty}
-                      inputChangeHandler={this.inputChangeHandler}
-                      userType={this.state.userType}
-                    />
-                  </div>
-                  : null
-          }
-          { this.state.signupError ? <div className="signUpError">Please check your input fields and try again!</div> : null }
-          {
-            !this.state.userType ? null :
+              <div>
+                Property (Tenant):
+                <PropertySearch
+                  propertyID={this.state.propertyID}
+                  selectProperty={this.selectProperty}
+                  inputChangeHandler={this.inputChangeHandler}
+                  userType={this.state.userType}
+                />
+              </div>
+              :
+              this.state.userType === "1" ?
+              <div>
+                Property (Manager):
+                <PropertySearch
+                  propertyID={this.state.propertyID}
+                  selectProperty={this.selectProperty}
+                  inputChangeHandler={this.inputChangeHandler}
+                  userType={this.state.userType}
+                />
+              </div>
+              : null
+            }
+            { this.state.signupError ? <div className="signUpError">Please check your input fields and try again!</div> : null }
+            {
+              !this.state.userType ? 
+              <div className="only-login">
+                <a onClick={() => {this.props.history.push('/login')}} id="orSignUp">or Login</a>
+              </div>
+              :
               <div>
                 <button className="signUpButtons" onClick={this.submitHandler}>Sign Up</button>
+                <a onClick={() => {this.props.history.push('/login')}} id="orSignUp">or Login</a>
               </div>
-          }
+            }
+          </div>
         </div>
       </div>
     );

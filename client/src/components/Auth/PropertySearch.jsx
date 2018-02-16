@@ -55,18 +55,18 @@ class Signup extends Component {
   render() {
     return (
       <div className="propertySearch">
+        <hr/><br/>
         Search Property:
-        {/* <form> */}
-          <input 
-            id="searchInputField"
-            name="searchInput" 
-            placeholder="Enter Property Name Here"
-            onChange={this.inputChangeHandler}
-            onKeyUp={this.handleKeyPress}
-            className="signUpInnerInputs"
-          />
-          <button className="signUpButtons" onClick={this.searchClickHandler}>Search</button>
-        {/* </form> */}
+        <input 
+          id="searchInputField"
+          name="searchInput" 
+          placeholder="Enter Property Name Here"
+          onChange={this.inputChangeHandler}
+          onKeyUp={this.handleKeyPress}
+          className="signUpInnerInputs"
+        />
+        <button className="signUpButtons" onClick={this.searchClickHandler}>Search</button>
+        <br/><br/><hr/><br/>
         {
           !this.props.searchResults.length ? null :
           this.props.userType === "0" ?
@@ -75,6 +75,7 @@ class Signup extends Component {
                 this.props.searchResults[0] === "No Results" ? 
                 <div>
                   No results, please try again.
+                  <br/><hr/><br/>
                 </div>
                 : 
                 this.props.searchResults.map(property => 
@@ -85,12 +86,27 @@ class Signup extends Component {
                     <div>
                       {property.address}
                     </div>
+
+                    {
+                      !this.props.propertyID ? null :
+                      <div>
+                        Apartment Number/Unit:
+                        <input
+                          name="apt_unit"
+                          placeholder="Enter Unit Number"
+                          onChange={this.props.inputChangeHandler}
+                          className="signUpInnerInputs"
+                        />
+                      </div>
+                    }
+
                     {
                       this.props.propertyID === property.id ? 
                       <button className="signUpButtons" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
                       :
-                      <button className="signUpButtons" onClick={() => { this.props.selectProperty(property.id) }}>Select Property</button>
+                      <button className="signUpButtons-clear" onClick={() => { this.props.selectProperty(property.id) }}>Select Property</button>
                     }
+                    <br/><br/><hr/><br/>
                   </div>
                 )
               }
@@ -102,6 +118,7 @@ class Signup extends Component {
                 this.props.searchResults[0] === "No Results" ? 
                 <div>
                   No results, please try again.
+                  <br/><hr/><br/>
                 </div>
                 : 
                 this.props.searchResults.map(property => 
@@ -131,8 +148,8 @@ class Signup extends Component {
                       this.props.propertyID === property.id ? 
                       <button className="signUpButtons" onClick={() => { this.props.selectProperty(null)}}>Unselect Property</button>
                       :
-                      <button className="signUpButtons" onClick={() => { this.props.selectProperty(property.id, this.state.secret)}}>Select Property</button>
-                    }
+                      <button className="signUpButtons-clear" onClick={() => { this.props.selectProperty(property.id, this.state.secret)}}>Select Property</button>
+                    }<br/><br/><hr/><br/>
                   </div>
                 )
               }
@@ -141,42 +158,46 @@ class Signup extends Component {
         }
         {
           this.props.userType === "1" ?
-            <div>
-              or Add New Property:
-              <form action="">
-                <div>
-                  Property Name:
-                  <input 
-                    onChange={this.props.inputChangeHandler}
-                    name="propName" 
-                    placeholder="Enter Property Name"
-                    className="signUpInnerInputs"
-                  />
-                </div>
+          <div>
+            <h5>or Add New Property</h5>
+            <form action="">
+              <div className="prop-field">
+                Property Name:
+                <input 
+                  onChange={this.props.inputChangeHandler}
+                  name="propName" 
+                  placeholder="Enter Property Name"
+                  className="signUpInnerInputs"
+                />
+              </div>
 
-                <div>
-                  Property Address:
-                  <input 
-                    onChange={this.props.inputChangeHandler}
-                    name="propAddress" 
-                    placeholder="Enter Property Address"
-                    className="signUpInnerInputs"
-                  />
-                </div>
+              <div className="prop-field">
+                Property Address:
+                <input 
+                  onChange={this.props.inputChangeHandler}
+                  name="propAddress" 
+                  placeholder="Enter Property Address"
+                  className="signUpInnerInputs"
+                />
+              </div>
 
-                <div>
-                  Create Secret Key (This will allow you to invite others to manage the property):
-                  <input 
-                    type="password"
-                    onChange={this.props.inputChangeHandler}
-                    name="propSecret" 
-                    placeholder="Enter Secret Key"
-                    className="signUpInnerInputs"
-                  />
+
+              <div className="prop-field">
+                Create Secret Key:
+                <div className="side-note">
+                  (This will allow you to invite others to manage the property)
                 </div>
-              </form>
-            </div>
-            : null
+                <input 
+                  type="password"
+                  onChange={this.props.inputChangeHandler}
+                  name="propSecret" 
+                  placeholder="Enter Secret Key"
+                  className="signUpInnerInputs"
+                />
+              </div>
+            </form>
+          </div>
+          : null
         }
       </div>
     );

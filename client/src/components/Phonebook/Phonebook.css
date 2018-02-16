@@ -217,3 +217,13 @@
 /* --
   PHONEBOOK
 -- */
+
+
+h3 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+}
+
+h5 {
+  font-family: Arial, Helvetica, sans-serif;
+}

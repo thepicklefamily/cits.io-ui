@@ -26,7 +26,7 @@ class LoggedOut extends Component {
         </div>
 
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 easy">
-          <h4>EASY TO USE</h4>
+          <h3>EASY TO USE</h3>
         </div>
 
         <div className="container">

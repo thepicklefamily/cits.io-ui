@@ -206,24 +206,24 @@ class Profile extends Component {
             <div>
               {this.props.profileEditState === 0 ? 
                 <div>
-                  <h3>Profile Info</h3>
+                  <h5>Profile Info</h5>
                   <div className="info-box">
-                    <span className="description">
+                    <span className="prof-description">
                       Full Name:
                     </span>
                     <div className="info">{localStorage.getItem('full_name')}</div><hr/>
 
-                    <span className="description">
+                    <span className="prof-description">
                       Email:
                     </span>
                     <div className="info">{localStorage.getItem('email')}</div><hr/>
                     
-                    <span className="description">
+                    <span className="prof-description">
                     Username:
                     </span>
                     <div className="info">{localStorage.getItem('username')}</div><hr/>
 
-                    <span className="description">
+                    <span className="prof-description">
                     Phone Number:
                     </span>
                     <div className="info">{localStorage.getItem('phonenumber')}</div>
@@ -238,9 +238,9 @@ class Profile extends Component {
                 </div> 
                 : 
                 <div>
-                  <h3>Edit Profile Info</h3>
+                  <h5>Edit Profile Info</h5>
                   <div className="info-box">
-                    <span className="description">
+                    <span className="prof-description">
                       Full Name: 
                     </span>
                     <div>
@@ -253,7 +253,7 @@ class Profile extends Component {
                       />
                     </div>
 
-                    <span className="description">
+                    <span className="prof-description">
                       Email: 
                     </span>
                     <div>
@@ -266,7 +266,7 @@ class Profile extends Component {
                       />
                     </div>
 
-                    <span className="description">
+                    <span className="prof-description">
                       Username: 
                     </span>
                     <div>
@@ -279,7 +279,7 @@ class Profile extends Component {
                       />
                     </div>
 
-                    <span className="description">
+                    <span className="prof-description">
                       Phone Number:
                     </span>
                     <div>
@@ -295,7 +295,7 @@ class Profile extends Component {
                     <h5>UPDATE PASSWORD:</h5><br/>
                     <div>
                       <div>
-                        <span className="description">
+                        <span className="prof-description">
                           Current password:
                         </span>
                         <div>
@@ -309,7 +309,7 @@ class Profile extends Component {
                       </div>
 
                       <div>
-                        <span className="description">
+                        <span className="prof-description">
                           New password:
                         </span>
                         <div>
@@ -323,7 +323,7 @@ class Profile extends Component {
                       </div>
 
                       <div>
-                        <span className="description">
+                        <span className="prof-description">
                           Confirm new password:
                         </span>
                         <div>
@@ -361,7 +361,7 @@ class Profile extends Component {
           {
             // your properties
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <h3>Properties Info</h3>
+              <h5>Properties Info</h5>
               <div>
                 <ul>
                   {
