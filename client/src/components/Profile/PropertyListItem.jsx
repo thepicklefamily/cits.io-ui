@@ -136,40 +136,45 @@ class PropertyListItem extends Component {
 
   render() {
     return (
-      <li>
+      <li className="info-box">
         {
           localStorage.getItem('type') === '0' ?
           <div>
-            <div>
+            <div className="prop-name">
               {this.props.property.name}
             </div>
-            <div>
+            <div className="info">
               {this.props.property.address}
             </div>
             {
               this.state.edit === 0 ? 
               <div>
                 <div>
-                  Unit#: {this.props.property.unit}
+                  <span className="description">Unit: </span>
+                  <span className="info">{this.props.property.unit}</span>
                 </div>
-                <button onClick={this.editHandler}>Edit</button>
-                <button onClick={this.removeHandler}>Remove</button>
+                <button className="properties-btn" onClick={this.editHandler}>Edit</button>
+                <button className="properties-btn" onClick={this.removeHandler}>Remove</button>
               </div>
               :
               <div>
+                <span className="description">
+                  Unit:
+                </span>
                 <input 
                   type="text"
                   name="unit"
+                  placeholder="Enter unit # here"
                   defaultValue={this.props.property.unit}
                   onChange={this.inputChangeHandler}
                 />
-                <button onClick={this.saveHandler}>SAVE</button>
-                <button onClick={this.cancelHandler}>CANCEL</button>
+                <button className="properties-btn" onClick={this.saveHandler}>SAVE</button>
+                <button className="properties-btn" onClick={this.cancelHandler}>CANCEL</button>
               </div>
             }
             {
               localStorage.getItem('propertyId') === this.props.property.id.toString() ? null :
-              <button onClick={this.setCurrentProperty}>Set as Current Property</button>
+              <button className="current-btn" onClick={this.setCurrentProperty}>Set as Current Property</button>
             }
           </div>
           :
@@ -177,85 +182,97 @@ class PropertyListItem extends Component {
             {
               this.state.edit === 0 ?
               <div>
-                <div>
+                <div className="prop-name">
                   {this.props.property.name}
                 </div>
-                <div>
+                <div className="info">
                   {this.props.property.address}
                 </div>
-                <button onClick={this.editHandler}>Edit</button>
-                <button onClick={this.removeHandler}>Remove From Account</button>
-                <button onClick={this.deletePropertyHandler}>Delete Property</button>
+                <button className="properties-btn" onClick={this.editHandler}>Edit</button>
+                <button className="properties-btn" onClick={this.removeHandler}>Remove From Account</button>
+                <button className="delete-btn" onClick={this.deletePropertyHandler}>Delete Property</button>
               </div>
               :
               <div>
-                NAME:
+                <span className="description">
+                  Name: 
+                </span>
                 <div>
                   <input 
                     type="text"
                     name="propName"
+                    placeholder="Enter property name"
                     defaultValue={this.props.property.name}
                     onChange={this.inputChangeHandler}
                   />
-                </div><br/>
+                </div>
 
-                ADDRESS:
+                <span className="description">
+                  Address: 
+                </span>
                 <div>
                   <input 
                     type="text"
                     name="propAddress"
+                    placeholder="Enter property address"
                     defaultValue={this.props.property.address}
                     onChange={this.inputChangeHandler}
                   />
-                </div><br/>
+                </div><hr/><br/>
 
-                SECRET KEY:
+                <h5>UPDATE SECRET KEY:</h5><br/>
                 <div>
                   <div>
-                    Your password:
+                  <span className="description">
+                    Your Password: 
+                  </span>
                     <div>
                       <input 
-                        type="text"
+                        type="password"
                         name="password"
                         placeholder="Enter your password"
                         onChange={this.inputChangeHandler}
                       />
                     </div>
-                  </div><br/>
+                  </div>
 
                   <div>
-                    New secret key:
+                    <span className="description">
+                      New secret key:
+                    </span>
                     <div>
                       <input 
-                        type="text"
+                        type="password"
                         name="secretKey"
                         placeholder="Enter new secret key"
                         onChange={this.inputChangeHandler}
                       />
                     </div>
-                  </div><br/>
+                  </div>
 
                   <div>
-                    Confirm new secret key:
+                    <span className="description">
+                      Confirm new secret key:
+                    </span>
                     <div>
                       <input 
-                        type="text"
+                        type="password"
                         name="confirmKey"
                         placeholder="Confirm secret key"
                         onChange={this.inputChangeHandler}
                       />
                     </div>
                   </div>
-                </div><br/><br/>
+                </div>
 
 
-                <button onClick={this.propertyUpdateHandler}>SAVE CHANGES</button>
-                <button onClick={this.cancelHandler}>CANCEL</button>
+                <button className="properties-btn" onClick={this.propertyUpdateHandler}>SAVE CHANGES</button>
+                <button className="properties-btn" onClick={this.cancelHandler}>CANCEL</button>
               </div>
             }
             {
               localStorage.getItem('propertyId') === this.props.property.id.toString() ? null :
-              <button onClick={this.setCurrentProperty}>Set as Current Property</button>
+              <button className="current-btn" onClick={this.setCurrentProperty}>Set as Current Property</button>
             }
           </div>
         }
