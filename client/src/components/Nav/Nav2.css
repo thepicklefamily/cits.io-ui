@@ -28,8 +28,12 @@
   display: in-line;
 }
 
-#account:hover, #tickets:hover, #chat:hover, #articles:hover, #phonebook:hover {
+#tickets:hover, #chat:hover, #articles:hover, #phonebook:hover {
   height: 28px;
+}
+
+#account, #castlePNG {
+  color: #48822D;
 }
 
 .navi {
@@ -44,7 +48,7 @@
 
 .dropdown-content {
   transition: background-color 0.5s ease;
-  margin-left: -100px;
+  margin-left: -110px;
   padding-top: 25px;
   text-align: center;
   display: none;

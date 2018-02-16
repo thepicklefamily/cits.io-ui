@@ -28,6 +28,7 @@ class Nav extends Component {
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
     this.propDropdownHandler = this.propDropdownHandler.bind(this);
+    this.logoutHandler = this.logoutHandler.bind(this);
   }
 
   async componentWillMount() {
@@ -148,6 +149,21 @@ class Nav extends Component {
     location.reload();
   }
 
+  logoutHandler() {
+    this.props.setPropertyData(null),
+    this.props.setCurrentProperty(null),
+    localStorage.removeItem('token'),
+    localStorage.removeItem('propertyId'),
+    localStorage.removeItem('id'),
+    localStorage.removeItem('type'),
+    localStorage.removeItem('username'),
+    localStorage.removeItem('email'),
+    localStorage.removeItem('full_name'),
+    localStorage.removeItem('phonenumber'),
+    document.title = 'CITS',
+    this.props.history.push('/')
+  }
+
   render() {
     return (
       <div className="header">
@@ -164,14 +180,43 @@ class Nav extends Component {
               <div className="navRight col-lg-8 col-md-8 col-sm-12 col-xs-12">
                 <div className="navi">
                   <div
-                    onMouseOver={this.handleMouseOver}
-                    onMouseLeave={this.handleMouseOut}
-                    onClick={() => this.props.history.push('/profile')}
-                    className="test"
+                    // onMouseOver={this.handleMouseOver}
+                    // onMouseLeave={this.handleMouseOut}
+                    className="test dropdown"
                     id="account"
                   >
-                    <img id="account" src='assets/icons/account-icon-sm-gray.png' />
+                    <img src='assets/icons/account-icon-sm-green.png' id="account" />
+                    &nbsp;&#x25BE;
+                    <div className="dropdown-content">
+                      <p onClick={() => {this.props.history.push('/profile')}}>
+                        My Account
+                      </p>
+
+                      <p onClick={this.logoutHandler}>
+                        Log Out
+                      </p>
+                    </div>
                   </div>
+
+                  {/* <div
+                    className="test dropdown"
+                    id="castlePNG"
+                  >
+                    <img src='assets/icons/castle-icon-sm-green.png' id="castlePNG" />
+                    <div className="dropdown-content">
+                      {
+                        !this.state.userProps.length ? null :
+                        this.state.userProps.map(prop => 
+                          <p 
+                            onClick={() => this.propDropdownHandler(prop.id)}
+                            key={prop.id}
+                          >
+                            {prop.name}
+                          </p>
+                        )
+                      }
+                    </div>
+                  </div> */}
 
                   <div
                     onMouseOver={this.handleMouseOver}
@@ -218,6 +263,7 @@ class Nav extends Component {
                     id="castlePNG"
                   >
                     <img src='assets/icons/castle-icon-sm-green.png' id="castlePNG" />
+                    &nbsp;&#x25BE;
                     <div className="dropdown-content">
                       {
                         !this.state.userProps.length ? null :
@@ -233,7 +279,7 @@ class Nav extends Component {
                     </div>
                   </div>
 
-                  <div
+                  {/* <div
                     className="test"
                     id="logout"
                     onClick={() => {
@@ -254,7 +300,7 @@ class Nav extends Component {
                     }}
                   >
                     LOGOUT
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
