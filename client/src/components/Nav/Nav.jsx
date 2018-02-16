@@ -8,7 +8,7 @@ import { setNotificationProperties } from '../../actions/setNotificationProperti
 import mainLogo from '../../../public/assets/icons/cits-logo.png';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
-import './Nav.css';
+import './Nav2.css';
 
 class Nav extends Component {
   constructor(props) {
@@ -107,10 +107,12 @@ class Nav extends Component {
       });
     }
   }
+
   handleMouseOver(e) {
     let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
     changeImg.src = `assets/icons/${e.target.id}-icon-sm-green.png`;
   }
+
   handleMouseOut(e) {
     let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
     changeImg.src = `assets/icons/${e.target.id}-icon-sm-gray.png`;
@@ -121,86 +123,104 @@ class Nav extends Component {
       <div className="header">
         {localStorage.getItem('token') ?
           // LOGGED IN
-          <div className="navMain">
-            <div className="navLeft">
-              <img src='assets/icons/cits-logo.png' id='propSelectButton' onClick={() => console.log('o hai, I am propSelectButton')} />
-            </div>
-            <div className="navRight">
-              <div
-                onMouseOver={this.handleMouseOver}
-                onMouseLeave={this.handleMouseOut}
-                onClick={() => this.props.history.push('/profile')}
-                className="test"
-                id="account"
-              >
-                <img id="account" src='assets/icons/account-icon-sm-gray.png' />
-              </div>
-              <div
-                onMouseOver={this.handleMouseOver}
-                onMouseLeave={this.handleMouseOut}
-                onClick={() => this.props.history.push('/chat')}
-                className="test"
-                id="chat"
-              >
-                <img id="chat" src='assets/icons/chat-icon-sm-gray.png' />
-              </div>
-              <div
-                onMouseOver={this.handleMouseOver}
-                onMouseLeave={this.handleMouseOut}
-                onClick={() => this.props.history.push('/articles')}
-                className="test"
-                id="articles"
-              >
-                <img id="articles" src="assets/icons/articles-icon-sm-gray.png" />
-              </div>
-              <div
-                onMouseOver={this.handleMouseOver}
-                onMouseLeave={this.handleMouseOut}
-                onClick={() => this.props.history.push('/tickets')}
-                className="test"
-                id="tickets"
-              >
-                <img id="tickets" src='assets/icons/tickets-icon-sm-gray.png' />
-              </div>
-              <div
-                onMouseOver={this.handleMouseOver}
-                onMouseLeave={this.handleMouseOut}
-                onClick={() => this.props.history.push('/phonebook')}
-                className="test"
-                id="phonebook"
-              >
-                <img id="phonebook" src='assets/icons/phonebook-icon-sm-gray.png' />
-              </div>
-              <div
+          <div className="container">
+            <div className="row">
+              <div 
                 onClick={() => this.props.history.push('/')}
-                className="test"
-                id="castlePNG"
+                className="navLeft col-lg-4 col-md-4 col-sm-12 col-xs-12"
               >
-                <img src='assets/icons/castle-icon-sm-green.png' />
+                <img src='assets/icons/cits-logo.png' id='propSelectButton' onClick={() => console.log('o hai, I am propSelectButton')} />
               </div>
-              <div
-                className="test"
-                id="logout"
-                onClick={() => {
-                  (
-                    this.props.setPropertyData(null),
-                    this.props.setCurrentProperty(null),
-                    localStorage.removeItem('token'),
-                    localStorage.removeItem('propertyId'),
-                    localStorage.removeItem('id'),
-                    localStorage.removeItem('type'),
-                    localStorage.removeItem('username'),
-                    localStorage.removeItem('email'),
-                    localStorage.removeItem('full_name'),
-                    localStorage.removeItem('phonenumber'),
-                    document.title = 'CITS',
-                    this.props.history.push('/')
-                  )
-                }}
-              >
-                LOGOUT
+              <div className="navRight col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div className="navi">
+                  <div
+                    onMouseOver={this.handleMouseOver}
+                    onMouseLeave={this.handleMouseOut}
+                    onClick={() => this.props.history.push('/profile')}
+                    className="test"
+                    id="account"
+                  >
+                    <img id="account" src='assets/icons/account-icon-sm-gray.png' />
+                  </div>
+
+                  <div
+                    onMouseOver={this.handleMouseOver}
+                    onMouseLeave={this.handleMouseOut}
+                    onClick={() => this.props.history.push('/chat')}
+                    className="test"
+                    id="chat"
+                  >
+                    <img id="chat" src='assets/icons/chat-icon-sm-gray.png' />
+                  </div>
+
+                  <div
+                    onMouseOver={this.handleMouseOver}
+                    onMouseLeave={this.handleMouseOut}
+                    onClick={() => this.props.history.push('/articles')}
+                    className="test"
+                    id="articles"
+                  >
+                    <img id="articles" src="assets/icons/articles-icon-sm-gray.png" />
+                  </div>
+
+                  <div
+                    onMouseOver={this.handleMouseOver}
+                    onMouseLeave={this.handleMouseOut}
+                    onClick={() => this.props.history.push('/tickets')}
+                    className="test"
+                    id="tickets"
+                  >
+                    <img id="tickets" src='assets/icons/tickets-icon-sm-gray.png' />
+                  </div>
+
+                  <div
+                    onMouseOver={this.handleMouseOver}
+                    onMouseLeave={this.handleMouseOut}
+                    onClick={() => this.props.history.push('/phonebook')}
+                    className="test"
+                    id="phonebook"
+                  >
+                    <img id="phonebook" src='assets/icons/phonebook-icon-sm-gray.png' />
+                  </div>
+
+                  <div
+                    className="test dropdown"
+                    id="castlePNG"
+                  >
+                    <img src='assets/icons/castle-icon-sm-green.png' id="castlePNG" />
+                    <div className="dropdown-content">
+                      <p>HELLO1</p>
+                      <p>HELLO1</p>
+                      <p>HELLO3</p>
+                    </div>
+                  </div>
+
+                  <div
+                    className="test"
+                    id="logout"
+                    onClick={() => {
+                      (
+                        this.props.setPropertyData(null),
+                        this.props.setCurrentProperty(null),
+                        localStorage.removeItem('token'),
+                        localStorage.removeItem('propertyId'),
+                        localStorage.removeItem('id'),
+                        localStorage.removeItem('type'),
+                        localStorage.removeItem('username'),
+                        localStorage.removeItem('email'),
+                        localStorage.removeItem('full_name'),
+                        localStorage.removeItem('phonenumber'),
+                        document.title = 'CITS',
+                        this.props.history.push('/')
+                      )
+                    }}
+                  >
+                    LOGOUT
+                  </div>
+                </div>
               </div>
             </div>
+            
           </div>
           :
           // LOGGED OUT
