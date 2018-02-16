@@ -41,7 +41,7 @@
 }
 
 .news-header {
-  padding: .25em .25em 0 .25em;
+  padding: .25em .25em .25em .25em;
 }
 
 .article-profile {
@@ -50,13 +50,13 @@
 }
 
 .article-profile-img {
-  padding: 0;
+  padding-right: 10px;
   width: 100%;
 }
 
 .photo-size {
   position: relative;
-  width:  200px;
+  width:  250px;
   height: 200px;
   background-repeat:   no-repeat;
   background-size:     cover;
@@ -64,41 +64,28 @@
 }
 
 .article-img {
-  padding: 0 2em;
+  padding: 0;
 }
 
 .article-row {
   padding: 2em 2em 0 2em;
 }
 
-.post-comments {
+.article-card {
+  margin-top: .5em;
+  padding-right: 13%;
+}
+
+.art {
+
+  width: 90%;
+}
+/* .post-comments {
   padding-bottom: 9px;
   margin: 5px 0 5px;
-}
+} */
 
-.comments-nav {
-  border-bottom: 1px solid #eee;
-  margin-bottom: 5px;
-}
+/* .col-md-3 {
+  padding: 0;
+} */
 
-.post-comments .comment-meta {
-  border-bottom: 1px solid #eee;
-  margin-bottom: 5px;
-}
-
-.post-comments .media {
-  margin-bottom: 5px;
-  padding-left: 10px;
-}
-
-.post-comments .media-heading {
-  font-size: 12px;
-  color: grey;
-}
-
-.post-comments .comment-meta a {
-  font-size: 12px;
-  color: grey;
-  font-weight: bolder;
-  margin-right: 5px;
-}

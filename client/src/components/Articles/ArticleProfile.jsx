@@ -134,11 +134,6 @@ class ArticleProfile extends Component {
   render() {
     return (
       <div>
-        {this.props.currentViewArticle !== null ? (
-          <h2 className="news-header" align="center">
-            {this.props.currentViewArticle.title}
-          </h2>
-        ) : null}
         <br />
         <div className="row">
           <div className="col-md-6">
@@ -154,9 +149,9 @@ class ArticleProfile extends Component {
               <div className="article-img">
                 <div className="card">
                   <div className="card-body">
-                    <h5 className="card-title">
+                    <h6 className="card-title">
                       {this.props.currentViewArticle.title}
-                    </h5>
+                    </h6>
                     <h6 className="card-subtitle mb-2 text-muted">
                       {this.props.currentViewArticle !== null
                         ? moment(this.props.currentViewArticle.date).format(
@@ -186,7 +181,7 @@ class ArticleProfile extends Component {
                   Comments{" "}
                 </h1>
               </div>
-              <div className="comments-list">
+              <div className="commen6ts-list">
                 <form
                   className="col-md-4"
                   onSubmit={this.onAddHandler.bind(this)}

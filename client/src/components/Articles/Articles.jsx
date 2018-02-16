@@ -61,6 +61,7 @@ class Articles extends Component {
                   ) : 
                   this.props.articlesData && this.props.currentViewArticle === '0' ? (
                     <div className="row">
+                      
                       {this.props.articlesData.map(article => {
                         return <ArticleEntry article={article} key={article.id} />;
                       })}

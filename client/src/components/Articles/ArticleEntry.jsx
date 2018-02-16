@@ -30,16 +30,20 @@ class ArticleEntry extends Component {
           <div className="card-image article-img">
             <img className="card-img-top photo-size" align="center" src={this.props.article.photo_url} />
           </div>
-          <div className="card-body">
-            <h5 className="card-title">{this.props.article.title}</h5>
-            <p className="card-text">{moment( this.props.article.date).format("MMMM Do YYYY")}</p>
-            <p className="card-text">{this.props.article.content.substring(0, 80) + `...`}</p>
-          <div className="card-footer">
+          <div className="">
+            <h5 className="card-title article-card">{this.props.article.title}</h5>
+            <p className="card-text article-card">{moment( this.props.article.date).format("MMMM Do YYYY")}</p>
+            <p className="card-text article-card">{this.props.article.content.substring(0, 80) + `...`}</p>
+          <div className="">
             <div className="d-flex justify-content-between align-items-center">
-              <div className="btn-group">
-                <button type="button" className="btn btn-sm btn-outline-secondary" onClick={this.onViewHandler.bind(this)}>View</button>
-                {localStorage.getItem('type') === '1' ? <button type="button" className="btn btn-sm btn-outline-secondary" onClick={this.onEditHandler.bind(this)}>Edit</button> 
-                : null}
+              <div className="row art">
+                <div className="col-md-6">
+                  <button type="button" className="btn btn-light art" onClick={this.onViewHandler.bind(this)}>View</button>
+                </div>
+                <div className="col-md-6">
+                  {localStorage.getItem('type') === '1' ? <button type="button" className="btn btn-light art" onClick={this.onEditHandler.bind(this)}>Edit</button> 
+                  : null}
+                </div>
               </div>
             </div>
           </div>
