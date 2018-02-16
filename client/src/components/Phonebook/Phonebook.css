@@ -80,7 +80,7 @@
   font-size: small;
   text-align: left;
   height: 20px;
-  width: 40%;
+  width: 60%;
 }
 .hiddenscrollbars::-webkit-scrollbar { 
   display: none; 
@@ -171,11 +171,11 @@
   color: #787878;
 }
 .phonebookFormRow {
-  color: #787878;
-  text-align: right;
+  color: #48832B;
+  text-align: center;
   font-size: medium;
   display: block;
-  margin: 0 33% 0 0 ;
+  margin: 0 0 0 0 ;
 }
 .phonebookFormButtons {
   color: #fff;

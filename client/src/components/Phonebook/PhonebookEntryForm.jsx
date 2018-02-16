@@ -89,13 +89,13 @@ class PhonebookEntryForm extends Component {
         {this.props.phonebookEditState !== '2' ? <div id='phonebookFormWord'>Please fill out the following fields to create a new phonebook entry!</div> : <div id='phonebookFormWord'>Please edit the following fields to update an existing phonebook entry!</div>}
         <br/><br/>
         <div className='phonebookFormRow'>
-          Company: <input className='phonebookFormInput' type='text' name='company'></input>
+          Company:<br/><input className='phonebookFormInput' type='text' name='company'></input>
         </div>
         <div className='phonebookFormRow'>
-          Service: <input className='phonebookFormInput' type='text' name='service'></input>
+          Service:<br/><input className='phonebookFormInput' type='text' name='service'></input>
         </div>
         <div className='phonebookFormRow'>
-          Phone Number: <input className='phonebookFormInput' type='text' name='contactinfo'></input>
+          Phone Number:<br/><input className='phonebookFormInput' type='text' name='contactinfo'></input>
         </div>
         <br/><br/>
         {this.state.phonebookError ? <div className='phonebookError'>Please check your input fields and try again!</div> : null}
