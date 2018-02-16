@@ -36,6 +36,10 @@
   color: #FFF;
   background-color: #48822D;
 }
+#logout:hover {
+  background-color: #48822D;
+  color: #FFF;
+}
 .test {
   padding: 17px 10px;
 }

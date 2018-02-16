@@ -109,12 +109,10 @@ class Nav extends Component {
   }
   handleMouseOver(e) {
     let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
-    console.log(changeImg.src);
     changeImg.src = `assets/icons/${e.target.id}-icon-sm-green.png`;
   }
   handleMouseOut(e) {
     let changeImg = document.querySelectorAll(`#${e.target.id} img`)[0];
-    console.log(changeImg.src);
     changeImg.src = `assets/icons/${e.target.id}-icon-sm-gray.png`;
   }
 
@@ -135,7 +133,7 @@ class Nav extends Component {
                 className="test"
                 id="account"
               >
-                <img src='assets/icons/account-icon-sm-gray.png' />
+                <img id="account" src='assets/icons/account-icon-sm-gray.png' />
               </div>
               <div
                 onMouseOver={this.handleMouseOver}
@@ -144,7 +142,7 @@ class Nav extends Component {
                 className="test"
                 id="chat"
               >
-                <img src='assets/icons/chat-icon-sm-gray.png' />
+                <img id="chat" src='assets/icons/chat-icon-sm-gray.png' />
               </div>
               <div
                 onMouseOver={this.handleMouseOver}
@@ -153,7 +151,7 @@ class Nav extends Component {
                 className="test"
                 id="articles"
               >
-                <img src="assets/icons/articles-icon-sm-gray.png" />
+                <img id="articles" src="assets/icons/articles-icon-sm-gray.png" />
               </div>
               <div
                 onMouseOver={this.handleMouseOver}
@@ -162,7 +160,7 @@ class Nav extends Component {
                 className="test"
                 id="tickets"
               >
-                <img src='assets/icons/tickets-icon-sm-gray.png' />
+                <img id="tickets" src='assets/icons/tickets-icon-sm-gray.png' />
               </div>
               <div
                 onMouseOver={this.handleMouseOver}
@@ -171,7 +169,7 @@ class Nav extends Component {
                 className="test"
                 id="phonebook"
               >
-                <img src='assets/icons/phonebook-icon-sm-gray.png' />
+                <img id="phonebook" src='assets/icons/phonebook-icon-sm-gray.png' />
               </div>
               <div
                 onClick={() => this.props.history.push('/')}
