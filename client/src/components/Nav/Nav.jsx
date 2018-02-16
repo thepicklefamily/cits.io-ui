@@ -35,19 +35,6 @@ class Nav extends Component {
     this.REST_URL = (process.env.NODE_ENV === 'production') ? process.env.REST_SERVER_AWS_HOST : process.env.REST_SERVER_LOCAL_HOST;
     this.SOCKET_URL = (process.env.NODE_ENV === 'production') ? process.env.SOCKET_SERVER_AWS_HOST : process.env.SOCKET_SERVER_LOCAL_HOST;
 
-    // get all user properties
-    try {
-      if (localStorage.getItem('id')) {
-        const userProps = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
-  
-        await this.setState({
-          userProps: userProps.data
-        });
-      }
-    } catch (err) {
-      //
-    }
-
     try {
       await this.setPropertyList();
 
@@ -89,6 +76,21 @@ class Nav extends Component {
     } catch (err) {
       //
     }
+  }
+
+  async componentDidMount() {
+    // get all user properties
+    try {
+      if (localStorage.getItem('id')) {
+        const userProps = await axios.get(`http://localhost:3396/api/usersPropertiesAptUnits/getUsersPropertiesAptUnits?userID=${localStorage.getItem('id')}`, this.config);
+  
+        this.setState({
+          userProps: userProps.data
+        }, () => {console.log('thisdataaa', this.state.userProps)});
+      }
+    } catch (err) {
+      console.error(err);
+    }    
   }
 
   //anytime get or do something notifications worthy / change the state of the notificationProperties, then run this func to render them all properly:
