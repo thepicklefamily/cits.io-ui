@@ -45,18 +45,28 @@ class Articles extends Component {
   render() {
     return (
       <div>
-        {this.props.currentViewArticle === '0' ? 
-          <h3 className="title" align="center">NEWS</h3> 
+        {this.props.currentViewArticle === '0' && this.props.articleEditState === '0' ? 
+          <h2 className="news-header" align="center">NEWS</h2> 
           : 
             null
           }
+          {this.props.articleEditState === "0" &&
+          localStorage.getItem('type') === '1' && this.props.currentViewArticle === '0' ? (
+            <div align="center">
+              <button className="btn-cits" onClick={this.onAddHandler.bind(this)}>CREATE NEW ARTICLE</button>
+            </div>
+          ) : null}
+          <br/>
         <div className="container">
                 {localStorage.getItem('type') === '1' ? (
                   this.props.currentArticleEntry &&
                   this.props.articleEditState !== '0' ? (
                     <div>
-                    <ArticleEntryForm data={this.props.currentArticleEntry}  />
-                    <button onClick={this.onCancelHandler.bind(this)}>CANCEL</button> 
+                      <ArticleEntryForm data={this.props.currentArticleEntry}  />
+                      <br/>
+                      <div align="center">
+                        <button className="col-md-3 btn-cits bottom" align="center" onClick={this.onCancelHandler.bind(this)}>Cancel</button>
+                      </div> 
                     </div>
                   ) : 
                   this.props.articlesData && this.props.currentViewArticle === '0' ? (
@@ -73,9 +83,11 @@ class Articles extends Component {
                     </div>
                   )
                 ) : this.props.articlesData && this.props.currentViewArticle === '0'? (
-                  this.props.articlesData.map(article => {
+                  <div className="row">
+                  {this.props.articlesData.map(article => {
                     return <ArticleEntry article={article} key={article.id} />;
-                  })
+                  })}
+                  </div>
                 ) : (
                   <div>
                     <Route path='/' component={ArticleProfile}/>
@@ -83,10 +95,6 @@ class Articles extends Component {
                   </div>
                 )}
           </div>
-          {this.props.articleEditState === "0" &&
-                localStorage.getItem('type') === '1' && this.props.currentViewArticle === '0' ? (
-                  <button onClick={this.onAddHandler.bind(this)}>ADD NEW ENTRY</button>
-                ) : null}
 
       </div>
 

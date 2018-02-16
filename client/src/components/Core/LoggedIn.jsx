@@ -73,7 +73,7 @@ class LoggedIn extends Component {
                   this.state.articles.slice(1, 5).map(article => 
                     <div key={article.id} className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                       <img 
-                        className="col-lg-12 col-md-12 col-sm-12 col-xs-12 sub-image"
+                        className="col-lg-12 col-md-12 col-sm-12 col-xs-12 sub-image photo-size "
                         src={article.photo_url}
                         onClick={ () => {
                           this.props.setCurrentViewArticle(article)

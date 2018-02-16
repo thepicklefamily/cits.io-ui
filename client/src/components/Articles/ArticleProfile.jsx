@@ -170,20 +170,20 @@ class ArticleProfile extends Component {
         </div>
         <div className="row" />
 
-        <div className="container">
+        <div className="container comments-sizing container-comments">
           <div className="post-comments">
-            <div className="col-md-12">
+            <div className="col-md-12 comments-sizing">
               <div className="page-header">
-                <h1>
+                <h5>
                   <small className="float-right">
                     {this.state.children ? this.state.children : null} comments
                   </small>{" "}
                   Comments{" "}
-                </h1>
+                </h5>
               </div>
-              <div className="commen6ts-list">
+              <div className="comments-list">
                 <form
-                  className="col-md-4"
+                  className="col-md-6"
                   onSubmit={this.onAddHandler.bind(this)}
                 >
                   <div className="form-group">
@@ -194,13 +194,13 @@ class ArticleProfile extends Component {
                       rows="3"
                       onChange={this.onChangeHandler.bind(this)}
                     />
+                    <button
+                      onClick={this.onAddHandler.bind(this)}
+                      className="btn-cits"
+                    >
+                      Send
+                    </button>
                   </div>
-                  <button
-                    onClick={this.onAddHandler.bind(this)}
-                    className="btn btn-default"
-                  >
-                    Send
-                  </button>
                 </form>
 
                 {this.props.currentArticlePosts &&
@@ -223,7 +223,7 @@ class ArticleProfile extends Component {
                       })
                     : console.log("italian zest")}
                 <br />
-                <button onClick={this.onCancelHandler.bind(this)}>
+                <button className="btn-cits bottom" onClick={this.onCancelHandler.bind(this)}>
                   View all articles
                 </button>
               </div>
