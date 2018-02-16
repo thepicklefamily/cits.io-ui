@@ -85,36 +85,36 @@ class Post extends Component {
   render() {
     return (
       <div>
-        <div className="media">
-            <a className="media-left" href="#">
+        <div className="media post-comments-posts">
+            {/* <a className="media-left" href="#">
               <img src="http://lorempixel.com/40/40/people/2/"/>
-            </a>
+            </a> */}
             <div className="media-body col-md-12">
-              <h4 className="media-heading user_name">{this.props.post.username}</h4>
+              <h6 className="media-heading user_name">{this.props.post.username}</h6>
               {this.props.post.text}
               <p className="pull-right"><small>{moment(this.props.post.date).fromNow()}</small></p>
               <div className="row">
               { localStorage.getItem('type') === '1' ? (
-                <button onClick={this.onDeleteHandler.bind(this)} className="col-md-1">delete</button>
+                <button onClick={this.onDeleteHandler.bind(this)} className="col-md-1 btn-cits">delete</button>
               ) : null}
-                <button onClick={this.onShow.bind(this)} className="col-md-1">view</button>
-                <button onClick={this.onClickHander.bind(this)} className="col-md-1">reply</button>
-              
+                <button onClick={this.onShow.bind(this)} className="col-md-1 btn-cits">view</button>
+                <button onClick={this.onClickHander.bind(this)} className="col-md-1 btn-cits">reply</button>
+              </div>
                 { this.state.replyClicked ? (
-                  <div>
+                  <div className="reply-form">
                     <form onSubmit={this.onAddHandler.bind(this)}>
-
                       <div className="">
-                        <label htmlFor="reply" className="col-sm-2 col-form-label">Reply</label>
+                        <label htmlFor="reply" className="col-sm-2 col-form-label"></label>
                           <div className="col-sm-10">
                             <input type="text" onChange={this.onChangeHandler.bind(this)} className="form-control" name="reply" placeholder="Write a reply!"/>
-                            <button onClick={this.onAddHandler.bind(this)}>Reply</button>
+                            <button className="btn-cits" onClick={this.onAddHandler.bind(this)}>Reply</button>
                           </div>
                       </div>
                     </form>
                   </div>
                 ) : null}
-              </div>
+
+              {/* </div> */}
               { this.state.show ? (
                   this.props.post.children ? ( this.props.post.children.map( child => {
                     return ( 
