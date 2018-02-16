@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
+import moment from 'moment'
 
 import { setCurrentArticlePosts } from '../../actions/setCurrentArticlePosts';
 import { setCurrentViewArticle } from '../../actions/setCurrentViewArticle';
@@ -14,7 +15,8 @@ class Post extends Component {
 
     this.state = {
       reply: '',
-      date: ''
+      show: false,
+      replyClicked: false,
     }
 
     this.config = {
@@ -37,11 +39,25 @@ class Post extends Component {
     })
   }
 
-  async onAddHandler () {
+  onClickHander () {
+    this.setState({
+      replyClicked: !this.state.replyClicked
+    })
+  }
+  
+  onShow () {
+    this.setState({
+      show: !this.state.show
+    })
+  }
+
+  async onAddHandler (e) {
+    e.preventDefault();
+
     const payload = {
       username: localStorage.getItem('username'),
       text: this.state.reply,
-      date: this.state.date,
+      date: new Date(),
       article_id: this.props.post.articleid,
       parent_id: this.props.post.id
     }
@@ -49,53 +65,75 @@ class Post extends Component {
     const { data } = await axios.post(`${this.REST_URL}/api/posts/addPost`, payload, this.config);
     const d = await axios.get(`${this.REST_URL}/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
     await this.props.setCurrentArticlePosts(d.data);
-    console.log(document.getElementsByName('reply'));
     document.getElementsByName('reply').forEach( field => {
       field.value = '';
     });
-    document.getElementsByName('date').forEach( field => {
-      field.value = '';
-    });
+
+    await this.props.child(this.props.currentArticlePosts);
+    
   }
+  
   
   async onDeleteHandler () {
     await axios.delete(`${this.REST_URL}/api/posts/deletePost/${this.props.post.id}`, this.config);
     const d = await axios.get(`${this.REST_URL}/api/posts/fetchPosts/${this.props.post.articleid}`, this.config);
     await this.props.setCurrentArticlePosts(d.data);
+
+    await this.props.child(d.data);
   }
 
   render() {
     return (
       <div>
-        <br/>
-        {/* {JSON.stringify(this.props.post)} */}
-        <li>
+        {/* <li>
           <h2 className="">{this.props.post.id}</h2>
           <div className="username">{ this.props.post.username }</div>
           <div className="text">{ this.props.post.text }</div>
           <div className="date">{ this.props.post.date }</div> 
-          { localStorage.getItem('type') === '1' ? (
-            <button onClick={this.onDeleteHandler.bind(this)}>DELETE</button>
-          ) : null}
-          <br/><br/>
-          reply: <input onChange={this.onChangeHandler.bind(this)} type='text' name='reply'></input>
-          date: <input onChange={this.onChangeHandler.bind(this)} type='text' name='date'></input>
-          <button onClick={this.onAddHandler.bind(this)}>Reply</button>
-
-          <ul>
-          { this.props.post.children ?  this.props.post.children.map( child => {
-            return ( 
-              <div className="" key={child.id}>
-                <br/>
-                  <Post {...this.props} post={child}/>
-              </div>
-            )
-          }) : null}
           
-          </ul>
-        </li>
-        <br/>
+          <br/><br/> */}
+        <div className="media">
+            
+            <a className="media-left" href="#">
+              <img src="http://lorempixel.com/40/40/people/2/"/>
+            </a>
+            <div className="media-body col-md-12">
+              <h4 className="media-heading user_name">{this.props.post.username}</h4>
+              {this.props.post.text}
+              <p className="pull-right"><small>{moment(this.props.post.date).fromNow()}</small></p>
+              <div className="row">
+              { localStorage.getItem('type') === '1' ? (
+                <span onClick={this.onDeleteHandler.bind(this)} className="col-md-1">delete</span>
+              ) : null}
+                <span onClick={this.onShow.bind(this)} className="col-md-1">view</span>
+                <span onClick={this.onClickHander.bind(this)} className="col-md-1">reply</span>
+              
+                { this.state.replyClicked ? (
+                  <div>
+                    <form onSubmit={this.onAddHandler.bind(this)}>
+                    <input onChange={this.onChangeHandler.bind(this)} type='text' name='reply'></input>
+                    <button onClick={this.onAddHandler.bind(this)}>Reply</button>
+                    </form>
+                  </div>
+                ) : null}
+              </div>
+              { this.state.show ? (
+                  this.props.post.children ? ( this.props.post.children.map( child => {
+                    return ( 
+                      <div key={child.id}>
+                          <Post {...this.props} post={child} child={this.props.child}/>
+                      </div>
+                    );
+                  })
+                  ) : null
+                ) :
+                  null
+                  }
+          
+        {/* </li> */}
+        </div>
       </div>
+    </div>
     );
   }
 }

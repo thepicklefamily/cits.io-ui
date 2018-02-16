@@ -5,6 +5,7 @@ import { setArticlesData } from "../../actions/setArticlesData";
 import { setArticleEditState } from "../../actions/setArticleEditState";
 import { setCurrentArticleEntry } from "../../actions/setCurrentArticleEntry";
 import { setCurrentViewArticle } from "../../actions/setCurrentViewArticle";
+import { Route, Switch } from 'react-router-dom';
 import ArticleEntry from "./ArticleEntry";
 import ArticleEntryForm from './ArticleEntryForm';
 import ArticleProfile from './ArticleProfile';
@@ -44,10 +45,12 @@ class Articles extends Component {
   render() {
     return (
       <div>
-        <h2 align="center">NEWS</h2>
-        <br/>
+        {this.props.currentViewArticle === '0' ? 
+          <h2 className="news-header" align="center">NEWS</h2> 
+          : 
+            null
+          }
         <div className="container">
-          <div className="row">
                 {localStorage.getItem('type') === '1' ? (
                   this.props.currentArticleEntry &&
                   this.props.articleEditState !== '0' ? (
@@ -57,12 +60,17 @@ class Articles extends Component {
                     </div>
                   ) : 
                   this.props.articlesData && this.props.currentViewArticle === '0' ? (
-                    this.props.articlesData.map(article => {
-                      return <ArticleEntry article={article} key={article.id} />;
-                    })
+                    <div className="row">
+                      {this.props.articlesData.map(article => {
+                        return <ArticleEntry article={article} key={article.id} />;
+                      })}
+                    </div>
                   ) : (
                     <div>
-                      <ArticleProfile/>
+                      <Switch>
+                      <Route path='/' component={ArticleProfile}/>
+                        {/* <ArticleProfile/> */}
+                      </Switch>
                     </div>
                   )
                 ) : this.props.articlesData && this.props.currentViewArticle === '0'? (
@@ -71,17 +79,19 @@ class Articles extends Component {
                   })
                 ) : (
                   <div>
-                    <ArticleProfile/>
+                    <Switch>
+                      <Route path='/' component={ArticleProfile}/>
+                        {/* <ArticleProfile/> */}
+                    </Switch>
                   </div>
                 )}
-
-              </div>
-                {this.props.articleEditState === "0" &&
+          </div>
+          {this.props.articleEditState === "0" &&
                 localStorage.getItem('type') === '1' && this.props.currentViewArticle === '0' ? (
                   <button onClick={this.onAddHandler.bind(this)}>ADD NEW ENTRY</button>
                 ) : null}
-            </div>
-          </div>
+
+      </div>
 
     );
   }
