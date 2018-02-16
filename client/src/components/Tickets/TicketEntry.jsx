@@ -74,7 +74,6 @@ class TicketEntry extends Component {
   }
 
   render() {
-    console.log('apt num', this.props.data.apt_num)
     return (
       <div className='entryContainer'>
         <div className='left'>
