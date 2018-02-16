@@ -43,12 +43,18 @@ class TicketDetails extends Component {
 
   render() {
     return (
-      <div>
-        subject: {this.props.currentTicketEntry.subject} <br/>
-        category: {this.props.currentTicketEntry.category} <br/>
-        description: {this.props.currentTicketEntry.description} <br/>
-        Provided Photo: {this.props.currentTicketEntry.photo_url} <br/>
-        <img src={this.props.currentTicketEntry.photo_url}/>
+      <div className='detailsContainer centerContainer'>
+        <div className='detailsLeft'>
+          <div className='detailsubjphoto'>{this.props.currentTicketEntry.subject}</div>
+          <div className='detailcategory'>{this.props.currentTicketEntry.category}</div>
+          <div className='detaildescription'>{this.props.currentTicketEntry.description}</div>
+          {this.props.currentTicketEntry.photo_url ? 
+            <div><div className='detailsubjphoto'>Provided Photo:</div><img className='photo' src={this.props.currentTicketEntry.photo_url}/></div>
+            :
+            null
+            }
+        </div>
+        <div className='detailsRight'>
         {localStorage.getItem('type') === '0' || this.props.currentTicketTenantData ? 
           <TenantTicketDetails/>
           :
@@ -56,7 +62,7 @@ class TicketDetails extends Component {
           }
         { this.state.tenantInfoError ? <div>Error loading tenant details, please try again!</div> : null }
         <button onClick={this.onCancelHandler.bind(this)}>Back</button> 
-
+        </div>
         <br/><br/>
       </div>
     );
