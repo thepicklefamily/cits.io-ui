@@ -57,7 +57,7 @@ class LoggedIn extends Component {
                   <p className="date">{this.state.articles[0].date}</p>
                   <p className="content">{`${this.state.articles[0].content.substring(0, 100)}...`}</p>
                   <button 
-                    className="see-through"
+                    className="see-through-btn"
                     onClick={ () => {
                       this.props.setCurrentViewArticle(this.state.articles[0])
                       this.props.goToPage(`/${this.state.articles[0].id}`)
@@ -92,7 +92,7 @@ class LoggedIn extends Component {
               <center>
                 <button 
                   onClick={() => this.props.goToPage('/articles')}
-                  className="see-through view-all"
+                  className="see-through-btn view-all"
                 >
                   See All Articles
                 </button>

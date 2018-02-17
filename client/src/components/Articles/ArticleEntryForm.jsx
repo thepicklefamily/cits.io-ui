@@ -90,9 +90,9 @@ class ArticleEntryForm extends Component {
 
       {this.props.articleEditState === '1' ? 
       <div>
-        <h3 className="article-entry-spacing" align="center">CREATE AN ARTICLE</h3>
+        <h3 className="title" align="center">CREATE AN ARTICLE</h3>
       </div> :
-      <h3 className="article-entry-spacing" align="center">UPDATE ARTICLE</h3>
+      <h3 className="title" align="center">UPDATE ARTICLE</h3>
       }
 
         <div className="row AEFrow" align="center">
