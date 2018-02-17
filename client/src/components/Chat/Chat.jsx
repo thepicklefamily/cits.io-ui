@@ -36,7 +36,7 @@ class Chat extends Component {
   render() {
     return (
       <div className="container">
-        <h4 className="title">{localStorage.getItem('propName')}</h4>
+        <h3 className="title">{localStorage.getItem('propName').toUpperCase()}</h3>
         <div className="row">
           <Members />
           <Messages changeHistory={this.changeHistory}/>

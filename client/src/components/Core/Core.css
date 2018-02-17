@@ -33,7 +33,7 @@ h6 {
   color: #aeaeae;  
 }
 
-.see-through {
+.see-through-btn {
   transition: background-color 0.5s ease;
   margin-top: 15px;
   margin-bottom: 50px;
@@ -46,7 +46,7 @@ h6 {
   cursor: pointer;
 }
 
-.see-through:hover {
+.see-through-btn:hover {
   color: white;
   background-color: #48822D;
 }

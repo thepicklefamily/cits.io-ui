@@ -2,7 +2,6 @@
   PHONEBOOK
 -- */
 button {
-  border: none;
   cursor: pointer;
 }
 
@@ -133,6 +132,7 @@ hr {
   float: right;
   margin: 2px -70px 0 0;
   padding: 10px 15px;;
+  border: none;
 }
 
 .phonebookAddButtons {
@@ -142,6 +142,7 @@ hr {
   background-color: #48832B;
   padding: 10px 30px;
   margin-bottom: 25px;
+  border: none;
 }
 
 .phonebookFormButtons {
@@ -151,6 +152,7 @@ hr {
   text-align: center;
   padding: 15px 30px;
   margin: 10px;
+  button: none;
 }
 
 .phonebookAddButtons:hover, .phonebookEditButtons:hover, .phonebookFormButtons:hover {
